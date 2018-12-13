@@ -1,0 +1,7 @@
+{
+    "variants": {
+        "axis=y": { "model": "aether:block/aether_log/golden_oak_log"},
+        "axis=x": { "model": "aether:block/aether_log/golden_oak_log", "x": 90, "y": 90},
+        "axis=z": { "model": "aether:block/aether_log/golden_oak_log", "x": 90}
+    }
+}

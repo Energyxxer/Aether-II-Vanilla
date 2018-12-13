@@ -1,0 +1,515 @@
+{
+	"music.day": {
+		"category": "music",
+		"sounds": [
+			{
+				"name": "aether:music/day1",
+				"stream": true
+			},
+			{
+				"name": "aether:music/day2",
+				"stream": true
+			},
+			{
+				"name": "aether:music/day3",
+				"stream": true
+			},
+			{
+				"name": "aether:music/day4",
+				"stream": true
+			},
+			{
+				"name": "aether:music/day5",
+				"stream": true
+			},
+			{
+				"name": "aether:music/day6",
+				"stream": true
+			}
+		]
+	},
+	"music.night": {
+		"category": "music",
+		"sounds": [
+			{
+				"name": "aether:music/night1",
+				"stream": true
+			},
+			{
+				"name": "aether:music/night2",
+				"stream": true
+			}
+		]
+	},
+	"music.all": {
+		"category": "music",
+		"sounds": [
+			{
+				"name": "aether:devmusic/1",
+				"stream": true
+			},
+			{
+				"name": "aether:devmusic/2",
+				"stream": true
+			},
+			{
+				"name": "aether:devmusic/3",
+				"stream": true
+			},
+			{
+				"name": "aether:devmusic/4",
+				"stream": true
+			},
+			{
+				"name": "aether:devmusic/5",
+				"stream": true
+			},
+			{
+				"name": "aether:devmusic/6",
+				"stream": true
+			},
+			{
+				"name": "aether:devmusic/7",
+				"stream": true
+			},
+			{
+				"name": "aether:devmusic/8",
+				"stream": true
+			},
+			{
+				"name": "aether:devmusic/9",
+				"stream": true
+			},
+			{
+				"name": "aether:devmusic/10",
+				"stream": true
+			},
+			{
+				"name": "aether:devmusic/11",
+				"stream": true
+			},
+			{
+				"name": "aether:devmusic/12",
+				"stream": true
+			},
+			{
+				"name": "aether:devmusic/13",
+				"stream": true
+			},
+			{
+				"name": "aether:devmusic/14",
+				"stream": true
+			},
+			{
+				"name": "aether:devmusic/15",
+				"stream": true
+			}
+		]
+	},
+	"music.ambience": {
+		"category": "music",
+		"sounds": [
+			{
+				"name": "aether:music/ambience1",
+				"stream": true
+			}
+		]
+	},
+	"music.boss": {
+		"category": "music",
+		"sounds": [
+			{
+				"name": "aether:music/boss1",
+				"stream": true
+			}
+		]
+	},
+	"music.bossvictory": {
+		"category": "music",
+		"sounds": [
+			{
+				"name": "aether:music/bossvictory1",
+				"stream": true
+			}
+		]
+	},
+	"music.miniboss": {
+		"category": "music",
+		"sounds": [
+			{
+				"name": "aether:music/miniboss1",
+				"stream": true
+			}
+		]
+	},
+	"music.minibossvictory": {
+		"category": "music",
+		"sounds": [
+			{
+				"name": "aether:music/minibossvictory1",
+				"stream": true
+			}
+		]
+	},
+	"music.moa_song": {
+		"category": "music",
+		"sounds": [
+			{
+				"name": "aether:music/moa_song",
+				"stream": true
+			}
+		]
+	},
+	"music.phyg_song": {
+		"category": "neutral",
+		"sounds": [
+			{
+				"name": "aether:music/phyg_song",
+				"stream": true
+			}
+		]
+	},
+	"menu.aetherii": {
+		"category": "music",
+		"sounds": [
+			{
+				"name": "aether:music/menu2",
+				"stream": true
+			}
+		]
+	},
+	"records.aerwhale": {
+		"category": "record",
+		"sounds": [
+			{
+				"name": "aether:record/aerwhale",
+				"stream": true
+			}
+		]
+	},
+	"records.approaches": {
+		"category": "record",
+		"sounds": [
+			{
+				"name": "aether:record/approaches",
+				"stream": true
+			}
+		]
+	},
+	"records.ascending_dawn": {
+		"category": "record",
+		"sounds": [
+			{
+				"name": "aether:record/ascending_dawn",
+				"stream": true
+			}
+		]
+	},
+	"records.demise": {
+		"category": "record",
+		"sounds": [
+			{
+				"name": "aether:record/demise",
+				"stream": true
+			}
+		]
+	},
+	"records.chase": {
+		"category": "record",
+		"sounds": [
+			{
+				"name": "aether:record/chase",
+				"stream": true
+			}
+		]
+	},
+	"records.silent_flight": {
+		"category": "record",
+		"sounds": [
+			{
+				"name": "aether:record/silent_flight",
+				"stream": true
+			}
+		]
+	},
+	"aemisc.notification": {
+		"category": "neutral",
+		"sounds": [
+			"aether:aemisc/notification"
+		]
+	},
+	"aeboss.slider.awake": {
+		"category": "hostile",
+		"sounds": [
+			"aether:aeboss/slider/awake"
+		]
+	},
+	"aeboss.slider.collide": {
+		"category": "hostile",
+		"sounds": [
+			"aether:aeboss/slider/collide"
+		]
+	},
+	"aeboss.slider.die": {
+		"category": "hostile",
+		"sounds": [
+			"aether:aeboss/slider/die"
+		]
+	},
+	"aeboss.slider.move": {
+		"category": "hostile",
+		"sounds": [
+			"aether:aeboss/slider/move"
+		]
+	},
+	"aeboss.slider.unlock": {
+		"category": "hostile",
+		"sounds": [
+			"aether:aeboss/slider/unlock"
+		]
+	},
+	"aemob.aerbunny.die": {
+		"category": "neutral",
+		"sounds": [
+			"aether:aemob/aerbunny/die"
+		]
+	},
+	"aemob.aerbunny.hurt": {
+		"category": "neutral",
+		"sounds": [
+			"aether:aemob/aerbunny/hurt1",
+			"aether:aemob/aerbunny/hurt2"
+		]
+	},
+	"aemob.aerbunny.land": {
+		"category": "neutral",
+		"sounds": [
+			"aether:aemob/aerbunny/land"
+		]
+	},
+	"aemob.aerbunny.lift": {
+		"category": "neutral",
+		"sounds": [
+			"aether:aemob/aerbunny/lift"
+		]
+	},
+	"aemob.moa.say": {
+		"category": "neutral",
+		"sounds": [
+			"aether:aemob/moa/say"
+		]
+	},
+	"aemob.zephyr.say": {
+		"category": "hostile",
+		"sounds": [
+			"aether:aemob/zephyr/say1",
+			"aether:aemob/zephyr/say2"
+		]
+	},
+	"aemob.zephyr.shoot": {
+		"category": "hostile",
+		"sounds": [
+			"aether:aemob/zephyr/shoot"
+		]
+	},
+	"aemob.zephyr.puff": {
+		"category": "hostile",
+		"sounds": [
+			"aether:aemob/zephyr/puff"
+		]
+	},
+	"aemob.zephyr.blow": {
+		"category": "hostile",
+		"sounds": [
+			"aether:aemob/zephyr/blow"
+		]
+	},
+	"aemisc.aercloud": {
+		"category": "neutral",
+		"sounds": [
+			"aether:aemisc/aercloud"
+		]
+	},
+	"aemisc.achieve_gen": {
+		"category": "neutral",
+		"sounds": [
+			"aether:aemisc/achieve_gen"
+		]
+	},
+	"aemisc.achieve_bronze": {
+		"category": "neutral",
+		"sounds": [
+			"aether:aemisc/achieve_bronze"
+		]
+	},
+	"aemisc.achieve_silver": {
+		"category": "neutral",
+		"sounds": [
+			"aether:aemisc/achieve_silver"
+		]
+	},
+	"aemisc.activate_trap": {
+		"category": "neutral",
+		"sounds": [
+			"aether:aemisc/activate_trap"
+		]
+	},
+	"aemisc.shoot_dart": {
+		"category": "neutral",
+		"sounds": [
+			"aether:aemisc/shoot_dart"
+		]
+	},
+	"aemob.sentry_golem.seen_enemy": {
+		"category": "hostile",
+		"sounds": [
+			"aether:aemob/sentry_golem/seen_enemy"
+		]
+	},
+	"aemob.sentry_golem.creepy_seen": {
+		"category": "hostile",
+		"sounds": [
+			"aether:aemob/sentry_golem/creepy_seen"
+		]
+	},
+	"aemob.sentry_golem.say": {
+		"category": "hostile",
+		"sounds": [
+			"aether:aemob/sentry_golem/say1",
+			"aether:aemob/sentry_golem/say2"
+		]
+	},
+	"aemob.sentry_golem.death": {
+		"category": "hostile",
+		"sounds": [
+			"aether:aemob/sentry_golem/death"
+		]
+	},
+	"aemob.sentry_golem.hit": {
+		"category": "hostile",
+		"sounds": [
+			"aether:aemob/sentry_golem/hit1",
+			"aether:aemob/sentry_golem/hit2"
+		]
+	},
+	"aemob.hosteye.movement": {
+		"category": "hostile",
+		"sounds": [
+			"aether:aemob/hosteye/movement"
+		]
+	},
+	"aemob.sentry_guardian.death": {
+		"category": "hostile",
+		"sounds": [
+			"aether:aemob/sentry_guardian/death"
+		]
+	},
+	"aemob.sentry_guardian.hit": {
+		"category": "hostile",
+		"sounds": [
+			"aether:aemob/sentry_guardian/hit"
+		]
+	},
+	"aemob.sentry_guardian.spawn": {
+		"category": "hostile",
+		"sounds": [
+			"aether:aemob/sentry_guardian/spawn"
+		]
+	},
+	"aemob.sentry_guardian.living": {
+		"category": "hostile",
+		"sounds": [
+			"aether:aemob/sentry_guardian/living"
+		]
+	},
+	"aemisc.coin": {
+		"category": "neutral",
+		"sounds": [
+			"aether:aemisc/coin"
+		]
+	},
+	"aemob.cog.wall": {
+		"category": "hostile",
+		"sounds": [
+			"aether:aemob/cog/wall1",
+			"aether:aemob/cog/wall2"
+		]
+	},
+	"aemob.cog.wallFinal": {
+		"category": "hostile",
+		"sounds": [
+			"aether:aemob/cog/wall_final"
+		]
+	},
+	"aemob.labyrinths_eye.cogloss": {
+		"category": "hostile",
+		"sounds": [
+			"aether:aemob/labyrinths_eye/cogloss"
+		]
+	},
+	"aemob.labyrinths_eye.eyedeath": {
+		"category": "hostile",
+		"sounds": [
+			"aether:aemob/labyrinths_eye/eyedeath"
+		]
+	},
+	"aemob.labyrinths_eye.move": {
+		"category": "hostile",
+		"sounds": [
+			"aether:aemob/labyrinths_eye/move_1",
+			"aether:aemob/labyrinths_eye/move_2"
+		]
+	},
+	"aeportal.aeportal": {
+		"category": "neutral",
+		"sounds": [
+			"aether:aeportal/aeportal"
+		]
+	},
+	"aeportal.aetravel": {
+		"category": "neutral",
+		"sounds": [
+			"aether:aeportal/aetravel"
+		]
+	},
+	"aeportal.aetrigger": {
+		"category": "neutral",
+		"sounds": [
+			"aether:aeportal/aetrigger"
+		]
+	},
+	"aeportal.totem_drone": {
+		"category": "neutral",
+		"sounds": [
+			"aether:aeportal/totem_drone"
+		]
+	},
+	"aeportal.totem_woosh": {
+		"category": "neutral",
+		"sounds": [
+			"aether:aeportal/totem_woosh"
+		]
+	},
+	"aemisc.stomper": {
+		"category": "neutral",
+		"sounds": [
+			"aether:aemisc/stomper"
+		]
+	},
+	"aemisc.present_unwrap": {
+		"category": "neutral",
+		"sounds": [
+			"aether:aemisc/present_unwrap"
+		]
+	},
+	"aemob.sentry.jump": {
+	    "category": "hostile",
+	    "sounds": [
+	      "minecraft:mob/slime/small1",
+	      "minecraft:mob/slime/small2",
+	      "minecraft:mob/slime/small3",
+	      "minecraft:mob/slime/small4",
+	      "minecraft:mob/slime/small5"
+	    ]
+  	}
+}

@@ -1,0 +1,7 @@
+{
+    "variants": {
+        "type=bottom": { "model": "block/skyroot_slab_lower" },
+        "type=top": { "model": "block/skyroot_slab_upper" },
+        "type=double": { "model": "block/skyroot_slab_double" }
+    }
+}

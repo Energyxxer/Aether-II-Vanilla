@@ -1,0 +1,13 @@
+{
+    "parent": "block/cross",
+    "textures": {
+        "cross": "aether:blocks/orange_tree/orange_tree_bottom_stage_1"
+    },
+    "display": {
+	    "head": {
+	        "rotation": [ 0, 180, 0 ],
+	        "translation": [ 0, -14.625, 0 ],
+	        "scale": [ 2.2875, 2.2875, 2.2875 ]
+	    }
+	}
+}

@@ -1,0 +1,23 @@
+{
+    "parent": "aether:item/tools/valkyrie_shovel",
+	"overrides": [
+        {
+            "predicate": {
+                "damage": 0.03125
+            },
+            "model": "tileentity/presents/open"
+        },
+        {
+            "predicate": {
+                "damage": 0.06250
+            },
+            "model": "tileentity/presents/closed"
+        },
+        {
+            "predicate": {
+                "damaged": 1
+            },
+            "model": "aether:item/tools/valkyrie_shovel"
+        }
+    ]
+}

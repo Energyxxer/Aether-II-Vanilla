@@ -1,0 +1,162 @@
+#:on compile
+#:require aether:entities/general/entity_model
+#:require aether:entities/setup
+#:require aether:util/rand
+
+define objective travel_cooldown
+
+define local item aether:zephyr_model minecraft:pufferfish#1
+define local item aether:zephyr_model_hurt minecraft:pufferfish#2
+
+define local entity aether:zephyr_focus minecraft:area_effect_cloud {
+    default nbt {Duration:100000}
+    
+    function bias/spawn {
+        summon $aether:zephyr_focus
+    }
+}
+
+define local entity aether:zephyr_travel minecraft:area_effect_cloud {
+    default nbt {Duration:100000}
+    
+    function travel/spawn {
+        summon $aether:zephyr_travel
+    }
+    
+    function travel/bias {
+        if entity @e[type=$aether:zephyr_focus,distance=..256] facing entity @e[type=$aether:zephyr_focus,distance=..256,sort=nearest,limit=1] tp @s ^ ^ ^5
+    }
+}
+
+define local entity aether:zephyr_hitbox minecraft:pig {
+    default nbt {ActiveEffects:[{Id:14,Duration:1000000,Amplifier:1,ShowParticles:0b}],Silent:1b,Tags:["entity_hitbox","sync_hitbox"],DeathLootTable:"aether:entities/zephyr"}
+    
+    ticking function {
+        if entity @s[nbt={OnGround:1b}] tp @s ~ -512 ~
+        data modify entity @s FallDistance set value 0f
+    }
+}
+
+define entity aether:zephyr minecraft:item {
+    default nbt {CustomName:"\"Zephyr\"",Tags:["needs_id","model_target","model_holder","hitbox_target","init"],NoGravity:1b,PickupDelay:32767,Age:-32768,Item:{id:"minecraft:ender_chest",Count:1b}}
+    default passengers [
+        $aether:entity_model{ArmorItems:[{},{},{},$nbt:aether:zephyr_model]},
+        $aether:zephyr_hitbox{HurtTime:0s}
+    ]
+    
+    function travel {
+        tag @e[type=$aether:zephyr_travel,sort=nearest,limit=1] add temp
+        
+        var temp = @e[tag=temp,limit=1]
+        var scale = 0.02
+        
+        if entity $temp scoreboard players set @s travel_cooldown 40
+        
+        #at $temp particle happy_villager ~ ~ ~ 0.25 0.25 0.25 0 20
+        
+        facing entity $temp tp @s ~ ~ ~ ~ ~
+        data modify entity @e[type=$aether:entity_model,distance=..1,limit=1,sort=nearest] Pose.Head[0] set from entity @s Rotation[1]
+        
+        store result score @s op0 data get entity $temp Pos[0]
+        store result score @s op1 data get entity @s Pos[0]
+        scoreboard players operation @s op0 -= @s op1
+        store result entity @s Motion[0] double $scale scoreboard players get @s op0
+        
+        store result score @s op0 data get entity $temp Pos[1]
+        store result score @s op1 data get entity @s Pos[1]
+        scoreboard players operation @s op0 -= @s op1
+        store result entity @s Motion[1] double $scale scoreboard players get @s op0
+        
+        store result score @s op0 data get entity $temp Pos[2]
+        store result score @s op1 data get entity @s Pos[2]
+        scoreboard players operation @s op0 -= @s op1
+        store result entity @s Motion[2] double $scale scoreboard players get @s op0
+        
+        kill $temp
+    }
+    
+    function spawn {
+        summon $aether:zephyr ^ ^ ^3
+    }
+    
+    function stop {
+        data merge entity @s {Motion:[0d,0d,0d]}
+    }
+    
+    function idle_wander {
+        summon $aether:zephyr_travel ~ ~ ~ {Tags:["new"]}
+        
+        store result score @s op_x data get entity @s Pos[0]
+        store result score @s op_y data get entity @s Pos[1]
+        store result score @s op_z data get entity @s Pos[2]
+        
+        scoreboard players set @s op0 71582788
+        scoreboard players set @s op1 214748364
+        
+        function aether:util/rand/generate
+        scoreboard players operation RANDOM global /= @s op0
+        scoreboard players operation @s op_x += RANDOM global
+        function aether:util/rand/generate
+        scoreboard players operation RANDOM global /= @s op1
+        if entity @s[y=100,dy=100] scoreboard players remove RANDOM global 10
+        scoreboard players operation @s op_y += RANDOM global
+        function aether:util/rand/generate
+        scoreboard players operation RANDOM global /= @s op0
+        scoreboard players operation @s op_z += RANDOM global
+        
+        store result entity @e[type=$aether:zephyr_travel,tag=new,limit=1] Pos[0] double 1 scoreboard players get @s op_x
+        store result entity @e[type=$aether:zephyr_travel,tag=new,limit=1] Pos[1] double 1 scoreboard players get @s op_y
+        store result entity @e[type=$aether:zephyr_travel,tag=new,limit=1] Pos[2] double 1 scoreboard players get @s op_z
+        
+        as @e[type=$aether:zephyr_travel,tag=new,limit=1] at @s function aether:entities/zephyr/travel/bias
+        as @e[type=$aether:zephyr_travel,tag=new,limit=1] at @s unless block ~ ~ ~ minecraft:air kill @s
+        
+        function aether:entities/zephyr/travel
+        
+        tag @e[tag=new] remove new
+    }
+    
+    ticking function {
+        unless entity @s[tag=init] function {
+            if score @s travel_cooldown matches 0 function aether:entities/zephyr/idle_wander
+            scoreboard players remove @s[scores={travel_cooldown=1..}] travel_cooldown 1
+            
+            scoreboard players operation HITBOX_LINK global = @s id
+    
+            as @e[tag=entity_hitbox] if score @s hitbox_link = HITBOX_LINK global tag @s add temp
+            var temp <entity> = @e[tag=temp,limit=1]
+            
+            unless entity @e[tag=temp,limit=1,nbt={HurtTime:0s}] data merge entity @e[type=$aether:entity_model,distance=..2,sort=nearest,limit=1] {ArmorItems:[{},{},{},$nbt:aether:zephyr_model_hurt]}
+            if entity @e[tag=temp,limit=1,nbt={HurtTime:0s}] data merge entity @e[type=$aether:entity_model,distance=..2,sort=nearest,limit=1] {ArmorItems:[{},{},{},$nbt:aether:zephyr_model]}
+            
+            unless entity $temp kill @s
+            unless entity @a[distance=..128] unless data entity @e[tag=temp,limit=1] CustomName kill @s
+            
+            if entity @e[tag=temp,limit=1,nbt={HurtTime:10s}] playsound aether:aemob.zephyr.say hostile @a
+            
+            tag @e remove temp
+        }
+        
+        if entity @s[tag=init] function {
+            scoreboard players add @s travel_cooldown 0
+            tag @s remove init
+        }
+    }
+}
+
+define item aether:zephyr_spawn_egg minecraft:elder_guardian_spawn_egg {
+    default nbt {EntityTag:{id:"minecraft:area_effect_cloud",Duration:1,Radius:0,Tags:["spawn_zephyr"]}}
+    
+    default name {"text":"Zephyr Spawn Egg","italic":false}
+    
+    function give {
+        give @s $aether:zephyr_spawn_egg
+    }
+}
+
+define function spawn_egg{
+    #:tag tick
+    
+    at @e[type=area_effect_cloud,tag=spawn_zephyr] summon $aether:zephyr
+    kill @e[type=area_effect_cloud,tag=spawn_zephyr]
+}

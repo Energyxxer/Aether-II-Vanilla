@@ -1,0 +1,8 @@
+{
+    "variants": {
+        "facing=north": { "model": "aether:block/altar" },
+        "facing=south": { "model": "aether:block/altar", "y": 180},
+        "facing=west":  { "model": "aether:block/altar", "y": -90 },
+        "facing=east":  { "model": "aether:block/altar", "y": 90 }
+    }
+}

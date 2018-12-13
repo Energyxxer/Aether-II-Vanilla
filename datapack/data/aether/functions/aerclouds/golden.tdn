@@ -1,0 +1,4 @@
+advancement revoke @s only aether:internal/golden_aercloud
+effect clear @s levitation
+effect give @s levitation 1 128 true
+scoreboard players set @s levitation_timer 3

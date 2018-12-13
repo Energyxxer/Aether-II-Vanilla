@@ -1,0 +1,5 @@
+unless block ~ ~ ~ tripwire kill @s
+if block ~ ~ ~ tripwire[attached=false,disarmed=false,powered=true] setblock ~ ~ ~ tripwire[attached=false,disarmed=false,powered=false]
+if block ~ ~ ~ tripwire[attached=true,disarmed=false,powered=true] setblock ~ ~ ~ tripwire[attached=true,disarmed=false,powered=false]
+if block ~ ~ ~ tripwire[attached=false,disarmed=true,powered=true] setblock ~ ~ ~ tripwire[attached=false,disarmed=true,powered=false]
+if block ~ ~ ~ tripwire[attached=true,disarmed=true,powered=true] setblock ~ ~ ~ tripwire[attached=true,disarmed=true,powered=false]

@@ -1,0 +1,7 @@
+{
+    "parent": "block/coldfire_side_alt",
+    "textures": {
+        "particle": "aether:blocks/coldfire_0",
+        "fire": "aether:blocks/coldfire_0"
+    }
+}

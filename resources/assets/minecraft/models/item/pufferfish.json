@@ -1,0 +1,182 @@
+{
+    "parent": "item/handheld",
+    "textures": {
+    	"layer0": "item/pufferfish"
+    },
+	"overrides": [
+        {
+            "predicate": {
+                "custom_model_data": 1
+            },
+            "model": "entity/zephyr/default"
+        },
+        {
+            "predicate": {
+                "custom_model_data": 2
+            },
+            "model": "entity/zephyr/hurt"
+        },
+        {
+            "predicate": {
+                "custom_model_data": 3
+            },
+            "model": "entity/zephyr/blow0"
+        },
+        {
+            "predicate": {
+                "custom_model_data": 4
+            },
+            "model": "entity/zephyr/blow1"
+        },
+        {
+            "predicate": {
+                "custom_model_data": 5
+            },
+            "model": "entity/tempest/default"
+        },
+        {
+            "predicate": {
+                "custom_model_data": 6
+            },
+            "model": "entity/tempest/hurt"
+        },
+        {
+            "predicate": {
+                "custom_model_data": 7
+            },
+            "model": "entity/sentry_melee/default"
+        },
+        {
+            "predicate": {
+                "custom_model_data": 8
+            },
+            "model": "entity/sentry_melee/hurt"
+        },
+        {
+            "predicate": {
+                "custom_model_data": 9
+            },
+            "model": "entity/sentry_melee/hidden"
+        },
+        {
+            "predicate": {
+                "custom_model_data": 10
+            },
+            "model": "entity/sentry/default"
+        },
+        {
+            "predicate": {
+                "custom_model_data": 11
+            },
+            "model": "entity/sentry/hurt"
+        },
+        {
+            "predicate": {
+                "custom_model_data": 12
+            },
+            "model": "entity/sentry/off"
+        },
+        {
+            "predicate": {
+                "custom_model_data": 13
+            },
+            "model": "entity/zephyroo/default"
+        },
+        {
+            "predicate": {
+                "custom_model_data": 14
+            },
+            "model": "entity/zephyroo/jump"
+        },
+        {
+            "predicate": {
+                "custom_model_data": 15
+            },
+            "model": "entity/zephyroo/hurt"
+        },
+        {
+            "predicate": {
+                "custom_model_data": 16
+            },
+            "model": "entity/coin"
+        },
+        {
+            "predicate": {
+                "custom_model_data": 17
+            },
+            "model": "entity/large_coin"
+        },
+        {
+            "predicate": {
+                "custom_model_data": 18
+            },
+            "model": "entity/aerwhale"
+        },
+        {
+            "predicate": {
+                "custom_model_data": 19
+            },
+            "model": "entity/golems/sentry/head"
+        },
+        {
+            "predicate": {
+                "custom_model_data": 20
+            },
+            "model": "entity/golems/sentry/body"
+        },
+        {
+            "predicate": {
+                "custom_model_data": 21
+            },
+            "model": "entity/golems/sentry/arm"
+        },
+        {
+            "predicate": {
+                "custom_model_data": 22
+            },
+            "model": "entity/golems/sentry/leg"
+        },
+        {
+            "predicate": {
+                "custom_model_data": 23
+            },
+            "model": "entity/golems/sentry/head_hurt"
+        },
+        {
+            "predicate": {
+                "custom_model_data": 24
+            },
+            "model": "entity/golems/sentry/body_hurt"
+        },
+        {
+            "predicate": {
+                "custom_model_data": 25
+            },
+            "model": "entity/golems/sentry/arm_hurt"
+        },
+        {
+            "predicate": {
+                "custom_model_data": 26
+            },
+            "model": "entity/golems/sentry/leg_hurt"
+        },
+        {
+            "predicate": {
+                "custom_model_data": 27
+            },
+            "model": "entity/golems/sentry/arm_raised"
+        },
+        {
+            "predicate": {
+                "custom_model_data": 28
+            },
+            "model": "entity/golems/sentry/sentry"
+        },
+        {
+            "predicate": {
+                "custom_model_data": 29
+            },
+            "model": "entity/golems/sentry/sentry_raised"
+        }
+    ]
+}

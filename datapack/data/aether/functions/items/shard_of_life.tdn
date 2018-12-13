@@ -1,0 +1,47 @@
+define objective extra_life
+
+define function update_health {
+    effect clear @s health_boost
+    if score @s extra_life matches 1 effect give @s health_boost 1000000 0 true
+    if score @s extra_life matches 2 effect give @s health_boost 1000000 1 true
+    if score @s extra_life matches 3 effect give @s health_boost 1000000 2 true
+    if score @s extra_life matches 4 effect give @s health_boost 1000000 3 true
+    if score @s extra_life matches 5 effect give @s health_boost 1000000 4 true
+    effect give @s instant_health 1 10 true
+}
+
+define objective deaths minecraft.custom:minecraft.deaths
+
+define entity default player {
+    ticking function tick {
+        if entity @s[scores={extra_life=1..,deaths=1..}] function {
+            scoreboard players remove @s extra_life 1
+            function aether:items/shard_of_life/update_health
+        }
+        scoreboard players reset @s deaths
+    }
+}
+
+define item aether:shard_of_life minecraft:carrot_on_a_stick#1 {
+    
+    default name {"text":"Shard of Life","color":"red","italic":false}
+    
+    default lore [
+        [{"text":"Increases: ", "color":"light_purple","italic":false}, {"text":"Max Health","color":"white"}],
+        [{"text":"Use: ", "color":"dark_aqua","italic":false}, {"keybind":"key.use","color":"white"}],
+        [{"text":"Up To: ", "color":"dark_aqua","italic":false}, {"text":"5 Life Shards","color":"white"}]
+    ]
+    
+    on used function life_shard_use {
+        if score @s extra_life matches 5.. title @s actionbar {"text":"You can only use a max of 5 life shards","color":"dark_aqua"}
+        unless score @s extra_life matches 5.. function {
+            scoreboard players add @s extra_life 1
+            clear @s $aether:shard_of_life 1
+            function aether:items/shard_of_life/update_health
+        }
+    }
+}
+
+define function give {
+    give @s $aether:shard_of_life
+}

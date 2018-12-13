@@ -1,0 +1,7 @@
+{
+    "parent": "item/gloves/glove_model",
+    "textures": {
+        "armor": "aether:armor/gravitite_gloves",
+        "icon": "aether:items/accessories/gravitite_gloves"
+    }
+}

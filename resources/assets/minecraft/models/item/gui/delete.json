@@ -1,0 +1,6 @@
+{
+    "parent": "item/gui/tile",
+    "textures": {
+        "layer0": "custom/gui/delete"
+    }
+}

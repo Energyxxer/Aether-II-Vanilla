@@ -1,0 +1,62 @@
+{
+"__comment": "Designed by Energyxxer with BDcraft Cubik PRO 0.95 Beta - http://bdcraft.net",
+"textures": {
+    "texture": "aether:entities/sentry/sentry_lit"
+},
+"elements": [ 
+{
+    "from": [ 0, 0, 0 ],
+    "to": [ 16, 16, 16 ],
+    "faces": {
+        "down":  { "uv": [ 4, 0, 6, 2 ], "texture": "#texture" },
+        "up":    { "uv": [ 2, 0, 4, 2 ], "texture": "#texture" },
+        "north": { "uv": [ 6, 2, 8, 4 ], "texture": "#texture" },
+        "south": { "uv": [ 2, 2, 4, 4 ], "texture": "#texture" },
+        "west":  { "uv": [ 0, 2, 2, 4 ], "texture": "#texture" },
+        "east":  { "uv": [ 4, 2, 6, 4 ], "texture": "#texture" }
+    }
+}
+],
+"display": {
+    "thirdperson_righthand": {
+        "rotation": [ 10, -45, 170 ],
+        "translation": [ 0, 1.5, -2.75 ],
+        "scale": [ 0.375, 0.375, 0.375 ]
+    },
+    "thirdperson_lefthand": {
+        "rotation": [ 10, -45, 170 ],
+        "translation": [ 0, 1.5, -2.75 ],
+        "scale": [ 0.375, 0.375, 0.375 ]
+    },
+    "head": {
+        "rotation": [ 0, 180, 0 ],
+        "translation": [ 0, -18, 0 ],
+        "scale": [ 2, 2, 2 ]
+    },
+    "ground": {
+        "rotation": [ 45, 0, 45 ],
+        "translation": [ 0, 0, -4 ],
+        "scale": [ 0.25, 0.25, 0.25 ]
+    },
+    "fixed": {
+        "rotation": [ 0, 180, 0 ],
+        "translation": [ 0, 0, 0 ],
+        "scale": [ 1, 1, 1 ]
+    },
+    "firstperson_righthand": {
+        "rotation": [ 0, 45, 0 ],
+        "translation": [ 0, 0, 0 ],
+        "scale": [ 0.4, 0.4, 0.4 ]
+    },
+    "firstperson_lefthand": {
+        "rotation": [ 0, 45, 0 ],
+        "translation": [ 0, 0, 0 ],
+        "scale": [ 0.4, 0.4, 0.4 ]
+    },
+    "gui": {
+        "rotation": [ 30, -45, 0 ],
+        "translation": [ 0, 0, 0 ],
+        "scale": [ 0.625, 0.625, 0.625 ]
+    }
+}
+}

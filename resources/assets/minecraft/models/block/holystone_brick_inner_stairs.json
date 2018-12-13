@@ -1,0 +1,8 @@
+{
+    "parent": "block/inner_stairs",
+    "textures": {
+        "bottom": "aether:blocks/holystone/holystone_brick",
+        "top": "aether:blocks/holystone/holystone_brick",
+        "side": "aether:blocks/holystone/holystone_brick"
+    }
+}

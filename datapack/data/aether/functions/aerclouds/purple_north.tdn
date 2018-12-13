@@ -1,0 +1,3 @@
+unless entity @s[tag=preserved_clouds]
+    function aether:aerclouds/purple
+scoreboard players set @s pmot_z -25

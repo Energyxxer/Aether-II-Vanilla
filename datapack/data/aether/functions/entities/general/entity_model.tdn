@@ -1,0 +1,38 @@
+#:on compile
+#:require aether:load
+
+define objective model_link
+define objective model_death_time
+
+define entity aether:entity_model minecraft:armor_stand {
+    default nbt {
+        Marker:1b,
+        Invisible:1b,
+        Invulnerable:1b,
+        Tags:["sync_model"],
+        Pose:{Head:[1.0f,0.0f,0.0f]}
+    }
+    
+    ticking function tick {
+        
+        data modify entity @s FallDistance set value 0f
+        
+        define function begin_death {
+            scoreboard players add @s model_death_time 12
+            
+            if score @s model_death_time matches ..90 store result entity @s Pose.Head[2] float 1 scoreboard players get @s model_death_time
+            
+            if score @s model_death_time matches 180.. kill @s
+        }
+        
+        scoreboard players operation MODEL_LINK global = @s model_link
+
+        var temp <entity> = @e[tag=temp,limit=1]
+        as @e[tag=model_holder] if score @s id = MODEL_LINK global tag @s add temp
+        
+        data modify entity @s Rotation set from entity $temp Rotation
+        unless entity @s[tag=sync_model] unless entity $temp function /begin_death
+        
+        tag @e remove temp
+    }
+}

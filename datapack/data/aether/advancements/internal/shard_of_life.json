@@ -1,0 +1,21 @@
+{
+    "parent": "aether:internal/root",
+    "rewards": {
+      "function": "aether:items/use_shard_of_life"
+    },
+    "criteria": {
+      "use": {
+        "trigger": "minecraft:consume_item",
+        "conditions": {
+          "item": {
+              "item": "minecraft:beef"
+          }
+        }
+      }
+    },
+    "requirements": [
+      [
+        "use"
+      ]
+    ]
+  }

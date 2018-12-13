@@ -1,0 +1,6 @@
+{
+    "parent": "item/gui/slot",
+    "textures": {
+        "layer0": "aether:items/misc_slot"
+    }
+}

@@ -1,0 +1,7 @@
+{
+    "variants": {
+        "type=bottom": { "model": "block/icestone_slab_lower" },
+        "type=top": { "model": "block/icestone_slab_upper" },
+        "type=double": { "model": "block/icestone_slab_double" }
+    }
+}

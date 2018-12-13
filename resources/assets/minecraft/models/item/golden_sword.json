@@ -1,0 +1,77 @@
+{
+    "parent": "aether:item/weapons/valkyrie_lance",
+	"overrides": [
+        {
+            "predicate": {
+                "damage": 0.03125
+            },
+            "model": "aether:item/accessories/iron_bubble"
+        },
+        {
+            "predicate": {
+                "damage": 0.0625
+            },
+            "model": "aether:item/accessories/iron_ring"
+        },
+        {
+            "predicate": {
+                "damage": 0.09375
+            },
+            "model": "aether:item/accessories/gold_ring"
+        },
+        {
+            "predicate": {
+                "damage": 0.125
+            },
+            "model": "aether:item/accessories/zanite_ring"
+        },
+        {
+            "predicate": {
+                "damage": 0.15625
+            },
+            "model": "aether:item/accessories/iron_pendant"
+        },
+        {
+            "predicate": {
+                "damage": 0.1875
+            },
+            "model": "aether:item/accessories/gold_pendant"
+        },
+        {
+            "predicate": {
+                "damage": 0.21875
+            },
+            "model": "aether:item/accessories/zanite_pendant"
+        },
+        {
+            "predicate": {
+                "damage": 0.25
+            },
+            "model": "aether:item/accessories/regeneration_stone"
+        },
+        {
+            "predicate": {
+                "damage": 0.28125
+            },
+            "model": "aether:item/accessories/ice_ring"
+        },
+        {
+            "predicate": {
+                "damage": 0.3125
+            },
+            "model": "aether:item/accessories/ice_pendant"
+        },
+        {
+            "predicate": {
+                "damage": 0.34375
+            },
+            "model": "item/shield_of_repulsion"
+        },
+        {
+            "predicate": {
+                "damaged": 1
+            },
+            "model": "aether:item/weapons/valkyrie_lance"
+        }
+    ]
+}

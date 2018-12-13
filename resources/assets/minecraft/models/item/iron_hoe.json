@@ -1,0 +1,101 @@
+{
+    "parent": "item/gui/empty_slot",
+	"overrides": [
+        {
+            "predicate": {
+                "damage": 0.004
+            },
+            "model": "item/gui/guicolor"
+        },
+        {
+            "predicate": {
+                "damage": 0.008
+            },
+            "model": "item/gui/aelogo"
+        },
+        {
+            "predicate": {
+                "damage": 0.012
+            },
+            "model": "item/gui/arrow_left"
+        },
+        {
+            "predicate": {
+                "damage": 0.016
+            },
+            "model": "item/gui/arrow_right"
+        },
+        {
+            "predicate": {
+                "damage": 0.020
+            },
+            "model": "item/gui/delete"
+        },
+        {
+            "predicate": {
+                "damage": 0.024
+            },
+            "model": "item/gui/trade"
+        },
+        {
+            "predicate": {
+                "damage": 0.028
+            },
+            "model": "item/gui/pendant_slot"
+        },
+        {
+            "predicate": {
+                "damage": 0.032
+            },
+            "model": "item/gui/ring_slot"
+        },
+        {
+            "predicate": {
+                "damage": 0.036
+            },
+            "model": "item/gui/companion_slot"
+        },
+        {
+            "predicate": {
+                "damage": 0.040
+            },
+            "model": "item/gui/misc_slot"
+        },
+        {
+            "predicate": {
+                "damage": 0.044
+            },
+            "model": "item/gui/glove_slot"
+        },
+        {
+            "predicate": {
+                "damage": 0.048
+            },
+            "model": "item/gui/shield_slot"
+        },
+        {
+            "predicate": {
+                "damage": 0.052
+            },
+            "model": "item/gui/info"
+        },
+        {
+            "predicate": {
+                "damage": 0.056
+            },
+            "model": "item/gui/incubator_bar"
+        },
+        {
+            "predicate": {
+                "damage": 0.06
+            },
+            "model": "item/gui/incubator_fuel"
+        },
+        {
+            "predicate": {
+                "damaged": 1
+            },
+            "model": "item/iron_hoe_default"
+        }
+    ]
+}

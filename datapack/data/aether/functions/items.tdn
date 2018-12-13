@@ -1,0 +1,15 @@
+#:on compile
+
+#register item life_shard minecraft:carrot_on_a_stick#1 {
+#    model "aether:item/consumables/shard_of_life"
+#    on used exact mainhand {
+#        if score entity @s extra_life matched 5.. {
+#            title @s actionbar {"text":"You can only use a total of 5 life shards.","color":"red"}
+#        }
+#        if score entity @s extra_life matches ..4 {
+#            @s.extra_life += 1
+#            tag @s add update_health
+#        }
+#        replaceitem entity @s weapon.mainhand air
+#    }
+#}

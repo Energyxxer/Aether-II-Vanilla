@@ -1,0 +1,13 @@
+{
+    "parent": "entity/zephyr",
+    "textures": {
+    	"texture": "aether:entities/tempest/tempest"
+    },
+    "display": {
+    	"head": {
+    	    "rotation": [ 0, 180, 0 ],
+    	    "translation": [ 0, -8, -4 ],
+    	    "scale": [ 2.25, 2.25, 2.25 ]
+    	}
+    }
+}

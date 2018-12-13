@@ -1,0 +1,6 @@
+{
+	"parent": "minecraft:block/cross",
+	"textures": {
+		"cross": "aether:blocks/tall_aether_grass"
+	}
+}

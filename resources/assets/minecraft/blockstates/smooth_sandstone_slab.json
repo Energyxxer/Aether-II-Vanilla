@@ -1,0 +1,7 @@
+{
+    "variants": {
+        "type=bottom": { "model": "block/sentry_stone_slab_lower" },
+        "type=top": { "model": "block/sentry_stone_slab_upper" },
+        "type=double": { "model": "block/sentry_stone_slab_double" }
+    }
+}

@@ -1,0 +1,3 @@
+effect give @s slow_falling 1 0 true
+execute align xyz run teleport @e[type=shulker,name=cloud_bottom] ~0.5 ~-1 ~0.5
+advancement revoke @s only aether:internal/cold_aercloud

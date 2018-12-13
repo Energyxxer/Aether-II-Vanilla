@@ -1,0 +1,6 @@
+{
+    "parent": "item/gui/tile",
+    "textures": {
+        "layer0": "aether:blocks/aether_grass_top"
+    }
+}

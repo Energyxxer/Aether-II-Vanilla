@@ -1,0 +1,7 @@
+{
+    "variants": {
+        "type=bottom": { "model": "block/divine_sentry_stone_slab_lower" },
+        "type=top": { "model": "block/divine_sentry_stone_slab_upper" },
+        "type=double": { "model": "block/divine_sentry_stone_slab_double" }
+    }
+}

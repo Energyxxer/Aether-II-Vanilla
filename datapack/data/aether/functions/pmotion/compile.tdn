@@ -1,0 +1,4 @@
+#:on compile
+
+define objective pmot_x
+define objective pmot_z

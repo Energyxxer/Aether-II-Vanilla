@@ -1,0 +1,74 @@
+{
+"__comment": "Designed by Energyxxer with BDcraft Cubik PRO 0.96 Beta - http://bdcraft.net",
+"textures": {
+    "texture": "aether:entities/sentrygolem/sentry_golem_green"
+},
+"elements": [ 
+{
+    "from": [ -4, 5, 5 ],
+    "to": [ 0, 13, 11 ],
+    "faces": {
+        "down":  { "uv": [ 6.25, 0.375, 6.75, 1.125 ], "texture": "#texture" },
+        "up":    { "uv": [ 5.75, 0.375, 6.25, 1.125 ], "texture": "#texture" },
+        "north": { "uv": [ 7, 1.125, 7.5, 2.125 ], "texture": "#texture" },
+        "south": { "uv": [ 5.75, 1.125, 6.25, 2.125 ], "texture": "#texture" },
+        "west":  { "uv": [ 5, 1.125, 5.75, 2.125 ], "texture": "#texture" },
+        "east":  { "uv": [ 6.25, 1.125, 7, 2.125 ], "texture": "#texture" }
+    }
+},
+{
+    "from": [ -5, 0, 4.5 ],
+    "to": [ 0, 6, 11.5 ],
+    "faces": {
+        "down":  { "uv": [ 8.25, 2.125, 8.875, 3 ], "texture": "#texture" },
+        "up":    { "uv": [ 7.625, 2.125, 8.25, 3 ], "texture": "#texture" },
+        "north": { "uv": [ 9.125, 3, 9.75, 3.75 ], "texture": "#texture" },
+        "south": { "uv": [ 7.625, 3, 8.25, 3.75 ], "texture": "#texture" },
+        "west":  { "uv": [ 6.75, 3, 7.625, 3.75 ], "texture": "#texture" },
+        "east":  { "uv": [ 8.25, 3, 9.125, 3.75 ], "texture": "#texture" }
+    }
+}
+],
+"display": {
+    "thirdperson_righthand": {
+        "rotation": [ 130, -180, 20 ],
+        "translation": [ -7, 2, 8 ],
+        "scale": [ 1, 1, 1 ]
+    },
+    "thirdperson_lefthand": {
+        "rotation": [ 130, -180, 20 ],
+        "translation": [ -7, 2, 8 ],
+        "scale": [ -1, 1, 1 ]
+    },
+    "head": {
+        "rotation": [ 0, 180, 0 ],
+        "translation": [ 0, -8, 0 ],
+        "scale": [ 1.75, 1.75, 1.75 ]
+    },
+    "ground": {
+        "rotation": [ 0, 0, 0 ],
+        "translation": [ 0, 4, 0 ],
+        "scale": [ 0.25, 0.25, 0.25 ]
+    },
+    "fixed": {
+        "rotation": [ 0, 180, 0 ],
+        "translation": [ 0, 0, 0 ],
+        "scale": [ 1, 1, 1 ]
+    },
+    "firstperson_righthand": {
+        "rotation": [ 0, 0, 0 ],
+        "translation": [ 0, 0, 0 ],
+        "scale": [ 0.5, 0.5, 0.5 ]
+    },
+    "firstperson_lefthand": {
+        "rotation": [ 0, 0, 0 ],
+        "translation": [ 0, 0, 0 ],
+        "scale": [ 0.5, 0.5, 0.5 ]
+    },
+    "gui": {
+        "rotation": [ 0, 0, 0 ],
+        "translation": [ 0, 1.5, 0 ],
+        "scale": [ 0.5, 0.5, 0.5 ]
+    }
+}
+}

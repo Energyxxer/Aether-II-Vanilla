@@ -1,0 +1,5 @@
+{
+    "variants": {
+        "": { "model": "aether:block/ambrosium_torch/ambrosium_torch" }
+    }
+}

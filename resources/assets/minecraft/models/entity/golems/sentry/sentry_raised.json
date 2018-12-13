@@ -1,0 +1,13 @@
+{
+	"parent": "entity/sentry",
+	"textures": {
+		"texture": "aether:entities/sentry/sentry_lit"
+	},
+	"display": {
+	    "head": {
+	        "rotation": [ 0, 180, 0 ],
+	        "translation": [ 0, -12, -12 ],
+	        "scale": [ 1.25, 1.25, 1.25 ]
+	    }
+	}
+}

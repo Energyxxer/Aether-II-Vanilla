@@ -1,0 +1,3 @@
+#:on compile
+
+define objective hitbox_link

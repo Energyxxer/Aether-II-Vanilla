@@ -1,0 +1,2 @@
+as @e if entity @s[scores={pmot_x=isset,pmot_z=isset}] unless entity @s[scores={pmot_x=0,pmot_z=0}] at @s
+    function aether:pmotion/self

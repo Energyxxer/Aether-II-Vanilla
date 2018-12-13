@@ -1,0 +1,6 @@
+{
+	"parent": "entity/golems/arm_raised",
+	"textures": {
+		"texture": "aether:entities/sentrygolem/sentry_golem_green"
+	}
+}

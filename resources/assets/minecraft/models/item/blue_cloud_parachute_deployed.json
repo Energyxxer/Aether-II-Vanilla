@@ -1,0 +1,13 @@
+{
+    "parent": "entity/parachute",
+    "textures": {
+    	"texture": "aether:entities/parachute_blue_parachute"
+    },
+    "display": {
+    	"head": {
+    	    "rotation": [ 0, 0, 0 ],
+    	    "translation": [ 0, 24, 0 ],
+    	    "scale": [ 3, 3, 3 ]
+    	}
+    }
+}

@@ -1,0 +1,6 @@
+{
+    "parent": "entity/sentry",
+    "textures": {
+        "texture": "aether:entities/sentry_melee/sentry_melee_lit_hurt"
+    }
+}

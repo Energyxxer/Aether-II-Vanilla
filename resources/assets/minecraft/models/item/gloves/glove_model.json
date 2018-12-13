@@ -1,0 +1,52 @@
+{
+"__comment": "Designed by Energyxxer with BDcraft Cubik PRO 0.95 Beta - http://bdcraft.net",
+"textures": {
+    "particle": "#icon"
+},
+"elements": [ 
+{
+    "from": [ 0, 0, 0 ],
+    "to": [ 16, 24, 16 ],
+    "faces": {
+        "down":  { "uv": [ 12, 4, 13, 5 ], "texture": "#armor" },
+        "up":    { "uv": [ 0, 0, 16, 16 ], "texture": "#icon" },
+        "north": { "uv": [ 13, 6.5, 14, 8 ], "texture": "#armor" },
+        "south": { "uv": [ 11, 6.5, 12, 8 ], "texture": "#armor" },
+        "west":  { "uv": [ 10, 6.5, 11, 8 ], "texture": "#armor" },
+        "east":  { "uv": [ 12, 6.5, 13, 8 ], "texture": "#armor" }
+    }
+}
+],
+"display": {
+    "thirdperson_righthand": {
+        "rotation": [ 90, 0, 0 ],
+        "translation": [ 0, -2.1, 2.1 ],
+        "scale": [ 0.3, 0.3, 0.3 ]
+    },
+    "thirdperson_lefthand": {
+        "rotation": [ 90, 0, 0 ],
+        "translation": [ 0, -2.1, 2.1 ],
+        "scale": [ -0.3, 0.3, 0.3 ]
+    },
+    "ground": {
+        "rotation": [ 0, 0, 0 ],
+        "translation": [ 0, 0, 0 ],
+        "scale": [ 0, 0, 0 ]
+    },
+    "firstperson_righthand": {
+        "rotation": [ 128, -12, 0 ],
+        "translation": [ 0, 0, -3.21 ],
+        "scale": [ 0.27, 0.27, 0.27 ]
+    },
+    "firstperson_lefthand": {
+        "rotation": [ 128, -12, 0 ],
+        "translation": [ 0, 0, -3.21 ],
+        "scale": [ 0, 0, 0 ]
+    },
+    "gui": {
+        "rotation": [ 90, 0, 0 ],
+        "translation": [ 0, 0, 0 ],
+        "scale": [ 1, 1, 1 ]
+    }
+}
+}

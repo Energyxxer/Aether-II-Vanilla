@@ -1,0 +1,28 @@
+#:on compile
+#:require aether:entities/general/entity_model
+
+define local item aether:aerwhale_model minecraft:pufferfish#18
+
+define entity aether:aerwhale minecraft:ghast {
+    
+    default nbt {
+        CustomName: "\"Aerwhale\"",
+        ActiveEffects: [
+            {
+                Id:14,
+                Duration:10000000,
+                Amplifier:0b,
+                ShowParticles:0b
+            }
+        ],
+        Tags:["needs_id","model_target","model_holder"]
+    }
+    
+    default passengers [
+        $aether:entity_model{ArmorItems:[{},{},{},$nbt:aether:aerwhale_model]}
+    ]
+    
+    function spawn {
+        summon $aether:aerwhale ~ ~ ~
+    }
+}

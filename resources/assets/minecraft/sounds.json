@@ -1,0 +1,162 @@
+{
+	"blank": {
+	    "category": "master",
+	    "sounds": [
+	      {
+	      	"name": "blank",
+	      	"stream": true
+	      }
+	    ]
+	},
+    "block.enderchest.open": {
+    	"category": "block",
+    	"replace": true,
+    	"sounds": [
+    		"blank"
+    	]
+  	},
+    "block.enderchest.close": {
+    	"category": "block",
+    	"replace": true,
+    	"sounds": [
+    		"blank"
+    	]
+  	},
+  	"entity.player.big_fall": {
+    	"category": "players",
+    	"replace": true,
+    	"sounds": [
+    		"blank"
+    	]
+  	},
+  	"entity.player.attack.crit": {
+    	"replace": true,
+	    "sounds": [
+	      	"blank"
+	    ]
+	},
+	"entity.player.attack.knockback": {
+    	"replace": true,
+	    "sounds": [
+	      	"blank"
+	    ]
+	},
+	"entity.player.attack.nodamage": {
+    	"replace": true,
+	    "sounds": [
+	      	"blank"
+	    ]
+	},
+	"entity.player.attack.strong": {
+    	"replace": true,
+	    "sounds": [
+	      	"blank"
+	    ]
+	},
+	"entity.player.attack.sweep": {
+    	"replace": true,
+	    "sounds": [
+	      	"blank"
+	    ]
+	},
+	"entity.player.attack.weak": {
+    	"replace": true,
+	    "sounds": [
+	      	"blank"
+	    ]
+	},
+	"entity.skeleton.ambient": {
+    	"replace": true,
+	    "sounds": [
+	      	"blank"
+	    ]
+	},
+	"entity.skeleton.hurt": {
+    	"replace": true,
+	    "sounds": [
+	      	"blank"
+	    ]
+	},
+	"entity.skeleton.death": {
+    	"replace": true,
+	    "sounds": [
+	      	"aether:aemob/zephyr/say1",
+	      	"aether:aemob/zephyr/say2"
+	    ]
+	},
+	"entity.skeleton.step": {
+    	"replace": true,
+	    "sounds": [
+	      	"blank"
+	    ]
+	},
+	"entity.skeleton.shoot": {
+		"replace": true,
+    	"sounds": [
+    	  	"aether:aemob/zephyr/shoot"
+    	]
+  	},
+  	"block.glass.place": {
+    	"replace": true,
+	    "sounds": [
+	      	{
+	      		"type": "event",
+	      		"name": "block.cloth.place"
+	      	}
+	    ]
+	},
+	"block.glass.break": {
+    	"replace": true,
+	    "sounds": [
+	      	{
+	      		"type": "event",
+	      		"name": "block.cloth.break"
+	      	}
+	    ]
+	},
+	"record.13": {
+    	"replace": true,
+	    "sounds": [
+	      	{
+	      		"name": "aether:record/ascending_dawn",
+	      		"stream": true
+	      	}
+	    ]
+	},
+	"record.cat": {
+    	"replace": true,
+	    "sounds": [
+	      	{
+	      		"name": "aether:record/demise",
+	      		"stream": true
+	      	}
+	    ]
+	},
+	"record.blocks": {
+    	"replace": true,
+	    "sounds": [
+	      	{
+	      		"name": "aether:record/approaches",
+	      		"stream": true
+	      	}
+	    ]
+	},
+	"record.chirp": {
+    	"replace": true,
+	    "sounds": [
+	      	{
+	      		"name": "aether:record/aerwhale",
+	      		"stream": true
+	      	}
+	    ]
+	},
+	"record.11": {
+    	"replace": true,
+	    "sounds": [
+	      	{
+	      		"name": "aether:record/chase",
+	      		"stream": true
+	      	}
+	    ]
+	}
+}

@@ -1,0 +1,12 @@
+{
+    "variants": {
+        "attached=false,disarmed=false,powered=true": { "model": "aether:block/aercloud/cold_aercloud" },
+        "attached=false,disarmed=true,powered=true": { "model": "aether:block/aercloud/blue_aercloud" },
+        "attached=true,disarmed=false,powered=true": { "model": "aether:block/aercloud/golden_aercloud" },
+        "attached=true,disarmed=true,powered=true": { "model": "aether:block/aercloud/green_aercloud" },
+        "attached=false,disarmed=false,powered=false": { "model": "aether:block/aercloud/purple_aercloud", "y": 0 },
+        "attached=false,disarmed=true,powered=false": { "model": "aether:block/aercloud/purple_aercloud", "y": 90 },
+        "attached=true,disarmed=false,powered=false": { "model": "aether:block/aercloud/purple_aercloud", "y": 180 },
+        "attached=true,disarmed=true,powered=false": { "model": "aether:block/aercloud/purple_aercloud", "y": 270 }
+    }
+}

@@ -1,0 +1,13 @@
+{
+    "parent": "item/gui/slot",
+    "textures": {
+        "layer0": "gui/tags/tag_int"
+    },
+    "display": {
+        "ground": {
+            "rotation": [ 0, 0, 0 ],
+            "position": [ 0, 4, 0 ],
+            "scale": [ 0.375, 0.375, 0.375 ]
+        }
+    }
+}

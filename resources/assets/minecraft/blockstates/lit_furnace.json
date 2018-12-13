@@ -1,0 +1,8 @@
+{
+    "variants": {
+        "facing=north": { "model": "aether:block/holystone_furnace/holystone_furnace_lit", "y": 180 },
+        "facing=south": { "model": "aether:block/holystone_furnace/holystone_furnace_lit" },
+        "facing=west":  { "model": "aether:block/holystone_furnace/holystone_furnace_lit", "y": 90 },
+        "facing=east":  { "model": "aether:block/holystone_furnace/holystone_furnace_lit", "y": 270 }
+    }
+}

@@ -1,0 +1,6 @@
+{
+    "parent": "aether:item/weapons/gravitite_sword",
+    "textures": {
+    	"layer0": "aether:items/gravitite_sword"
+    }
+}

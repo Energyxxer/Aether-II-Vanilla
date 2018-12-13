@@ -1,0 +1,6 @@
+{
+    "parent": "item/gui/tile",
+    "textures": {
+        "texture": "custom/gui/info"
+    }
+}

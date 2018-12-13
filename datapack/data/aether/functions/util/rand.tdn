@@ -1,0 +1,8 @@
+#:on compile
+#:require aether:load
+
+define function generate {
+    summon minecraft:area_effect_cloud ~ ~ ~ {Tags:["prng"]}
+    store result score RANDOM global data get entity @e[type=area_effect_cloud,tag=prng,limit=1] UUIDMost 0.0000000002328306436538696289
+    kill @e[type=area_effect_cloud,tag=prng,limit=1]
+}

@@ -1,0 +1,3 @@
+within pos ~-1 ~ ~-1 ~1 ~2 ~1 {
+    execute positioned $pos run function aether:aerclouds/preserve_block
+}

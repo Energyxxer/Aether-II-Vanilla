@@ -1,0 +1,113 @@
+{
+"__comment": "Designed by Energyxxer with BDcraft Cubik PRO 0.95 Beta - http://bdcraft.net",
+"textures": {
+	"box": "aether:tile_entities/present/present_box_white",
+	"ribbon": "aether:tile_entities/present/present_ribbon_red"
+},
+"elements": [ 
+{
+	"__comment": "Box",
+	"from": [ 3, 0, 3 ],
+	"to": [ 13, 10, 13 ],
+	"faces": {
+		"down":  { "uv": [ 5, 3, 7.5, 5.5 ], "texture": "#box" },
+		"up":    { "uv": [ 2.5, 3, 5, 5.5 ], "texture": "#box" },
+		"north": { "uv": [ 7.5, 5.5, 10, 8 ], "texture": "#box" },
+		"south": { "uv": [ 2.5, 5.5, 5, 8 ], "texture": "#box" },
+		"west":  { "uv": [ 0, 5.5, 2.5, 8 ], "texture": "#box" },
+		"east":  { "uv": [ 5, 5.5, 7.5, 8 ], "texture": "#box" }
+	}
+},
+{
+	"__comment": "Ribbon",
+	"from": [ 3, 0, 3 ],
+	"to": [ 13, 10, 13 ],
+	"faces": {
+		"down":  { "uv": [ 5, 3, 7.5, 5.5 ], "texture": "#ribbon" },
+		"up":    { "uv": [ 2.5, 3, 5, 5.5 ], "texture": "#ribbon" },
+		"north": { "uv": [ 7.5, 5.5, 10, 8 ], "texture": "#ribbon" },
+		"south": { "uv": [ 2.5, 5.5, 5, 8 ], "texture": "#ribbon" },
+		"west":  { "uv": [ 0, 5.5, 2.5, 8 ], "texture": "#ribbon" },
+		"east":  { "uv": [ 5, 5.5, 7.5, 8 ], "texture": "#ribbon" }
+	}
+},
+{
+	"__comment": "Ribbon Lace",
+	"from": [ 3, 11.8125, 6.5 ],
+	"to": [ 8, 12.8125, 9.5 ],
+	"rotation": { "origin": [ 3, 12.8125, 6.5 ], "axis": "z", "angle": -22.5 },
+	"faces": {
+		"down":  { "uv": [ 3, 1.25, 4.25, 2 ], "texture": "#ribbon" },
+		"up":    { "uv": [ 1.75, 1.25, 3, 2 ], "texture": "#ribbon" },
+		"north": { "uv": [ 3.75, 2, 5, 2.25 ], "texture": "#ribbon" },
+		"south": { "uv": [ 1.75, 2, 3, 2.25 ], "texture": "#ribbon" },
+		"west":  { "uv": [ 1, 2, 1.75, 2.25 ], "texture": "#ribbon" },
+		"east":  { "uv": [ 3, 2, 3.75, 2.25 ], "texture": "#ribbon" }
+	}
+},
+{
+	"__comment": "Ribbon Lace",
+	"from": [ 8.375, 9.9375, 6.5 ],
+	"to": [ 13.375, 10.9375, 9.5 ],
+	"rotation": { "origin": [ 8.375, 10.9375, 6.5 ], "axis": "z", "angle": 22.5 },
+	"faces": {
+		"down":  { "uv": [ 7, 1.25, 8.25, 2 ], "texture": "#ribbon" },
+		"up":    { "uv": [ 5.75, 1.25, 7, 2 ], "texture": "#ribbon" },
+		"north": { "uv": [ 7.75, 2, 9, 2.25 ], "texture": "#ribbon" },
+		"south": { "uv": [ 5.75, 2, 7, 2.25 ], "texture": "#ribbon" },
+		"west":  { "uv": [ 5, 2, 5.75, 2.25 ], "texture": "#ribbon" },
+		"east":  { "uv": [ 7, 2, 7.75, 2.25 ], "texture": "#ribbon" }
+	}
+},
+{
+	"__comment": "Ribbon Tie",
+	"from": [ 7, 10, 7 ],
+	"to": [ 9, 11, 9 ],
+	"faces": {
+		"down":  { "uv": [ 5, 2.25, 5.5, 2.75 ], "texture": "#ribbon" },
+		"up":    { "uv": [ 4.5, 2.25, 5, 2.75 ], "texture": "#ribbon" },
+		"north": { "uv": [ 5.5, 2.75, 6, 3 ], "texture": "#ribbon" },
+		"south": { "uv": [ 4.5, 2.75, 5, 3 ], "texture": "#ribbon" },
+		"west":  { "uv": [ 4, 2.75, 4.5, 3 ], "texture": "#ribbon" },
+		"east":  { "uv": [ 5, 2.75, 5.5, 3 ], "texture": "#ribbon" }
+	}
+}
+],
+"display": {
+	"thirdperson_righthand": {
+		"rotation": [ 10, -45, -37 ],
+		"translation": [ 0, 1.7, -0.38 ],
+		"scale": [ 0.37, 0.37, 0.37 ]
+	},
+	"thirdperson_lefthand": {
+		"rotation": [ 10, -45, -37 ],
+		"translation": [ 0, 1.7, -0.38 ],
+		"scale": [ 0.37, 0.37, 0.37 ]
+	},
+	"head": {
+		"rotation": [ 0, 0, 0 ],
+		"translation": [ 0, 6, 0 ],
+		"scale": [ 1.5, 1.5, 1.5 ]
+	},
+	"ground": {
+		"rotation": [ 0, 0, 0 ],
+		"translation": [ 0, 4, 0 ],
+		"scale": [ 0.5, 0.5, 0.5 ]
+	},
+	"firstperson_righthand": {
+		"rotation": [ 0, -47, 0 ],
+		"translation": [ 2.46, 2.46, 0 ],
+		"scale": [ 0.8, 0.8, 0.8 ]
+	},
+	"firstperson_lefthand": {
+		"rotation": [ 0, -47, 0 ],
+		"translation": [ 2.46, 2.46, 0 ],
+		"scale": [ 0.8, 0.8, 0.8 ]
+	},
+	"gui": {
+		"rotation": [ 30, 45, 0 ],
+		"translation": [ 0, 1.5, 0 ],
+		"scale": [ 0.8, 0.8, 0.8 ]
+	}
+}
+}

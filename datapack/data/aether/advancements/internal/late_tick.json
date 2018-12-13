@@ -1,0 +1,16 @@
+{
+  "parent": "aether:internal/root",
+  "rewards": {
+    "function": "aether:cycle/enter_block"
+  },
+  "criteria": {
+    "enter_block": {
+      "trigger": "minecraft:enter_block"
+    }
+  },
+  "requirements": [
+    [
+      "enter_block"
+    ]
+  ]
+}

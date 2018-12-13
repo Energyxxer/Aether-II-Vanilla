@@ -1,0 +1,20 @@
+{
+  "parent": "aether:internal/root",
+  "rewards": {
+    "function": "aether:bugtest",
+    "loot": ["minecraft:blocks/acacia_button"]
+  },
+  "criteria": {
+    "enter_block": {
+      "trigger": "minecraft:enter_block",
+      "conditions": {
+        "block": "minecraft:red_bed"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "enter_block"
+    ]
+  ]
+}

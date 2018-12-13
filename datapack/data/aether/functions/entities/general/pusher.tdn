@@ -1,0 +1,17 @@
+#:on compile
+
+define entity aether:pusher minecraft:slime {
+    default nbt {
+        Tags: [ "kill" ],
+        Silent:1b,
+        Invulnerable:1b,
+        ActiveEffects: [
+            {
+                Id:14,
+                Duration:10s,
+                Amplifier:0,
+                ShowParticles:0b
+            }
+        ]
+    }
+}

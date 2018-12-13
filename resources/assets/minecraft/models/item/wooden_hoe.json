@@ -1,0 +1,32 @@
+{
+    "parent": "item/handheld",
+    "textures": {
+    	"layer0": "item/wooden_hoe"
+    },
+	"overrides": [
+        {
+            "predicate": {
+                "damage": 0.01694915254237288135593220338983
+            },
+            "model": "item/gui/dev/string"
+        },
+        {
+            "predicate": {
+                "damage": 0.03389830508474576271186440677966
+            },
+            "model": "item/gui/dev/int"
+        },
+        {
+            "predicate": {
+                "damage": 0.05084745762711864406779661016949
+            },
+            "model": "item/gui/dev/boolean"
+        },
+        {
+            "predicate": {
+                "damaged": 1
+            },
+            "model": "item/wooden_hoe_default"
+        }
+    ]
+}

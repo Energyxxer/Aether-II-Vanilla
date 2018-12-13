@@ -1,0 +1,26 @@
+{
+    "parent": "item/handheld",
+    "textures": {
+    	"layer0": "items/bow0"
+    },
+	"overrides": [
+        {
+            "predicate": {
+                "damage": 0.0006406149903907751
+            },
+            "model": "entity/zephyr_normal"
+        },
+        {
+            "predicate": {
+                "damage": 0.0012812299807815502
+            },
+            "model": "entity/tempest"
+        },
+        {
+            "predicate": {
+                "damaged": 1
+            },
+            "model": "item/bow_default"
+        }
+    ]
+}

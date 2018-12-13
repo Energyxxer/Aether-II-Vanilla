@@ -1,0 +1,24 @@
+{
+  "parent": "aether:internal/root",
+  "rewards": {
+    "function": "aether:aerclouds/purple_north"
+  },
+  "criteria": {
+    "enter_block": {
+      "trigger": "minecraft:enter_block",
+      "conditions": {
+        "block": "minecraft:tripwire",
+        "state": {
+          "attached": "false",
+          "disarmed": "false",
+          "powered": "false"
+        }
+      }
+    }
+  },
+  "requirements": [
+    [
+      "enter_block"
+    ]
+  ]
+}

@@ -1,0 +1,18 @@
+{
+    "parent": "item/gui/tile",
+    "textures": {
+        "layer0": "custom/gui/incubator_empty"
+    },
+	"display": {
+	    "gui": {
+	        "rotation": [ 0, 0, 0 ],
+	        "translation": [ 0, 0, 0 ],
+	        "scale": [ 3.375, 3.375, 3.375 ]
+	    },
+	    "fixed": {
+	    	"rotation": [ 0, 0, 0 ],
+	    	"translation": [ 0, 0, -1 ],
+	        "scale": [ 4, 4, 2.05 ]
+	    }
+	}
+}

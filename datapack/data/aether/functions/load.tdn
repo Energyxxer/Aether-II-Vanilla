@@ -1,0 +1,19 @@
+#:on compile
+# -------- [Function cnl:craftr/restore_scope : 7 entries] --------
+
+#
+# Remove all the currently active scope tags, and reassign
+# them based on the scope objectives of the executing entity's
+#
+
+define objective levitation_timer
+define objective global
+
+define objective op0
+define objective op1
+
+define objective op_x
+define objective op_y
+define objective op_z
+
+define objective id

@@ -1,0 +1,6 @@
+{
+    "parent": "entity/parachute",
+    "textures": {
+    	"texture": "aether:entities/parachute_golden_parachute"
+    }
+}

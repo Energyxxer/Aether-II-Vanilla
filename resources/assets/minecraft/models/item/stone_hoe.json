@@ -1,0 +1,23 @@
+{
+    "parent": "item/gui/empty_slot",
+	"overrides": [
+        {
+            "predicate": {
+                "damage": 0.00763358778625954198473282442748
+            },
+            "model": "item/gui/blocks/grass"
+        },
+        {
+            "predicate": {
+                "damage": 0.01526717557251908396946564885496
+            },
+            "model": "item/gui/blocks/stone"
+        },
+        {
+            "predicate": {
+                "damage": 0.02290076335877862595419847328244
+            },
+            "model": "item/gui/blocks/dirt"
+        }
+    ]
+}

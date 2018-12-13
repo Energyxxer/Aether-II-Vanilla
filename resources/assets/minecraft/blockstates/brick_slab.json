@@ -1,0 +1,7 @@
+{
+    "variants": {
+        "type=bottom": { "model": "block/mossy_holystone_slab_lower" },
+        "type=top": { "model": "block/mossy_holystone_slab_upper" },
+        "type=double": { "model": "block/mossy_holystone_slab_double" }
+    }
+}

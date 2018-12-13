@@ -1,0 +1,4 @@
+if score LATE_TICK_ENABLED global matches 1
+    function aether:late_tick
+advancement revoke @s only aether:internal/late_tick
+scoreboard players set LATE_TICK_ENABLED global 0

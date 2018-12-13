@@ -1,0 +1,56 @@
+{
+    "parent": "item/handheld",
+    "textures": {
+    	"layer0": "item/golden_hoe"
+    },
+	"overrides": [
+        {
+            "predicate": {
+                "damage": 0.03125
+            },
+            "model": "item/cold_cloud_parachute_deployed"
+        },
+        {
+            "predicate": {
+                "damage": 0.06250
+            },
+            "model": "item/golden_cloud_parachute_deployed"
+        },
+        {
+            "predicate": {
+                "damage": 0.09375
+            },
+            "model": "item/purple_cloud_parachute_deployed"
+        },
+        {
+            "predicate": {
+                "damage": 0.1250
+            },
+            "model": "item/green_cloud_parachute_deployed"
+        },
+        {
+            "predicate": {
+                "damage": 0.15625
+            },
+            "model": "item/blue_cloud_parachute_deployed"
+        },
+        {
+            "predicate": {
+                "damage": 0.18750
+            },
+            "model": "block/orange_tree_stage_one"
+        },
+        {
+            "predicate": {
+                "damage": 0.21875
+            },
+            "model": "block/orange_tree_stage_two"
+        },
+        {
+            "predicate": {
+                "damaged": 1
+            },
+            "model": "item/golden_hoe_default"
+        }
+    ]
+}

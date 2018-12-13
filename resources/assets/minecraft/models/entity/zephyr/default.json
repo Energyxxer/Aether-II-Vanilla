@@ -1,0 +1,6 @@
+{
+    "parent": "entity/zephyr",
+    "textures": {
+    	"texture": "aether:entities/newzephyr/zephyr"
+    }
+}
