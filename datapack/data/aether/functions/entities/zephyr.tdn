@@ -4,9 +4,13 @@
 #:require aether:util/rand
 
 define objective travel_cooldown
+define objective shoot_time
 
 define local item aether:zephyr_model minecraft:pufferfish#1
 define local item aether:zephyr_model_hurt minecraft:pufferfish#2
+
+define local item aether:zephyr_model_size_1 minecraft:pufferfish#3
+define local item aether:zephyr_model_size_2 minecraft:pufferfish#4
 
 define local entity aether:zephyr_focus minecraft:area_effect_cloud {
     default nbt {Duration:100000}
@@ -24,7 +28,7 @@ define local entity aether:zephyr_travel minecraft:area_effect_cloud {
     }
     
     function travel/bias {
-        if entity @e[type=$aether:zephyr_focus,distance=..256] facing entity @e[type=$aether:zephyr_focus,distance=..256,sort=nearest,limit=1] tp @s ^ ^ ^5
+        if entity @e[tag=zephyr_focus,distance=..256] facing entity @e[tag=zephyr_focus,distance=..256,sort=nearest,limit=1] tp @s ^ ^ ^5
     }
 }
 
@@ -48,9 +52,9 @@ define entity aether:zephyr minecraft:item {
         tag @e[type=$aether:zephyr_travel,sort=nearest,limit=1] add temp
         
         var temp = @e[tag=temp,limit=1]
-        var scale = 0.02
+        var scale = 0.015
         
-        if entity $temp scoreboard players set @s travel_cooldown 40
+        if entity $temp scoreboard players set @s travel_cooldown 60
         
         #at $temp particle happy_villager ~ ~ ~ 0.25 0.25 0.25 0 20
         
@@ -84,6 +88,7 @@ define entity aether:zephyr minecraft:item {
     }
     
     function idle_wander {
+        tag @a add zephyr_focus
         summon $aether:zephyr_travel ~ ~ ~ {Tags:["new"]}
         
         store result score @s op_x data get entity @s Pos[0]
@@ -116,8 +121,17 @@ define entity aether:zephyr minecraft:item {
         tag @e[tag=new] remove new
     }
     
+    function shoot {
+        function aether:entities/zephyr/stop
+        facing entity @p[distance=..10] rotated ~ 0 tp @s ~ ~ ~ ~ ~
+        data merge entity @e[type=$aether:entity_model,distance=..2,sort=nearest,limit=1] {Pose:{Head:[0d,0d,0d]}}
+        
+        scoreboard players set @s shoot_time 1
+        playsound aether:aemob.zephyr.puff hostile @a
+    }
+    
     ticking function {
-        unless entity @s[tag=init] function {
+        unless entity @s[tag=init] unless score @s shoot_time matches 1..100 function {
             if score @s travel_cooldown matches 0 function aether:entities/zephyr/idle_wander
             scoreboard players remove @s[scores={travel_cooldown=1..}] travel_cooldown 1
             
@@ -135,10 +149,33 @@ define entity aether:zephyr minecraft:item {
             if entity @e[tag=temp,limit=1,nbt={HurtTime:10s}] playsound aether:aemob.zephyr.say hostile @a
             
             tag @e remove temp
+            
+            if score @s shoot_time matches ..0 if entity @a[distance=..3] function aether:entities/zephyr/shoot
+        }
+        
+        unless entity @s[tag=init] if score @s shoot_time matches 1.. function {
+            scoreboard players add @s shoot_time 1
+            if entity @s[scores={shoot_time=10}] data merge entity @e[type=$aether:entity_model,distance=..2,sort=nearest,limit=1] {ArmorItems:[{},{},{},$nbt:aether:zephyr_model_size_1]}
+            if entity @s[scores={shoot_time=20}] data merge entity @e[type=$aether:entity_model,distance=..2,sort=nearest,limit=1] {ArmorItems:[{},{},{},$nbt:aether:zephyr_model_size_2]}
+            
+            if score @s shoot_time matches 40..100 function {
+                scoreboard players operation @s op0 = @s shoot_time
+                scoreboard players set @s op1 8
+                scoreboard players operation @s op0 %= @s op1
+                if score @s op0 matches 0 tp @s ~ ~ ~ ~-4 ~
+                if score @s op0 matches 4 tp @s ~ ~ ~ ~4 ~
+                within offset ^ ^ ^1 ^ ^ ^5 {
+                    positioned ~ ~1 ~ particle poof $offset 0 0 0 0.1 1
+                }
+            }
+            
+            if score @s shoot_time matches 100 scoreboard players set @s travel_cooldown 0
+            if score @s shoot_time matches 160.. scoreboard players set @s shoot_time 0
         }
         
         if entity @s[tag=init] function {
             scoreboard players add @s travel_cooldown 0
+            scoreboard players add @s shoot_time 0
             tag @s remove init
         }
     }
