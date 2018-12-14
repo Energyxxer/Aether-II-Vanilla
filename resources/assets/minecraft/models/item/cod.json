@@ -1,0 +1,50 @@
+{
+    "parent": "item/handheld",
+    "textures": {
+    	"layer0": "item/cod"
+    },
+    "overrides": [
+        {
+            "predicate": {
+                "custom_model_data": 1
+            },
+            "model": "item/cold_cloud_parachute_deployed"
+        },
+        {
+            "predicate": {
+                "custom_model_data": 2
+            },
+            "model": "item/golden_cloud_parachute_deployed"
+        },
+        {
+            "predicate": {
+                "custom_model_data": 3
+            },
+            "model": "item/purple_cloud_parachute_deployed"
+        },
+        {
+            "predicate": {
+                "custom_model_data": 4
+            },
+            "model": "item/green_cloud_parachute_deployed"
+        },
+        {
+            "predicate": {
+                "custom_model_data": 5
+            },
+            "model": "item/blue_cloud_parachute_deployed"
+        },
+        {
+            "predicate": {
+                "custom_model_data": 6
+            },
+            "model": "block/orange_tree_stage_one"
+        },
+        {
+            "predicate": {
+                "custom_model_data": 7
+            },
+            "model": "block/orange_tree_stage_two"
+        }
+    ]
+}

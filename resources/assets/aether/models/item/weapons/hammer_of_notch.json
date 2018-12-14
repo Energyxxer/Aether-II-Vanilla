@@ -1,0 +1,14 @@
+{
+	"parent": "item/handheld",
+	"textures": {
+		"layer0": "aether:items/hammer_of_notch_wave",
+		"layer1": "aether:items/hammer_of_notch_wave"
+	},
+	"display": {
+		"gui": {
+			"translation": [0, 0, 0],
+			"rotation": [0, 0, 0],
+			"scale": [1.5, 1.5, 1.5]
+		}
+	}
+}

@@ -124,7 +124,7 @@ define entity aether:zephyr minecraft:item {
     function shoot {
         function aether:entities/zephyr/stop
         facing entity @p[distance=..10] rotated ~ 0 tp @s ~ ~ ~ ~ ~
-        data merge entity @e[type=$aether:entity_model,distance=..2,sort=nearest,limit=1] {Pose:{Head:[0d,0d,0d]}}
+        data merge entity @e[type=$aether:entity_model,distance=..2,sort=nearest,limit=1] {Pose:{Head:[0d,0.1d,0d]}}
         
         scoreboard players set @s shoot_time 1
         playsound aether:aemob.zephyr.puff hostile @a
@@ -145,7 +145,6 @@ define entity aether:zephyr minecraft:item {
             
             unless entity $temp kill @s
             unless entity @a[distance=..128] unless data entity @e[tag=temp,limit=1] CustomName kill @s
-            
             if entity @e[tag=temp,limit=1,nbt={HurtTime:10s}] playsound aether:aemob.zephyr.say hostile @a
             
             tag @e remove temp
@@ -166,8 +165,16 @@ define entity aether:zephyr minecraft:item {
                 if score @s op0 matches 4 tp @s ~ ~ ~ ~4 ~
                 within offset ^ ^ ^1 ^ ^ ^5 {
                     positioned ~ ~1 ~ particle poof $offset 0 0 0 0.1 1
+                    positioned ~ ~1 ~ positioned $offset tag @a[distance=..2] add zephyr_push
                 }
             }
+            
+            effect give @a[tag=zephyr_push] minecraft:levitation 1 19 true
+            scoreboard players set @a[tag=zephyr_push] levitation_timer 3
+            at @a[tag=zephyr_push] facing entity @s rotated ~ 0 summon $aether:pusher ^ ^ ^.25
+            at @a[tag=zephyr_push] facing entity @s rotated ~ 0 summon $aether:pusher ^ ^ ^.25
+            at @a[tag=zephyr_push] facing entity @s rotated ~ 0 summon $aether:pusher ^ ^ ^.25
+            tag @a[tag=zephyr_push] remove zephyr_push
             
             if score @s shoot_time matches 100 scoreboard players set @s travel_cooldown 0
             if score @s shoot_time matches 160.. scoreboard players set @s shoot_time 0
