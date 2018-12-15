@@ -1,21 +1,25 @@
-#:tag tick
+#:on compile
 #:require aether:entities/general/entity_model
 #:require aether:entities/setup
 
-as @a unless score @s id isset tag @s add needs_id
-as @e[tag=needs_id] function {
-    scoreboard players operation @s id > * id
-    scoreboard players add @s id 1
-    tag @s remove needs_id
-}
-as @e[type=$aether:entity_model,tag=sync_model] function {
-    scoreboard players operation @s model_link = @e[tag=model_target,sort=nearest,limit=1] id
-    tag @e[tag=model_target,sort=nearest,limit=1] remove model_target
-    tag @s remove sync_model
-}
-
-as @e[tag=sync_hitbox] function {
-    scoreboard players operation @s hitbox_link = @e[tag=hitbox_target,sort=nearest,limit=1] id
-    tag @e[tag=hitbox_target,sort=nearest,limit=1] remove hitbox_target
-    tag @s remove sync_hitbox
+define entity default * {
+    ticking function {
+        as @a unless score @s id isset tag @s add needs_id
+        as @e[tag=needs_id] function {
+            scoreboard players operation @s id > * id
+            scoreboard players add @s id 1
+            tag @s remove needs_id
+        }
+        as @e[type=$aether:entity_model,tag=sync_model] function {
+            scoreboard players operation @s entity_link = @e[tag=model_target,sort=nearest,limit=1] id
+            tag @e[tag=model_target,sort=nearest,limit=1] remove model_target
+            tag @s remove sync_model
+        }
+        
+        as @e[tag=sync_hitbox] function {
+            scoreboard players operation @s entity_link = @e[tag=hitbox_target,sort=nearest,limit=1] id
+            tag @e[tag=hitbox_target,sort=nearest,limit=1] remove hitbox_target
+            tag @s remove sync_hitbox
+        }
+    }
 }

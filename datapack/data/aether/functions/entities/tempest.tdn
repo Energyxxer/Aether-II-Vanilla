@@ -1,0 +1,125 @@
+#:on compile
+#:require aether:entities/general/entity_model
+#:require aether:entities/tick
+#:require aether:util/rand
+#:require aether:util/search
+
+#:require aether:entities/zephyr
+
+define local item aether:tempest_model minecraft:pufferfish#5
+define local item aether:tempest_model_hurt minecraft:pufferfish#6
+
+define local item aether:tempest_bolt_model minecraft:snowball
+
+define entity aether:tempest_bolt minecraft:armor_stand {
+    default nbt {CustomName:"\"Tempest Bolt\"",Marker:1b,Invisible:1b}
+    
+    default passengers [
+        minecraft:shulker_bullet,
+        minecraft:shulker_bullet,
+        minecraft:shulker_bullet,
+        minecraft:shulker_bullet
+    ]
+    
+    ticking function {
+        if entity @s[nbt={OnGround:1b}] tag @s add contact
+        if entity @s[nbt={Motion:[0.0d]}] tag @s add contact
+        if entity @a[distance=..2] tag @s add contact
+        if entity @s[tag=contact] summon lightning_bolt
+        if entity @s[tag=contact] kill @e[type=shulker_bullet,distance=..1]
+        kill @s[tag=contact]
+    }
+}
+
+define entity aether:tempest minecraft:item {
+    default nbt {CustomName:"\"Tempest\"",Tags:["needs_id","model_target","model_holder","hitbox_target","init"],NoGravity:1b,PickupDelay:32767,Age:-32768,Item:{id:"minecraft:ender_chest",Count:1b}}
+    default passengers [
+        $aether:entity_model{ArmorItems:[{},{},{},$nbt:aether:tempest_model],Tags:["glow"]},
+        $aether:zephyr_hitbox{HurtTime:0s,DeathLootTable:"aether:entities/zephyr",ActiveEffects:[{Id:12b,Duration:10000000,Amplifier:0,ShowParticles:0b}],Attributes:[{Base:15.0d,Name:"generic.maxHealth"}],Health:15f}
+    ]
+    
+    function spawn {
+        summon $aether:tempest ^ ^ ^3
+    }
+    
+    function shoot {
+        data merge entity @s {Motion:[0d,0.1d,0d]}
+        positioned ~ ~1 ~ facing entity @p[tag=hostile_target,distance=..10] tp @s ~ ~ ~ ~ ~
+        
+        data modify entity $model Pose.Head[0] set from entity @s Rotation[1]
+        
+        scoreboard players set @s shoot_time 1
+    }
+    
+    ticking function {
+        function aether:entities/zephyr/identify_components
+        
+        data modify entity @s FallDistance set value 0f
+        particle dust 1 1 1 1 ~ ~.5 ~ 0.1 0.4 0.1 1 1
+        
+        unless entity @s[tag=init] unless score @s shoot_time matches 1..60 function {
+            if score @s travel_cooldown matches 0 function aether:entities/zephyr/idle_wander
+            scoreboard players remove @s[scores={travel_cooldown=1..}] travel_cooldown 1
+            
+            if score @s shoot_time matches ..0 if entity @a[tag=hostile_target,distance=..6] function aether:entities/tempest/shoot
+        }
+        
+        unless entity @s[tag=init] function {
+            unless entity $hitbox kill @s
+            unless entity @a[distance=..128] unless data entity $hitbox CustomName kill @s
+            unless score TIME global matches 13000..24000 kill @s
+            if entity @e[tag=hitbox_component,limit=1,nbt={HurtTime:10s}] playsound aether:aemob.zephyr.say hostile @a
+            
+            unless entity @e[tag=hitbox_component,limit=1,nbt={HurtTime:0s}] data merge entity $model {ArmorItems:[{},{},{},$nbt:aether:tempest_model_hurt]}
+            if entity @e[tag=hitbox_component,limit=1,nbt={HurtTime:0s}] data merge entity $model {ArmorItems:[{},{},{},$nbt:aether:tempest_model]}
+        }
+        
+        unless entity @s[tag=init] if score @s shoot_time matches 1.. function {
+            scoreboard players add @s shoot_time 1
+            if entity @s[scores={shoot_time=8}] data merge entity @s {Motion:[0d,-0.1d,0d]}
+            if entity @s[scores={shoot_time=16}] data merge entity @s {Motion:[0d,0.1d,0d]}
+            if entity @s[scores={shoot_time=24}] data merge entity @s {Motion:[0d,-0.1d,0d]}
+            if entity @s[scores={shoot_time=30}] data merge entity @s {Motion:[0d,0.1d,0d]}
+            
+            if score @s shoot_time matches 40 function {
+                data merge entity @s {Motion:[0d,0d,0d]}
+                playsound aether:aemob.zephyr.shoot hostile @a
+                positioned ~ ~1 ~ summon $aether:tempest_bolt ^ ^ ^1.5 {Tags:["new"],Motion:[0.0,2.0,0.0]}
+                rotated as @s positioned 0.0 0.0 0.0 summon area_effect_cloud ^ ^ ^1 {Tags:["unit_vector"],Duration:10}
+                data modify entity @e[type=$aether:tempest_bolt,tag=new,limit=1,distance=..4] Motion set from entity @e[type=area_effect_cloud,tag=unit_vector,limit=1] Pos
+                #/tellraw @a {"nbt":"Motion","entity":"@e[tag=new,limit=1]"}
+                kill @e[type=area_effect_cloud,tag=unit_vector]
+                
+                tag @e[tag=new] remove new
+            }
+            
+            if score @s shoot_time matches 60 scoreboard players set @s travel_cooldown 0
+            if score @s shoot_time matches 100.. scoreboard players set @s shoot_time 0
+        }
+        
+        if entity @s[tag=init] function {
+            scoreboard players add @s travel_cooldown 0
+            scoreboard players add @s shoot_time 0
+            tag @s remove init
+        }
+        
+        function aether:entities/zephyr/release_components
+    }
+}
+
+define item aether:tempest_spawn_egg minecraft:evoker_spawn_egg {
+    default nbt {EntityTag:{id:"minecraft:area_effect_cloud",Duration:1,Radius:0,Tags:["spawn_tempest"]}}
+    
+    default name {"text":"Tempest Spawn Egg","italic":false}
+    
+    function give {
+        give @s $aether:tempest_spawn_egg
+    }
+}
+
+define function spawn_egg{
+    #:tag tick
+    
+    at @e[type=area_effect_cloud,tag=spawn_tempest] summon $aether:tempest
+    kill @e[type=area_effect_cloud,tag=spawn_tempest]
+}

@@ -1,5 +1,6 @@
 #:on compile
 #:require aether:util/summon_pusher
+#:require aether:util/search
 
 define objective active_parachute
 
@@ -13,17 +14,15 @@ define entity aether:cloud_parachute_model minecraft:armor_stand {
     default nbt {Tags:["new"],Invisible:1b,Marker:1b,NoGravity:1b}
     
     ticking function {
-        scoreboard players operation MODEL_LINK global = @s model_link
-
-        as @a if score @s id = MODEL_LINK global tag @s add temp
+        function aether:util/search/by_link
         
-        tp @s @a[tag=temp,limit=1]
-        unless score @a[tag=temp,limit=1] active_parachute = @s active_parachute kill @s
+        var parent = @a[tag=return,limit=1]
         
-        tag @a remove temp
-        
+        unless score $parent active_parachute = @s active_parachute kill @s
         
         if score @s active_parachute matches 2 at @s tp @s ~ ~-3 ~
+        
+        function aether:util/search/release
     }
 }
 
@@ -44,7 +43,7 @@ define item aether:cold_cloud_parachute minecraft:carrot_on_a_stick#2 {
         unless score @s active_parachute matches 1 function {
             scoreboard players set @s active_parachute 1
             summon $aether:cloud_parachute_model ~ ~ ~ {ArmorItems:[{},{},{},$nbt:aether:cold_cloud_parachute_model_item]}
-            scoreboard players operation @e[type=$aether:cloud_parachute_model,tag=new,limit=1] model_link = @s id
+            scoreboard players operation @e[type=$aether:cloud_parachute_model,tag=new,limit=1] entity_link = @s id
             scoreboard players operation @e[type=$aether:cloud_parachute_model,tag=new,limit=1] active_parachute = @s active_parachute
             tag @e[type=$aether:cloud_parachute_model,tag=new] remove new
         }
@@ -68,7 +67,7 @@ define item aether:gold_cloud_parachute minecraft:carrot_on_a_stick#3 {
         unless score @s active_parachute matches 2 function {
             scoreboard players set @s active_parachute 2
             summon $aether:cloud_parachute_model ~ ~ ~ {ArmorItems:[{},{},{},$nbt:aether:gold_cloud_parachute_model_item]}
-            scoreboard players operation @e[type=$aether:cloud_parachute_model,tag=new,limit=1] model_link = @s id
+            scoreboard players operation @e[type=$aether:cloud_parachute_model,tag=new,limit=1] entity_link = @s id
             scoreboard players operation @e[type=$aether:cloud_parachute_model,tag=new,limit=1] active_parachute = @s active_parachute
             tag @e[type=$aether:cloud_parachute_model,tag=new] remove new
         }
@@ -92,7 +91,7 @@ define item aether:purple_cloud_parachute minecraft:carrot_on_a_stick#4 {
         unless score @s active_parachute matches 3 function {
             scoreboard players set @s active_parachute 3
             summon $aether:cloud_parachute_model ~ ~ ~ {ArmorItems:[{},{},{},$nbt:aether:purple_cloud_parachute_model_item]}
-            scoreboard players operation @e[type=$aether:cloud_parachute_model,tag=new,limit=1] model_link = @s id
+            scoreboard players operation @e[type=$aether:cloud_parachute_model,tag=new,limit=1] entity_link = @s id
             scoreboard players operation @e[type=$aether:cloud_parachute_model,tag=new,limit=1] active_parachute = @s active_parachute
             tag @e[type=$aether:cloud_parachute_model,tag=new] remove new
         }
@@ -116,7 +115,7 @@ define item aether:green_cloud_parachute minecraft:carrot_on_a_stick#5 {
         unless score @s active_parachute matches 1 function {
             scoreboard players set @s active_parachute 1
             summon $aether:cloud_parachute_model ~ ~ ~ {ArmorItems:[{},{},{},$nbt:aether:green_cloud_parachute_model_item]}
-            scoreboard players operation @e[type=$aether:cloud_parachute_model,tag=new,limit=1] model_link = @s id
+            scoreboard players operation @e[type=$aether:cloud_parachute_model,tag=new,limit=1] entity_link = @s id
             scoreboard players operation @e[type=$aether:cloud_parachute_model,tag=new,limit=1] active_parachute = @s active_parachute
             tag @e[type=$aether:cloud_parachute_model,tag=new] remove new
         }
@@ -140,7 +139,7 @@ define item aether:blue_cloud_parachute minecraft:carrot_on_a_stick#6 {
         unless score @s active_parachute matches 5 function {
             scoreboard players set @s active_parachute 5
             summon $aether:cloud_parachute_model ~ ~ ~ {ArmorItems:[{},{},{},$nbt:aether:blue_cloud_parachute_model_item]}
-            scoreboard players operation @e[type=$aether:cloud_parachute_model,tag=new,limit=1] model_link = @s id
+            scoreboard players operation @e[type=$aether:cloud_parachute_model,tag=new,limit=1] entity_link = @s id
             scoreboard players operation @e[type=$aether:cloud_parachute_model,tag=new,limit=1] active_parachute = @s active_parachute
             tag @e[type=$aether:cloud_parachute_model,tag=new] remove new
         }

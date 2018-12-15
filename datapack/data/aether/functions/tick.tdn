@@ -1,7 +1,5 @@
 #:tag tick
 
-scoreboard players set LATE_TICK_ENABLED global 1
-setblock 15 4 -15 minecraft:tripwire[attached=false,disarmed=false,powered=false]
 teleport @e[type=!player,tag=kill] ~ -512 ~
 as @e[type=!player,tag=kill]
     data merge entity @s {DeathTime:19}

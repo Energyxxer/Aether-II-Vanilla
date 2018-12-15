@@ -1,7 +1,7 @@
 #:on compile
 #:require aether:load
+#:require aether:util/search
 
-define objective model_link
 define objective model_death_time
 
 define entity aether:entity_model minecraft:armor_stand {
@@ -9,8 +9,8 @@ define entity aether:entity_model minecraft:armor_stand {
         Marker:1b,
         Invisible:1b,
         Invulnerable:1b,
-        Tags:["sync_model"],
-        Pose:{Head:[1.0f,0.0f,0.0f]}
+        Tags:["sync_model","link_holder"],
+        Pose:{Head:[0.0f,0.0625f,0.0f]}
     }
     
     ticking function tick {
@@ -25,14 +25,15 @@ define entity aether:entity_model minecraft:armor_stand {
             if score @s model_death_time matches 180.. kill @s
         }
         
-        scoreboard players operation MODEL_LINK global = @s model_link
-
-        var temp <entity> = @e[tag=temp,limit=1]
-        as @e[tag=model_holder] if score @s id = MODEL_LINK global tag @s add temp
+        function aether:util/search/by_link
         
-        data modify entity @s Rotation set from entity $temp Rotation
-        unless entity @s[tag=sync_model] unless entity $temp function /begin_death
+        var parent <entity> = @e[tag=return,limit=1]
         
-        tag @e remove temp
+        data modify entity @s Rotation set from entity $parent Rotation
+        if entity @s[tag=follow_pitch] run data modify entity @s Pose.Head[0] set from entity $parent Rotation[1]
+        data merge entity @s[tag=glow] {Fire:100s}
+        unless entity @s[tag=sync_model] unless entity $parent function /begin_death
+        
+        function aether:util/search/release
     }
 }

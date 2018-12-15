@@ -1,3 +1,8 @@
-#:on compile
+#:tag tick_5
 
-define objective hitbox_link
+tag @a remove hostile_target
+tag @a[gamemode=survival] add hostile_target
+tag @a[gamemode=adventure] add hostile_target
+
+tag @a remove zephyr_focus
+tag @a[tag=hostile_target] add zephyr_focus

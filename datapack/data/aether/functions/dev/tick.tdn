@@ -1,0 +1,4 @@
+#:tag tick
+
+gamemode creative @a[gamemode=survival,x_rotation=89..90]
+gamemode survival @a[gamemode=creative,x_rotation=-90..-89]

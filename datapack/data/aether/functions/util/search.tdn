@@ -1,0 +1,16 @@
+#:on compile
+#:require aether:load
+
+define function by_id {
+    scoreboard players operation LINK_SEARCH global = @s id
+    as @e[tag=link_holder] if score @s entity_link = LINK_SEARCH global tag @s add return
+}
+
+define function by_link {
+    scoreboard players operation ID_SEARCH global = @s entity_link
+    as @e[scores={id=isset}] if score @s id = ID_SEARCH global tag @s add return
+}
+
+define function release {
+    tag @e[tag=return] remove return
+}

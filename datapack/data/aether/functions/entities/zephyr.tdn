@@ -1,7 +1,8 @@
 #:on compile
 #:require aether:entities/general/entity_model
-#:require aether:entities/setup
+#:require aether:entities/tick
 #:require aether:util/rand
+#:require aether:util/search
 
 define objective travel_cooldown
 define objective shoot_time
@@ -11,6 +12,9 @@ define local item aether:zephyr_model_hurt minecraft:pufferfish#2
 
 define local item aether:zephyr_model_size_1 minecraft:pufferfish#3
 define local item aether:zephyr_model_size_2 minecraft:pufferfish#4
+
+var model = @e[tag=model_component,limit=1]
+var hitbox = @e[tag=hitbox_component,limit=1]
 
 define local entity aether:zephyr_focus minecraft:area_effect_cloud {
     default nbt {Duration:100000}
@@ -29,11 +33,12 @@ define local entity aether:zephyr_travel minecraft:area_effect_cloud {
     
     function travel/bias {
         if entity @e[tag=zephyr_focus,distance=..256] facing entity @e[tag=zephyr_focus,distance=..256,sort=nearest,limit=1] tp @s ^ ^ ^5
+        at @s if entity @e[tag=zephyr_focus,distance=..16] facing entity @e[tag=zephyr_focus,distance=..16,sort=nearest,limit=1] tp @s ^ ^ ^5
     }
 }
 
-define local entity aether:zephyr_hitbox minecraft:pig {
-    default nbt {ActiveEffects:[{Id:14,Duration:1000000,Amplifier:1,ShowParticles:0b}],Silent:1b,Tags:["entity_hitbox","sync_hitbox"],DeathLootTable:"aether:entities/zephyr"}
+define local entity aether:zephyr_hitbox minecraft:sheep {
+    default nbt {ActiveEffects:[{Id:14,Duration:1000000,Amplifier:1,ShowParticles:0b}],Silent:1b,Tags:["entity_hitbox","sync_hitbox","link_holder"],DeathLootTable:"aether:entities/zephyr",Sheared:1b,Attributes:[{Base:5.0d,Name:"generic.maxHealth"}],Health:5f}
     
     ticking function {
         if entity @s[nbt={OnGround:1b}] tp @s ~ -512 ~
@@ -48,35 +53,46 @@ define entity aether:zephyr minecraft:item {
         $aether:zephyr_hitbox{HurtTime:0s}
     ]
     
+    function identify_components {
+        function aether:util/search/by_id
+        tag @e[tag=return,type=$aether:entity_model] add model_component
+        tag @e[tag=return,type=$aether:zephyr_hitbox] add hitbox_component
+        function aether:util/search/release
+    }
+    
+    function release_components {
+        tag @e[tag=model_component] remove model_component
+        tag @e[tag=hitbox_component] remove hitbox_component
+    }
+    
     function travel {
-        tag @e[type=$aether:zephyr_travel,sort=nearest,limit=1] add temp
+        #contract: must call this function after identify_components and before release_components
+        tag @e[type=$aether:zephyr_travel,sort=nearest,limit=1] add travel_target
         
-        var temp = @e[tag=temp,limit=1]
+        var target = @e[tag=travel_target,limit=1]
         var scale = 0.015
         
-        if entity $temp scoreboard players set @s travel_cooldown 60
+        if entity $target scoreboard players set @s travel_cooldown 60
         
-        #at $temp particle happy_villager ~ ~ ~ 0.25 0.25 0.25 0 20
+        facing entity $target tp @s ~ ~ ~ ~ ~
+        data modify entity $model Pose.Head[0] set from entity @s Rotation[1]
         
-        facing entity $temp tp @s ~ ~ ~ ~ ~
-        data modify entity @e[type=$aether:entity_model,distance=..1,limit=1,sort=nearest] Pose.Head[0] set from entity @s Rotation[1]
-        
-        store result score @s op0 data get entity $temp Pos[0]
+        store result score @s op0 data get entity $target Pos[0]
         store result score @s op1 data get entity @s Pos[0]
         scoreboard players operation @s op0 -= @s op1
         store result entity @s Motion[0] double $scale scoreboard players get @s op0
         
-        store result score @s op0 data get entity $temp Pos[1]
+        store result score @s op0 data get entity $target Pos[1]
         store result score @s op1 data get entity @s Pos[1]
         scoreboard players operation @s op0 -= @s op1
         store result entity @s Motion[1] double $scale scoreboard players get @s op0
         
-        store result score @s op0 data get entity $temp Pos[2]
+        store result score @s op0 data get entity $target Pos[2]
         store result score @s op1 data get entity @s Pos[2]
         scoreboard players operation @s op0 -= @s op1
         store result entity @s Motion[2] double $scale scoreboard players get @s op0
         
-        kill $temp
+        kill $target
     }
     
     function spawn {
@@ -88,7 +104,6 @@ define entity aether:zephyr minecraft:item {
     }
     
     function idle_wander {
-        tag @a add zephyr_focus
         summon $aether:zephyr_travel ~ ~ ~ {Tags:["new"]}
         
         store result score @s op_x data get entity @s Pos[0]
@@ -123,39 +138,39 @@ define entity aether:zephyr minecraft:item {
     
     function shoot {
         function aether:entities/zephyr/stop
-        facing entity @p[distance=..10] rotated ~ 0 tp @s ~ ~ ~ ~ ~
-        data merge entity @e[type=$aether:entity_model,distance=..2,sort=nearest,limit=1] {Pose:{Head:[0d,0.1d,0d]}}
+        facing entity @p[tag=hostile_target,distance=..10] rotated ~ 0 tp @s ~ ~ ~ ~ ~
+        data merge entity @e[type=$aether:entity_model,distance=..2,sort=nearest,limit=1] {Pose:{Head:[0f,0.0625f,0f]}}
         
         scoreboard players set @s shoot_time 1
         playsound aether:aemob.zephyr.puff hostile @a
     }
     
     ticking function {
+        function aether:entities/zephyr/identify_components
+        
+        data modify entity @s FallDistance set value 0f
+        
         unless entity @s[tag=init] unless score @s shoot_time matches 1..100 function {
             if score @s travel_cooldown matches 0 function aether:entities/zephyr/idle_wander
             scoreboard players remove @s[scores={travel_cooldown=1..}] travel_cooldown 1
             
-            scoreboard players operation HITBOX_LINK global = @s id
-    
-            as @e[tag=entity_hitbox] if score @s hitbox_link = HITBOX_LINK global tag @s add temp
-            var temp <entity> = @e[tag=temp,limit=1]
+            unless entity @e[tag=hitbox_component,limit=1,nbt={HurtTime:0s}] data merge entity $model {ArmorItems:[{},{},{},$nbt:aether:zephyr_model_hurt]}
+            if entity @e[tag=hitbox_component,limit=1,nbt={HurtTime:0s}] data merge entity $model {ArmorItems:[{},{},{},$nbt:aether:zephyr_model]}
             
-            unless entity @e[tag=temp,limit=1,nbt={HurtTime:0s}] data merge entity @e[type=$aether:entity_model,distance=..2,sort=nearest,limit=1] {ArmorItems:[{},{},{},$nbt:aether:zephyr_model_hurt]}
-            if entity @e[tag=temp,limit=1,nbt={HurtTime:0s}] data merge entity @e[type=$aether:entity_model,distance=..2,sort=nearest,limit=1] {ArmorItems:[{},{},{},$nbt:aether:zephyr_model]}
-            
-            unless entity $temp kill @s
-            unless entity @a[distance=..128] unless data entity @e[tag=temp,limit=1] CustomName kill @s
-            if entity @e[tag=temp,limit=1,nbt={HurtTime:10s}] playsound aether:aemob.zephyr.say hostile @a
-            
-            tag @e remove temp
-            
-            if score @s shoot_time matches ..0 if entity @a[distance=..3] function aether:entities/zephyr/shoot
+            if score @s shoot_time matches ..0 if entity @a[tag=hostile_target,distance=..5] function aether:entities/zephyr/shoot
+        }
+        
+        unless entity @s[tag=init] function {
+            unless entity $hitbox kill @s
+            unless entity @a[distance=..128] unless data entity $hitbox CustomName kill @s
+            unless score TIME global matches 0..13000 kill @s
+            if entity @e[tag=hitbox_component,limit=1,nbt={HurtTime:10s}] playsound aether:aemob.zephyr.say hostile @a
         }
         
         unless entity @s[tag=init] if score @s shoot_time matches 1.. function {
             scoreboard players add @s shoot_time 1
-            if entity @s[scores={shoot_time=10}] data merge entity @e[type=$aether:entity_model,distance=..2,sort=nearest,limit=1] {ArmorItems:[{},{},{},$nbt:aether:zephyr_model_size_1]}
-            if entity @s[scores={shoot_time=20}] data merge entity @e[type=$aether:entity_model,distance=..2,sort=nearest,limit=1] {ArmorItems:[{},{},{},$nbt:aether:zephyr_model_size_2]}
+            if entity @s[scores={shoot_time=10}] data merge entity $model {ArmorItems:[{},{},{},$nbt:aether:zephyr_model_size_1]}
+            if entity @s[scores={shoot_time=20}] data merge entity $model {ArmorItems:[{},{},{},$nbt:aether:zephyr_model_size_2]}
             
             if score @s shoot_time matches 40..100 function {
                 scoreboard players operation @s op0 = @s shoot_time
@@ -185,6 +200,8 @@ define entity aether:zephyr minecraft:item {
             scoreboard players add @s shoot_time 0
             tag @s remove init
         }
+        
+        function aether:entities/zephyr/release_components
     }
 }
 

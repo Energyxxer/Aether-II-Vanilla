@@ -1,0 +1,4 @@
+#:tag tick_5
+#:require aether:load
+
+store result score TIME global time query daytime

@@ -17,3 +17,5 @@ define objective op_y
 define objective op_z
 
 define objective id
+
+define objective entity_link
