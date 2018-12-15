@@ -1,0 +1,4 @@
+#:tag load
+
+function #tick_20
+schedule function aether:cycle/tick_20 20t

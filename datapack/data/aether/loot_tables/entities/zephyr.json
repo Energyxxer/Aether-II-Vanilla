@@ -6,7 +6,7 @@
             "entries": [
                 {
                     "type": "minecraft:item",
-                    "name": "minecraft:string",
+                    "name": "minecraft:clay_ball",
                     "functions": [
                         {
                             "function": "minecraft:set_count",

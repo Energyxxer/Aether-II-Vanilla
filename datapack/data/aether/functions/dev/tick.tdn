@@ -1,4 +1,8 @@
 #:tag tick
 
-gamemode creative @a[gamemode=survival,x_rotation=89..90]
+as @a[gamemode=survival,x_rotation=89..90] function {
+    gamemode creative @s
+    effect give @s saturation 1 100 true
+    effect give @s instant_health 1 100 true
+}
 gamemode survival @a[gamemode=creative,x_rotation=-90..-89]

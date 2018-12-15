@@ -1,0 +1,4 @@
+#:tag load
+
+function #tick_100
+schedule function aether:cycle/tick_100 100t

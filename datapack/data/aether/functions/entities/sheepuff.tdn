@@ -1,0 +1,31 @@
+#:on compile
+#:require aether:entities/general/entity_model
+#:require aether:entities/tick
+#:require aether:util/rand
+#:require aether:util/search
+
+define local item aether:sheepuff_model_large minecraft:pufferfish#5
+
+define entity aether:sheepuff minecraft:sheep {
+    default nbt {Tags:["needs_id","model_target","model_holder"]}
+    
+    function spawn {
+        summon $aether:sheepuff
+    }
+    
+    function jump {
+        data modify entity @s Motion[1] set value 1.5d
+        effect give @s slow_falling 10 1 true
+        particle cloud ~ ~.1 ~ 0.5 0 0.5 0.01 16
+    }
+    
+    function jump_check {
+        #:tag tick_20
+        as @e[type=$aether:sheepuff,nbt={OnGround:1b}] at @s function {
+            function aether:util/rand/generate
+            scoreboard players set @s op0 50
+            scoreboard players operation RANDOM global %= @s op0
+            if score RANDOM global matches 0 function aether:entities/sheepuff/jump
+        }
+    }
+}
