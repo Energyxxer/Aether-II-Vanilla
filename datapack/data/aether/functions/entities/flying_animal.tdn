@@ -1,0 +1,98 @@
+#:on compile
+#:require aether:load
+#:require aether:entities/general/entity_model
+#:require aether:entities/tick
+#:require aether:util/rand
+#:require aether:util/search
+
+var aether:wings_1 <nbt_compound> = {id:"minecraft:pufferfish",Count:1b,tag:{CustomModelData:30}}
+
+define objective wing_level
+define objective wing_time
+
+define entity aether:phyg minecraft:pig {
+    default nbt {Tags:["needs_id","model_target","model_holder","winged","wing_offset_-0.5"],ActiveEffects:[{Id:28b,Duration:10000000,Amplifier:0,ShowParticles:0b}]}
+    
+    function phyg/spawn {
+        summon $aether:phyg
+        summon $aether:entity_model ~ ~ ~ {ShowArms:1b,Tags:["wings","glow"],Pose:{LeftArm:[0f,0f,-170f],RightArm:[0f,0f,170f]},HandItems:[$aether:wings_1,$aether:wings_1]}
+    }
+}
+
+define item aether:phyg_spawn_egg minecraft:pig_spawn_egg {
+    default nbt {EntityTag:{id:"minecraft:area_effect_cloud",Duration:1,Radius:0,Tags:["spawn_phyg"]}}
+    
+    default name {"text":"Phyg Spawn Egg","italic":false}
+    
+    function phyg/give {
+        give @s $aether:phyg_spawn_egg
+    }
+}
+
+define function phyg/spawn_egg{
+    #:tag tick
+    
+    at @e[type=area_effect_cloud,tag=spawn_phyg] function aether:entities/flying_animal/phyg/spawn
+    kill @e[type=area_effect_cloud,tag=spawn_phyg]
+}
+
+define entity aether:flying_cow minecraft:cow {
+    default nbt {Tags:["needs_id","model_target","model_holder","winged"],ActiveEffects:[{Id:28b,Duration:10000000,Amplifier:0,ShowParticles:0b}]}
+    
+    function flying_cow/spawn {
+        summon $aether:flying_cow
+        summon $aether:entity_model ~ ~ ~ {ShowArms:1b,Tags:["wings","glow"],Pose:{LeftArm:[0f,0f,-170f],RightArm:[0f,0f,170f]},HandItems:[$aether:wings_1,$aether:wings_1]}
+    }
+}
+
+define item aether:flying_cow_spawn_egg minecraft:cow_spawn_egg {
+    default nbt {EntityTag:{id:"minecraft:area_effect_cloud",Duration:1,Radius:0,Tags:["spawn_flying_cow"]}}
+    
+    default name {"text":"Flying Cow Spawn Egg","italic":false}
+    
+    function flying_cow/give {
+        give @s $aether:flying_cow_spawn_egg
+    }
+}
+
+define function flying_cow/spawn_egg{
+    #:tag tick
+    
+    at @e[type=area_effect_cloud,tag=spawn_flying_cow] function aether:entities/flying_animal/flying_cow/spawn
+    kill @e[type=area_effect_cloud,tag=spawn_flying_cow]
+}
+
+
+define function wings {
+    #:tag tick
+    as @e[tag=winged] at @s function {
+        scoreboard players add @s[nbt={OnGround:0b}] wing_time 2
+        scoreboard players set @s[nbt={OnGround:1b},scores={wing_time=41..}] wing_time 40
+        scoreboard players remove @s[nbt={OnGround:1b},scores={wing_time=1..}] wing_time 8
+        scoreboard players set @s[scores={wing_time=..-1}] wing_time 0
+        
+        function aether:util/search/by_id
+        var wings <entity> = @e[tag=return,limit=1]
+        
+        if score @s wing_time matches 0..8 data modify entity $wings HandItems[0].tag.CustomModelData set value 30
+        if score @s wing_time matches 9..18 data modify entity $wings HandItems[0].tag.CustomModelData set value 31
+        if score @s wing_time matches 19..26 data modify entity $wings HandItems[0].tag.CustomModelData set value 32
+        if score @s wing_time matches 27..42 data modify entity $wings HandItems[0].tag.CustomModelData set value 33
+        if score @s wing_time matches 43..59 data modify entity $wings HandItems[0].tag.CustomModelData set value 34
+        if score @s wing_time matches 60..90 data modify entity $wings HandItems[0].tag.CustomModelData set value 35
+        if score @s wing_time matches 91..120 data modify entity $wings HandItems[0].tag.CustomModelData set value 36
+        if score @s wing_time matches 121.. data modify entity $wings HandItems[0].tag.CustomModelData set value 37
+        as $wings data modify entity @s HandItems[1].tag.CustomModelData set from entity @s HandItems[0].tag.CustomModelData
+        
+        scoreboard players set @s op0 70
+        scoreboard players operation @s op0 < @s wing_time
+        scoreboard players remove @s op0 170
+        
+        store result entity $wings Pose.LeftArm[2] float 1 scoreboard players get @s op0
+        store result entity $wings Pose.RightArm[2] float -1 scoreboard players get @s op0
+        at @s tp $wings ~ ~ ~ ~ ~
+        at @s[tag=wing_offset_-0.5] tp $wings ~ ~-.5 ~ ~ ~
+        
+        function aether:util/search/release
+    }
+}

@@ -1,6 +1,6 @@
 {
-    "parent": "block/trapdoor_bottom",
+    "parent": "block/template_trapdoor_bottom",
     "textures": {
-        "texture": "aether:blocks/skyroot_trap_door"
+        "texture": "aether:blocks/skyroot_trapdoor"
     }
 }

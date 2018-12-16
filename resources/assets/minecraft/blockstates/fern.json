@@ -1,5 +1,5 @@
 {
     "variants": {
-        "": { "model": "block/blank" }
+        "": { "model": "aether:block/blank" }
     }
 }

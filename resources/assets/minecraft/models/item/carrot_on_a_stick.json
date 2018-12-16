@@ -44,7 +44,7 @@
             "predicate": {
                 "custom_model_data": 7
             },
-            "model": "aether:item/continuum_orb"
+            "model": "aether:item/consumables/continuum_orb"
         }
     ]
 }

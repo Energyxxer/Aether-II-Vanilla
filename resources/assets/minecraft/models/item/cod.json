@@ -38,13 +38,13 @@
             "predicate": {
                 "custom_model_data": 6
             },
-            "model": "block/orange_tree_stage_one"
+            "model": "aether:block/orange_tree_stage_one"
         },
         {
             "predicate": {
                 "custom_model_data": 7
             },
-            "model": "block/orange_tree_stage_two"
+            "model": "aether:block/orange_tree_stage_two"
         }
     ]
 }

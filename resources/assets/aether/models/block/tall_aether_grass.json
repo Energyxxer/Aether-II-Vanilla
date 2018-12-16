@@ -1,5 +1,5 @@
 {
-	"parent": "minecraft:block/cross",
+	"parent": "block/cross",
 	"textures": {
 		"cross": "aether:blocks/tall_aether_grass"
 	}

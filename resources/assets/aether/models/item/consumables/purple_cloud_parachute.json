@@ -1,6 +1,6 @@
 {
     "parent": "item/generated",
     "textures": {
-    	"layer0": "aether:items/purple_cloud_parachute"
+    	"layer0": "aether:items/parachutes/purple_cloud_parachute"
     }
 }

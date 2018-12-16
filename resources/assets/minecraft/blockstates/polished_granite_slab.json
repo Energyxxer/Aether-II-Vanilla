@@ -1,0 +1,7 @@
+{
+    "variants": {
+        "type=bottom": { "model": "aether:block/icestone_slab_lower" },
+        "type=top": { "model": "aether:block/icestone_slab_upper" },
+        "type=double": { "model": "aether:block/icestone_slab_double" }
+    }
+}

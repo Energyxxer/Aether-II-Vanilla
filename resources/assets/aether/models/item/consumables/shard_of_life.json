@@ -1,6 +1,6 @@
 {
     "parent": "item/generated",
     "textures": {
-    	"layer0": "aether:items/shard_of_life"
+    	"layer0": "aether:items/consumables/shard_of_life"
     }
 }

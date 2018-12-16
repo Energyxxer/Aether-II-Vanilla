@@ -50,7 +50,7 @@
             "predicate": {
                 "damage": 0.00260416
             },
-            "model": "block/blank"
+            "model": "aether:block/blank"
         },
         {
             "predicate": {

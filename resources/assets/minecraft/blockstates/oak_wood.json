@@ -9,9 +9,6 @@
 		"axis=x": {
 			"model": "aether:block/aether_log/skyroot_log_side",
 			"y": 90
-		},
-		"axis=none": {
-			"model": "aether:block/aether_log/skyroot_log_bark"
 		}
 	}
 }

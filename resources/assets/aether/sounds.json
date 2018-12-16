@@ -435,7 +435,7 @@
 			"aether:aemob/cog/wall2"
 		]
 	},
-	"aemob.cog.wallFinal": {
+	"aemob.cog.wall_final": {
 		"category": "hostile",
 		"sounds": [
 			"aether:aemob/cog/wall_final"

@@ -29,6 +29,7 @@ define entity aether:entity_model minecraft:armor_stand {
         
         var parent <entity> = @e[tag=return,limit=1]
         
+        if entity @s[tag=teleporting] at $parent teleport @s ~ ~ ~ ~ ~
         data modify entity @s Rotation set from entity $parent Rotation
         if entity @s[tag=follow_pitch] run data modify entity @s Pose.Head[0] set from entity $parent Rotation[1]
         data merge entity @s[tag=glow] {Fire:100s}

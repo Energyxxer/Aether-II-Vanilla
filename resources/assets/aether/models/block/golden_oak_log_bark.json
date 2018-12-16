@@ -1,0 +1,7 @@
+{
+    "parent": "block/cube_all",
+    "textures": {
+        "all": "aether:blocks/aether_log/golden_oak_log_side",
+        "particle": "aether:blocks/aether_log/golden_oak_log_side"
+    }
+}

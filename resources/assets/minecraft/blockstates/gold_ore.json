@@ -1,5 +1,5 @@
 {
     "variants": {
-        "": { "model": "aether:block/ores/continuum_ore" }
+        "": { "model": "aether:block/ores/arkenium_ore" }
     }
 }

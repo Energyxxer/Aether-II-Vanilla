@@ -1,5 +1,5 @@
 {
     "variants": {
-        "": { "model": "block/mossy_holystone" }
+        "": { "model": "aether:block/mossy_holystone" }
     }
 }

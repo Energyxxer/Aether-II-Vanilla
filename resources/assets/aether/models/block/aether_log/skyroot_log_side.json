@@ -1,5 +1,5 @@
 {
-	"parent": "block/column_side",
+	"parent": "block/cube_column",
 	"textures": {
 		"end": "aether:blocks/aether_log/skyroot_log_top",
 		"side": "aether:blocks/aether_log/skyroot_log_side"

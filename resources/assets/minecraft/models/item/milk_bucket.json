@@ -1,3 +1,17 @@
 {
-    "parent": "aether:item/skyroot_bucket/skyroot_milk_bucket"
+    "parent": "aether:item/skyroot_bucket/skyroot_milk_bucket",
+    "overrides": [
+        {
+            "predicate": {
+                "custom_model_data": 1
+            },
+            "model": "aether:item/skyroot_bucket/skyroot_poison_bucket"
+        },
+        {
+            "predicate": {
+                "custom_model_data": 2
+            },
+            "model": "aether:item/skyroot_bucket/skyroot_remedy_bucket"
+        }
+    ]
 }

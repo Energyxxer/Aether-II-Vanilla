@@ -1,0 +1,7 @@
+{
+    "parent": "aether:block/coldfire_up_alt",
+    "textures": {
+        "particle": "aether:blocks/coldfire_1",
+        "fire": "aether:blocks/coldfire_1"
+    }
+}
