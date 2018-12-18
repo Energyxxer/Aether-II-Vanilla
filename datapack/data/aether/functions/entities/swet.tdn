@@ -1,0 +1,82 @@
+#:on compile
+#:require aether:load
+#:require aether:util/search
+
+define local item aether:swet_model minecraft:pufferfish#37
+
+define objective capture_time
+
+define entity aether:swet minecraft:slime {
+    
+    default nbt {
+        CustomName: "\"Swet\"",
+        Tags:["needs_id","model_target","model_holder","link_holder"],
+        Size:0
+    }
+    
+    default passengers [
+        $aether:entity_model{ArmorItems:[{},{},{},{id:"minecraft:pufferfish",Count:1b,tag:{CustomModelData:37}}]}
+    ]
+    
+    function spawn {
+        summon $aether:swet ~ ~ ~
+    }
+    
+    function capture {
+        var victim <entity> = @a[distance=..5,tag=hostile_target,sort=nearest,limit=1]
+        
+        scoreboard players operation @s entity_link = $victim id
+        
+        scoreboard players set @s capture_time 1
+        
+        data merge entity @s {Size:3}
+        
+        effect give @s jump_boost 3 4 true
+        effect give $victim resistance 3 2 true
+        
+        title $victim actionbar "A swet swallowed you! Kill it to escape!"
+    }
+    
+    ticking function {
+        unless score @s capture_time matches 1.. if entity @a[distance=..1,tag=hostile_target] function aether:entities/swet/capture
+        
+        if score @s capture_time matches 1.. function {
+            scoreboard players add @s capture_time 1
+            
+            if score @s capture_time matches 1..100 function {
+                function aether:util/search/by_link
+            
+                var victim <entity> = @e[tag=return,limit=1]
+                
+                tp $victim ~ ~ ~
+                
+                function aether:util/search/release
+            }
+            
+            data merge entity @s[scores={capture_time=100}] {Size:0}
+            scoreboard players set @s[scores={capture_time=160..}] capture_time 0
+        }
+        
+        if block ~ ~ ~ minecraft:water kill @s
+    }
+}
+
+
+define item aether:swet_spawn_egg minecraft:slime_spawn_egg {
+    default nbt {EntityTag:{id:"minecraft:area_effect_cloud",Duration:1,Radius:0,Tags:["spawn_swet"]}}
+    
+    default name {"text":"Swet Spawn Egg","italic":false}
+    
+    function give {
+        give @s $aether:swet_spawn_egg
+    }
+}
+
+define function extra {
+    #:tag tick
+    
+    at @e[type=area_effect_cloud,tag=spawn_swet] summon $aether:swet
+    kill @e[type=area_effect_cloud,tag=spawn_swet]
+    
+    tag @e[type=slime,name="Swet",tag=!trident-entity.aether.swet] add kill
+}

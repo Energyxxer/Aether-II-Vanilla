@@ -1,0 +1,6 @@
+{
+    "parent": "aether:entity/swets/swet",
+    "textures": {
+        "0": "aether:entities/swet/blue_swet"
+    }
+}

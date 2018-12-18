@@ -219,6 +219,12 @@
                 "custom_model_data": 36
             },
             "model": "aether:entity/wings/7"
+        },
+        {
+            "predicate": {
+                "custom_model_data": 37
+            },
+            "model": "aether:entity/swets/blue_swet"
         }
     ]
 }

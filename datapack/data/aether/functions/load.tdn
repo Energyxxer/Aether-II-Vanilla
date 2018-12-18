@@ -19,3 +19,4 @@ define objective op_z
 define objective id
 
 define objective entity_link
+define objective base_model
