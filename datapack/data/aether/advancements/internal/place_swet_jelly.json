@@ -1,0 +1,19 @@
+{
+    "parent": "aether:internal/root",
+    "rewards": {
+      "function": "aether:items/swet_jelly/grow"
+    },
+    "criteria": {
+      "use": {
+        "trigger": "minecraft:placed_block",
+        "conditions": {
+          "block": "minecraft:sweet_berry_bush"
+        }
+      }
+    },
+    "requirements": [
+      [
+        "use"
+      ]
+    ]
+  }

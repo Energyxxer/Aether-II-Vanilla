@@ -1,0 +1,6 @@
+{
+    "parent": "aether:entity/swets/swet_capture",
+    "textures": {
+        "0": "aether:entities/swet/dark_swet"
+    }
+}

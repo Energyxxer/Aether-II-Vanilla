@@ -1,0 +1,19 @@
+#:on compile
+
+define function eat {
+    effect give @s saturation 1 2 true
+    advancement revoke @s only aether:internal/eat_swet_jelly
+}
+
+define function replace {
+    fill ~-1 ~-1 ~-1 ~1 ~1 ~1 grass_block replace dirt
+    particle happy_villager ~ ~.1 ~ 0.4 0 0.4 0 8
+    setblock ~ ~ ~ air
+}
+
+define function grow {
+    advancement revoke @s only aether:internal/place_swet_jelly
+    within pos ~-5 ~-5 ~-5 ~5 ~5 ~5 {
+        positioned $pos if block ~ ~ ~ minecraft:sweet_berry_bush function aether:items/swet_jelly/replace
+    }
+}

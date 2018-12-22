@@ -1,0 +1,26 @@
+{
+    "parent": "item/generated",
+    "textures": {
+    	"layer0": "item/sweet_berries"
+    },
+	"overrides": [
+        {
+            "predicate": {
+                "custom_model_data": 1
+            },
+            "model": "aether:item/swet_jelly/blue_swet_jelly"
+        },
+        {
+            "predicate": {
+                "custom_model_data": 2
+            },
+            "model": "aether:item/swet_jelly/dark_swet_jelly"
+        },
+        {
+            "predicate": {
+                "custom_model_data": 3
+            },
+            "model": "aether:item/swet_jelly/golden_swet_jelly"
+        }
+    ]
+}

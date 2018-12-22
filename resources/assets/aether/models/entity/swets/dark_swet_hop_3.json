@@ -1,0 +1,6 @@
+{
+    "parent": "aether:entity/swets/swet_hop_3",
+    "textures": {
+        "0": "aether:entities/swet/dark_swet"
+    }
+}

@@ -1,0 +1,21 @@
+{
+    "parent": "aether:internal/root",
+    "rewards": {
+      "function": "aether:items/swet_jelly/eat"
+    },
+    "criteria": {
+      "use": {
+        "trigger": "minecraft:consume_item",
+        "conditions": {
+          "item": {
+              "item": "minecraft:sweet_berries"
+          }
+        }
+      }
+    },
+    "requirements": [
+      [
+        "use"
+      ]
+    ]
+  }

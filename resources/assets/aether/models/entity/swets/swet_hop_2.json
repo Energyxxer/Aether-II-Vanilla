@@ -1,0 +1,9 @@
+{
+    "parent": "aether:entity/swets/swet",
+	"display": {
+		"head": {
+			"scale": [2, 2.75, 2],
+			"translation": [0, -30, 0]
+		}
+	}
+}

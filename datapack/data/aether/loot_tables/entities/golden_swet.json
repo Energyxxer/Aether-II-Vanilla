@@ -1,0 +1,45 @@
+{
+    "type": "minecraft:entity",
+    "pools": [
+        {
+            "rolls": 1,
+            "entries": [
+                {
+                    "type": "minecraft:item",
+                    "name": "minecraft:sweet_berries",
+                    "functions": [
+                        {
+                            "function": "minecraft:set_count",
+                            "count": {
+                                "min": 1,
+                                "max": 3
+                            }
+                        },
+                        {
+                            "function": "minecraft:set_nbt",
+                            "tag": "{CustomModelData:3,display:{Name:\"{\\\"text\\\":\\\"Golden Swet Jelly\\\",\\\"italic\\\":false}\",Lore:[\"[{\\\"text\\\":\\\"Grows: \\\", \\\"color\\\":\\\"blue\\\",\\\"italic\\\":false}, {\\\"text\\\":\\\"Grass\\\",\\\"color\\\":\\\"white\\\"}]\",\"[{\\\"text\\\":\\\"Use: \\\", \\\"color\\\":\\\"dark_aqua\\\",\\\"italic\\\":false}, {\\\"text\\\":\\\"Right-Click Dirt\\\",\\\"color\\\":\\\"white\\\"}]\",\"{\\\"text\\\":\\\"Edible\\\", \\\"color\\\":\\\"gray\\\",\\\"italic\\\":true}\"]}}"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "rolls": 1,
+            "entries": [
+                {
+                    "type": "minecraft:item",
+                    "name": "minecraft:sugar",
+                    "functions": [
+                        {
+                            "function": "minecraft:set_count",
+                            "count": {
+                                "min": 1,
+                                "max": 3
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
