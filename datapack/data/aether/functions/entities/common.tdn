@@ -1,0 +1,4 @@
+#:on compile
+
+define objective jump_time
+define objective hurt_time

@@ -2,11 +2,12 @@
 #:require aether:load
 #:require aether:util/rand
 #:require aether:util/search
+#:require aether:entities/general/entity_model
+#:require aether:entities/common
 
 define local item aether:swet_model minecraft:pufferfish#37
 
 define objective capture_time
-define objective jump_time
 
 define entity aether:swet minecraft:slime {
     

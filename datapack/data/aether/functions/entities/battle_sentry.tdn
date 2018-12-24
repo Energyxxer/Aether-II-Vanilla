@@ -1,0 +1,107 @@
+#:on compile
+#:require aether:load
+#:require aether:util/rand
+#:require aether:util/search
+#:require aether:entities/general/entity_model
+#:require aether:entities/common
+
+define local item aether:battle_sentry_model minecraft:pufferfish#7
+
+define entity aether:battle_sentry minecraft:slime {
+    
+    default nbt {
+        CustomName: "\"Battle Sentry\"",
+        Tags: ["needs_id","model_target","model_holder","link_holder"],
+        Size: 1,
+        AbsorptionAmount: 6,
+        Silent:1b,
+        ActiveEffects: [
+            {
+                Id: 1b,
+                Amplifier: 9,
+                Duration: 10000000,
+                ShowParticles:0b
+            },
+            {
+                Id: 8b,
+                Amplifier: 254,
+                Duration: 10000000,
+                ShowParticles:0b
+            }
+        ],
+        DeathLootTable: "aether:entities/sentry"
+    }
+    
+    default passengers [
+        $aether:entity_model{Small:1b,ArmorItems:[{},{},{},{id:"minecraft:pufferfish",Count:1b,tag:{CustomModelData:7,Model:{BaseModel:7}}}]}
+    ]
+    
+    function spawn {
+        summon $aether:battle_sentry ~ ~ ~
+    }
+    
+    ticking function {
+        function aether:util/search/by_id
+        tag @e[tag=return,limit=1] add model_component
+        var model = @e[tag=model_component,limit=1]
+        scoreboard players set $model model_offset 0
+        
+        tag @s remove aggro
+        if entity @a[tag=hostile_target,distance=..2] tag @s add aggro
+        if entity @s[scores={hurt_time=1..}] tag @s add aggro
+        scoreboard players remove @s[scores={hurt_time=1..}] hurt_time 1
+        
+        unless entity @s[tag=aggro] at @a[tag=hostile_target,distance=..10] function {
+            summon area_effect_cloud ^ ^ ^2 {Tags:["facing_test","forward"]}
+            summon area_effect_cloud ^ ^ ^-2 {Tags:["facing_test"]}
+            summon area_effect_cloud ^-1 ^ ^ {Tags:["facing_test"]}
+            summon area_effect_cloud ^1 ^ ^ {Tags:["facing_test"]}
+            
+            at @s tag @e[type=area_effect_cloud,tag=facing_test,sort=nearest,limit=1] add chosen
+            unless entity @e[type=area_effect_cloud,tag=facing_test,tag=chosen,tag=forward] tag @s add aggro
+            kill @e[type=area_effect_cloud,tag=facing_test]
+        }
+        
+        if entity @s[tag=!aggro] function {
+            scoreboard players set $model model_offset 2
+            data merge entity @s {OnGround:0b}
+            effect clear @s speed
+            effect give @s slowness 1 255 true
+        }
+        if entity @s[tag=aggro] function {
+            data merge entity @s {wasOnGround:0b}
+            effect clear @s slowness
+            effect give @s speed 1 4 true
+            if entity @s[nbt={OnGround:1b}] playsound aether:aemob.sentry.jump hostile @a
+        }
+        
+        unless entity @s[nbt={HurtTime:0s}] function {
+            if entity @s[nbt={HurtTime:10s}] playsound aether:aemob.sentry.jump hostile @a
+            scoreboard players set $model model_offset 1
+            scoreboard players set @s hurt_time 60
+        }
+        
+        tag $model remove model_component
+        function aether:util/search/release
+    }
+}
+
+
+define item aether:battle_sentry_spawn_egg minecraft:zombie_villager_spawn_egg {
+    default nbt {EntityTag:{id:"minecraft:area_effect_cloud",Duration:1,Radius:0,Tags:["spawn_battle_sentry"]}}
+    
+    default name {"text":"Battle Sentry Spawn Egg","italic":false}
+    
+    function give {
+        give @s $aether:battle_sentry_spawn_egg
+    }
+}
+
+define function extra {
+    #:tag tick
+    
+    at @e[type=area_effect_cloud,tag=spawn_battle_sentry] summon $aether:battle_sentry
+    kill @e[type=area_effect_cloud,tag=spawn_battle_sentry]
+    
+    tag @e[type=slime,name="Battle Sentry",tag=!trident-entity.aether.battle_sentry] add kill
+}

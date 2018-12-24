@@ -29,3 +29,21 @@ define entity aether:sheepuff minecraft:sheep {
         }
     }
 }
+
+
+define item aether:sheepuff_spawn_egg minecraft:sheep_spawn_egg {
+    default nbt {EntityTag:{id:"minecraft:area_effect_cloud",Duration:1,Radius:0,Tags:["spawn_sheepuff"]}}
+    
+    default name {"text":"Sheepuff Spawn Egg","italic":false}
+    
+    function give {
+        give @s $aether:sheepuff_spawn_egg
+    }
+}
+
+define function extra {
+    #:tag tick
+    
+    at @e[type=area_effect_cloud,tag=spawn_sheepuff] summon $aether:sheepuff
+    kill @e[type=area_effect_cloud,tag=spawn_sheepuff]
+}
