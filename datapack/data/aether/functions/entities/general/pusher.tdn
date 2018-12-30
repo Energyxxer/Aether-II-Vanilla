@@ -7,9 +7,9 @@ define entity aether:pusher minecraft:slime {
         Invulnerable:1b,
         ActiveEffects: [
             {
-                Id:14,
-                Duration:10s,
-                Amplifier:0,
+                Id:14b,
+                Duration:10,
+                Amplifier:0b,
                 ShowParticles:0b
             }
         ]

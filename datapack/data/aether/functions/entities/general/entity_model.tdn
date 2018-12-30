@@ -19,29 +19,43 @@ define entity aether:entity_model minecraft:armor_stand {
         define function begin_death {
             scoreboard players add @s model_death_time 12
             
-            if score @s model_death_time matches ..90 store result entity @s Pose.Head[2] float 1 scoreboard players get @s model_death_time
+            if score @s model_death_time matches ..90 set @s.Pose.Head[2] (float) = @s->model_death_time
+            
+            if score @s model_death_time matches ..90 if entity @s[tag=hand_models] function {
+                set @s.Pose.RightArm[2] = @s->model_death_time
+                set @s.Pose.LeftArm[2] = @s->model_death_time
+            }
             
             if score @s model_death_time matches 180.. kill @s
         }
         
         define function update_model {
-            store result score @s op0 data get entity @s ArmorItems[3].tag.Model.BaseModel
+            set @s->op0 = @s.ArmorItems[3].tag.Model.BaseModel
             scoreboard players operation @s op0 += @s model_offset
-            store result entity @s ArmorItems[3].tag.CustomModelData int 1 scoreboard players get @s op0
+            set @s.ArmorItems[3].tag.CustomModelData (int) = @s->op0
+            if entity @s[tag=hand_models] function {
+                set @s->op0 = @s.HandItems[0].tag.Model.BaseModel
+                scoreboard players operation @s op0 += @s model_offset
+                set @s.HandItems[0].tag.CustomModelData (int) = @s->op0
+                
+                set @s->op0 = @s.HandItems[1].tag.Model.BaseModel
+                scoreboard players operation @s op0 += @s model_offset
+                set @s.HandItems[1].tag.CustomModelData (int) = @s->op0
+            }
         }
         
         
         
-        data modify entity @s FallDistance set value 0f
+        set @s.FallDistance = 0f
         
         function aether:util/search/by_link
-        
         var parent <entity> = @e[tag=return,limit=1]
         
         if entity @s[tag=teleporting] at $parent teleport @s ~ ~ ~ ~ ~
-        data modify entity @s Rotation set from entity $parent Rotation
-        if entity @s[tag=follow_pitch] run data modify entity @s Pose.Head[0] set from entity $parent Rotation[1]
-        data merge entity @s[tag=glow] {Fire:100s}
+        set @s.Rotation = ${parent}.Rotation
+        if entity @s[tag=follow_pitch] run set @s.Pose.Head[0] = ${parent}.Rotation[1]
+        
+        set @s[tag=glow].Fire = 100s
         unless entity @s[tag=sync_model] unless entity $parent function /begin_death
         
         if entity @s[scores={model_offset=isset}] function /update_model

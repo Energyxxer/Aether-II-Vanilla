@@ -1,0 +1,374 @@
+#:on compile
+#:require aether:util/rand
+
+define objective sgen
+
+var marker = @e[type=area_effect_cloud,tag=sgen,limit=1]
+
+
+
+define function generate/trunk {
+    #:tag aether:worldgen/function
+    if entity @s[tag=trunk] function {
+        tag @s remove trunk
+        set MIN -> sgen = (0 0 0).RecordItem.tag.WorldGen.StructureStack[-1].MinHeight
+        set MAX -> sgen = (0 0 0).RecordItem.tag.WorldGen.StructureStack[-1].MaxHeight
+        set OP0 -> sgen = MAX -> sgen
+        scoreboard players add OP0 sgen 1
+        scoreboard players operation OP0 sgen -= MIN sgen
+        
+        function aether:util/rand/generate
+        scoreboard players operation RANDOM global %= OP0 sgen
+        scoreboard players operation RANDOM global += MIN sgen
+        scoreboard players operation HEIGHT sgen = RANDOM global
+        
+        define function loop {
+            setblock ~ ~ ~ oak_log
+            scoreboard players remove HEIGHT sgen 1
+            tp @s ~ ~1 ~
+            if score HEIGHT sgen matches 1.. positioned ~ ~1 ~ function aether:worldgen/trees/structure_gen/generate/trunk/_anonymous0/loop
+        }
+        
+        at @s function /loop
+    }
+}
+
+define function generate/structure {
+    #:tag aether:worldgen/function
+    if entity @s[tag=structure] function {
+        tag @s remove structure
+        at @s setblock ~ ~ ~ structure_block[mode=load]{mode:"LOAD"}
+        at @s set (~ ~ ~).name = (0 0 0).RecordItem.tag.WorldGen.StructureStack[-1].Data.name
+        at @s set (~ ~ ~).posX = (0 0 0).RecordItem.tag.WorldGen.StructureStack[-1].Data.posX
+        at @s set (~ ~ ~).posY = (0 0 0).RecordItem.tag.WorldGen.StructureStack[-1].Data.posY
+        at @s set (~ ~ ~).posZ = (0 0 0).RecordItem.tag.WorldGen.StructureStack[-1].Data.posZ
+        at @s set (~ ~ ~).integrity = (0 0 0).RecordItem.tag.WorldGen.StructureStack[-1].Data.integrity
+        at @s set (~ ~ ~).ignoreEntities = (0 0 0).RecordItem.tag.WorldGen.StructureStack[-1].Data.ignoreEntities
+        at @s set (~ ~ ~).rotation = (0 0 0).RecordItem.tag.WorldGen.StructureStack[-1].Data.rotation
+        at @s setblock ~ ~1 ~ redstone_block
+        at @s fill ~ ~ ~ ~ ~1 ~ air
+    }
+}
+
+define function analyze {
+    as $marker set @s->op_x = @s.Pos[0]
+    set OP0 -> sgen = (0 0 0).RecordItem.tag.WorldGen.StructureStack[-1].Offset[0]
+    scoreboard players operation $marker op_x += OP0 sgen
+    
+    as $marker set @s->op_y = @s.Pos[1]
+    set OP0 -> sgen = (0 0 0).RecordItem.tag.WorldGen.StructureStack[-1].Offset[1]
+    scoreboard players operation $marker op_y += OP0 sgen
+    
+    as $marker set @s->op_z = @s.Pos[2]
+    set OP0 -> sgen = (0 0 0).RecordItem.tag.WorldGen.StructureStack[-1].Offset[2]
+    scoreboard players operation $marker op_z += OP0 sgen
+    
+    as $marker set @s.Pos[0] = @s->op_x
+    as $marker set @s.Pos[1] = @s->op_y
+    as $marker set @s.Pos[2] = @s->op_z
+    
+    data modify entity $marker Tags append from block 0 0 0 RecordItem.tag.WorldGen.StructureStack[-1].Command
+    
+    as $marker function #aether:worldgen/function
+    as $marker[tag=end] setblock ~ ~ ~ air
+    
+    data merge entity $marker {Tags:["sgen"]}
+    
+    set MORE -> sgen = 0
+    if data block 0 0 0 RecordItem.tag.WorldGen.StructureStack[-1].Then set MORE -> sgen = 1
+    
+    if score MORE sgen matches 1 data modify block 0 0 0 RecordItem.tag.WorldGen.StructureStack append from block 0 0 0 RecordItem.tag.WorldGen.StructureStack[-1].Then
+    if score MORE sgen matches 1 data remove block 0 0 0 RecordItem.tag.WorldGen.StructureStack[-2]
+    unless score MORE sgen matches 1 data remove block 0 0 0 RecordItem.tag.WorldGen.StructureStack[-1]
+    if score MORE sgen matches 1 function aether:worldgen/trees/structure_gen/analyze
+}
+
+define function generate/repeat {
+    #:tag aether:worldgen/function
+    if entity @s[tag=repeat] function {
+        tag @s remove repeat
+        set MIN -> sgen = (0 0 0).RecordItem.tag.WorldGen.StructureStack[-1].Min
+        set MAX -> sgen = (0 0 0).RecordItem.tag.WorldGen.StructureStack[-1].Max
+        set OP0 -> sgen = MAX -> sgen
+        scoreboard players add OP0 sgen 1
+        scoreboard players operation OP0 sgen -= MIN sgen
+        
+        function aether:util/rand/generate
+        scoreboard players operation RANDOM global %= OP0 sgen
+        scoreboard players operation RANDOM global += MIN sgen
+        set (0 0 0).RecordItem.tag.WorldGen.StructureStack[-1].IterationsLeft (int) = RANDOM -> global
+        
+        define function loop {
+            data modify block 0 0 0 RecordItem.tag.WorldGen.StructureStack append from block 0 0 0 RecordItem.tag.WorldGen.StructureStack[-1].SubCommand
+            function aether:worldgen/trees/structure_gen/analyze
+            
+            set OP0 -> sgen = (0 0 0).RecordItem.tag.WorldGen.StructureStack[-1].IterationsLeft
+            scoreboard players remove OP0 sgen 1
+            set (0 0 0).RecordItem.tag.WorldGen.StructureStack[-1].IterationsLeft (int) = OP0 -> sgen
+            if score OP0 sgen matches 1.. positioned ~ ~ ~ function aether:worldgen/trees/structure_gen/generate/repeat/_anonymous0/loop
+        }
+        
+        at @s function /loop
+    }
+}
+
+define function analyze_this {
+    set (0 0 0).RecordItem.tag.WorldGen.StructureStack = []
+    data modify block 0 0 0 RecordItem.tag.WorldGen.StructureStack append from block ~ ~ ~ Items[0].tag.StructureNode
+    summon area_effect_cloud ~ ~ ~ {CustomName:"\"Structure Generator Marker\"",Tags:["sgen"],Duration:1}
+    function aether:worldgen/trees/structure_gen/analyze
+}
+
+define function give_temp {
+    give @p oak_log{
+        display: {Name:"\"Small Skyroot Tree\""},
+        StructureNode: {
+            Command: "trunk",
+            MinHeight: 1,
+            MaxHeight: 3,
+            Then: {
+                Command: "structure",
+                Offset: [
+                    -3, 0, -3
+                ],
+                Data: {
+                    name: "aether:trees/leaves_inner",
+                    posX: 1,
+                    posY: 0,
+                    posZ: 1
+                },
+                Then: {
+                    Command: "structure",
+                    Data: {
+                        name: "aether:trees/leaves_outer",
+                        integrity: 0.3f,
+                        posX: 1,
+                        posY: 0,
+                        posZ: 1
+                    }
+                }
+            }
+        }
+    }
+    give @p oak_log{
+        display: {Name:"\"Ball Skyroot Tree\""},
+        StructureNode: {
+            Command: "trunk",
+            MinHeight: 5,
+            MaxHeight: 5,
+            Then: {
+                Command: "structure",
+                Offset: [
+                    -3, 0, -3
+                ],
+                Data: {
+                    name: "aether:trees/ball_leaves_inner",
+                    posX: 1,
+                    posY: 0,
+                    posZ: 1
+                },
+                Then: {
+                    Command: "structure",
+                    Data: {
+                        name: "aether:trees/ball_leaves_outer",
+                        integrity: 0.15f,
+                        posX: 1,
+                        posY: 0,
+                        posZ: 1
+                    }
+                }
+            }
+        }
+    }
+}
+
+define function place_temp_dungeon_entrance {
+    setblock 71 2 -72 minecraft:barrel{
+        Items:[
+            {
+                id:"aether:divine_sentry_stone",
+                Count:1b,
+                tag:{
+                    display: {Name:"\"Dungeon Entrance\""},
+                    StoredEnchantments: [{}],
+                    StructureNode: {
+                        Command: "repeat",
+                        Min: 2,
+                        Max: 5,
+                        Offset: [
+                            -4, 0, -4
+                        ],
+                        SubCommand: {
+                            Command: "structure",
+                            Data: {
+                                name: "aether:dungeon/bronze/entrance/layer",
+                                posX: 1,
+                                posY: 0,
+                                posZ: 1
+                            },
+                            Then: {
+                                Command: "structure",
+                                Data: {
+                                    name: "aether:dungeon/bronze/entrance/layer_lights",
+                                    integrity: 0.1f,
+                                    posX: 1,
+                                    posY: 0,
+                                    posZ: 1
+                                },
+                                Then: {
+                                    Command: "move",
+                                    Offset: [ 0, 1, 0 ]
+                                }
+                            }
+                        },
+                        Then: {
+                            Command: "structure",
+                            Offset: [
+                                0, 0, 0
+                            ],
+                            Data: {
+                                name: "aether:dungeon/bronze/entrance/pillars",
+                                posX: 1,
+                                posY: 0,
+                                posZ: 1
+                            },
+                            Then: {
+                                Command: "structure",
+                                Data: {
+                                    name: "aether:dungeon/bronze/entrance/pillars_lights",
+                                    integrity: 0.4f,
+                                    posX: 1,
+                                    posY: 0,
+                                    posZ: 1
+                                },
+                                Then: {
+                                    Command: "move",
+                                    Offset: [ 0, 3, 0 ],
+                                    Then: {
+                                        Command: "repeat",
+                                        Min: 9,
+                                        Max: 9,
+                                        SubCommand: {
+                                            Command: "structure",
+                                            Data: {
+                                                name: "aether:dungeon/bronze/entrance/layer",
+                                                posX: 1,
+                                                posY: 0,
+                                                posZ: 1
+                                            },
+                                            Then: {
+                                                Command: "structure",
+                                                Data: {
+                                                    name: "aether:dungeon/bronze/entrance/layer_lights",
+                                                    integrity: 0.1f,
+                                                    posX: 1,
+                                                    posY: 0,
+                                                    posZ: 1
+                                                },
+                                                Then: {
+                                                    Command: "move",
+                                                    Offset: [ 0, 1, 0 ],
+                                                    Then: {
+                                                        Command: "structure",
+                                                        Offset: [
+                                                            0, 0, 0
+                                                        ],
+                                                        Data: {
+                                                            name: "aether:dungeon/bronze/entrance/top",
+                                                            posX: 1,
+                                                            posY: 0,
+                                                            posZ: 1
+                                                        },
+                                                        Then: {
+                                                            Command: "structure",
+                                                            Data: {
+                                                                name: "aether:dungeon/bronze/entrance/top_lights",
+                                                                integrity: 0.1f,
+                                                                posX: 1,
+                                                                posY: 0,
+                                                                posZ: 1
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        ]
+    }
+}
+
+define function place_temp_mace_tree {
+    setblock 71 2 -72 minecraft:barrel{
+        Items:[
+            {
+                id:"aether:skyroot_log",
+                Count:1b,
+                tag:{
+                    display: {Name:"\"Mace Tree\""},
+                    StoredEnchantments: [{}],
+                    StructureNode: {
+                        Command: "trunk",
+                        MinHeight: 2,
+                        MaxHeight: 3,
+                        Then: {
+                            Command: "repeat",
+                            Offset: [
+                                -3, 0, -3
+                            ],
+                            Min: 2,
+                            Max: 5,
+                            SubCommand: {
+                                Command: "structure",
+                                Data: {
+                                    name: "aether:trees/mace_leaves",
+                                    posX: 1,
+                                    posY: 0,
+                                    posZ: 1
+                                },
+                                Then: {
+                                    Command: "move",
+                                    Offset: [ 0, 2, 0 ]
+                                }
+                            },
+                            Then: {
+                                Command: "repeat",
+                                Offset: [ 1, -1, 1 ],
+                                Min: 1,
+                                Max: 2,
+                                SubCommand: {
+                                    Command: "structure",
+                                    Data: {
+                                        name: "aether:trees/mace_trunk_top",
+                                        posX: 1,
+                                        posY: 0,
+                                        posZ: 1
+                                    },
+                                    Then: {
+                                        Command: "move",
+                                        Offset: [ 0, 1, 0 ]
+                                    }
+                                },
+                                Then: {
+                                    Command: "structure",
+                                    Data: {
+                                        name: "aether:trees/mace_leaves_top",
+                                        posX: 1,
+                                        posY: 0,
+                                        posZ: 1
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        ]
+    }
+}

@@ -1,7 +1,7 @@
 #:on compile
 #:require aether:entities/general/entity_model
 
-define local item aether:aerwhale_model minecraft:pufferfish#18
+define local item aether:aerwhale_model aether:mob_model#18
 
 define entity aether:aerwhale minecraft:ghast {
     
@@ -9,7 +9,7 @@ define entity aether:aerwhale minecraft:ghast {
         CustomName: "\"Aerwhale\"",
         ActiveEffects: [
             {
-                Id:14,
+                Id:14b,
                 Duration:10000000,
                 Amplifier:0b,
                 ShowParticles:0b

@@ -1,0 +1,22 @@
+$ITEM_TAG: {
+    TridentCustomItem: Int
+}
+
+$ITEM_TAG: {
+    Model: {
+        BaseModel: Int
+    },
+    StructureNode: $STRUCTURE_COMMAND
+}
+
+$STRUCTURE_COMMAND: {
+    Command: String,
+    Offset: [Int],
+    Min: Int,
+    Max: Int,
+    MinHeight: Int,
+    MaxHeight: Int,
+    Then: $STRUCTURE_COMMAND,
+    Data: $BLOCK_ENTITY (protocol),
+    SubCommand: $STRUCTURE_COMMAND
+}

@@ -1,3 +1,4 @@
+#:require aether:blank
 #:tag load
 
 function #tick_10

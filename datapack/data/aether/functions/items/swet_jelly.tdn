@@ -6,7 +6,7 @@ define function eat {
 }
 
 define function replace {
-    fill ~-1 ~-1 ~-1 ~1 ~1 ~1 grass_block replace dirt
+    fill ~-1 ~-1 ~-1 ~1 ~1 ~1 aether:aether_grass replace aether:aether_dirt
     particle happy_villager ~ ~.1 ~ 0.4 0 0.4 0 8
     setblock ~ ~ ~ air
 }

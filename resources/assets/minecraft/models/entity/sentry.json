@@ -30,7 +30,7 @@
     },
     "head": {
         "rotation": [ 0, 180, 0 ],
-        "translation": [ 0, -18, 0 ],
+        "translation": [ 0, -44, 0 ],
         "scale": [ 2, 2, 2 ]
     },
     "ground": {

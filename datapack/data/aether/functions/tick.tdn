@@ -1,7 +1,6 @@
 #:tag tick
 
 teleport @e[type=!player,tag=kill] ~ -512 ~
-as @e[type=!player,tag=kill]
-    data merge entity @s {DeathTime:19}
+as @e[type=!player,tag=kill] set @s.DeathTime = 19
 function aether:aerclouds/tick
 function aether:pmotion/tick

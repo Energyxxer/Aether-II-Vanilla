@@ -5,7 +5,7 @@
 #:require aether:entities/general/entity_model
 #:require aether:entities/common
 
-define local item aether:battle_sentry_model minecraft:pufferfish#7
+define local item aether:battle_sentry_model aether:mob_model#7
 
 define entity aether:battle_sentry minecraft:slime {
     
@@ -13,18 +13,18 @@ define entity aether:battle_sentry minecraft:slime {
         CustomName: "\"Battle Sentry\"",
         Tags: ["needs_id","model_target","model_holder","link_holder"],
         Size: 1,
-        AbsorptionAmount: 6,
+        AbsorptionAmount: 6f,
         Silent:1b,
         ActiveEffects: [
             {
                 Id: 1b,
-                Amplifier: 9,
+                Amplifier: 9b,
                 Duration: 10000000,
                 ShowParticles:0b
             },
             {
                 Id: 8b,
-                Amplifier: 254,
+                Amplifier: 254b,
                 Duration: 10000000,
                 ShowParticles:0b
             }
@@ -33,7 +33,7 @@ define entity aether:battle_sentry minecraft:slime {
     }
     
     default passengers [
-        $aether:entity_model{Small:1b,ArmorItems:[{},{},{},{id:"minecraft:pufferfish",Count:1b,tag:{CustomModelData:7,Model:{BaseModel:7}}}]}
+        $aether:entity_model{Small:1b,ArmorItems:[{},{},{},{id:"aether:mob_model",Count:1b,tag:{CustomModelData:7,Model:{BaseModel:7}}}]}
     ]
     
     function spawn {
@@ -44,7 +44,7 @@ define entity aether:battle_sentry minecraft:slime {
         function aether:util/search/by_id
         tag @e[tag=return,limit=1] add model_component
         var model = @e[tag=model_component,limit=1]
-        scoreboard players set $model model_offset 0
+        set ${model}->model_offset = 0
         
         tag @s remove aggro
         if entity @a[tag=hostile_target,distance=..2] tag @s add aggro
@@ -63,13 +63,13 @@ define entity aether:battle_sentry minecraft:slime {
         }
         
         if entity @s[tag=!aggro] function {
-            scoreboard players set $model model_offset 2
-            data merge entity @s {OnGround:0b}
+            set ${model}->model_offset = 2
+            set @s.OnGround = 0b
             effect clear @s speed
             effect give @s slowness 1 255 true
         }
         if entity @s[tag=aggro] function {
-            data merge entity @s {wasOnGround:0b}
+            set @s.wasOnGround = 0b
             effect clear @s slowness
             effect give @s speed 1 4 true
             if entity @s[nbt={OnGround:1b}] playsound aether:aemob.sentry.jump hostile @a
@@ -77,8 +77,8 @@ define entity aether:battle_sentry minecraft:slime {
         
         unless entity @s[nbt={HurtTime:0s}] function {
             if entity @s[nbt={HurtTime:10s}] playsound aether:aemob.sentry.jump hostile @a
-            scoreboard players set $model model_offset 1
-            scoreboard players set @s hurt_time 60
+            set ${model}->model_offset = 1
+            set @s->hurt_time = 60
         }
         
         tag $model remove model_component
@@ -88,7 +88,7 @@ define entity aether:battle_sentry minecraft:slime {
 
 
 define item aether:battle_sentry_spawn_egg minecraft:zombie_villager_spawn_egg {
-    default nbt {EntityTag:{id:"minecraft:area_effect_cloud",Duration:1,Radius:0,Tags:["spawn_battle_sentry"]}}
+    default nbt {EntityTag:{id:"minecraft:area_effect_cloud",Duration:1,Radius:0f,Tags:["spawn_battle_sentry"]}}
     
     default name {"text":"Battle Sentry Spawn Egg","italic":false}
     

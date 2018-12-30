@@ -2,11 +2,11 @@ var blockA <block> = minecraft:white_stained_glass
 var blockB <block> = minecraft:light_gray_stained_glass
 var blockC <block> = minecraft:sea_lantern
 
-scoreboard players set EVEN global 0
+set EVEN -> global = 0
 
 define function build {
-    if block ~ ~ ~-2 minecraft:air if block ~-2 ~ ~ $blockB scoreboard players set EVEN global 0
-    if block ~ ~ ~-2 minecraft:air if block ~-2 ~ ~ $blockA scoreboard players set EVEN global 1
+    if block ~ ~ ~-2 minecraft:air if block ~-2 ~ ~ $blockB set EVEN -> global = 0
+    if block ~ ~ ~-2 minecraft:air if block ~-2 ~ ~ $blockA set EVEN -> global = 1
     if score EVEN global matches 0 function {
         fill ~ ~ ~ ~15 ~ ~15 $blockA
     }
@@ -15,7 +15,7 @@ define function build {
     }
     setblock ~ ~ ~ $blockC
     scoreboard players add EVEN global 1
-    if score EVEN global matches 2 scoreboard players set EVEN global 0
+    if score EVEN global matches 2 set EVEN -> global = 0
 }
 
 within pos -96 0 -96 80 0 80 step 16 {

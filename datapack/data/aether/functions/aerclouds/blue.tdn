@@ -2,6 +2,6 @@ advancement revoke @s only aether:internal/blue_aercloud
 effect clear @s levitation
 effect give @s levitation 1 63 true
 if score @s levitation_timer matches ..1 playsound aether:aemisc.aercloud master @a ~ ~ ~ 1 1 0
-scoreboard players set @s levitation_timer 4
+set @s->levitation_timer = 4
 particle splash ~ ~ ~ 1 0 1 1 10
 

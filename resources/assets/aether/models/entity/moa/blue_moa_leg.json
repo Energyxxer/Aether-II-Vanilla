@@ -1,0 +1,6 @@
+{
+    "parent": "aether:entity/moa/moa_leg",
+    "textures": {
+        "texture": "aether:entities/moa/moa_blue"
+    }
+}

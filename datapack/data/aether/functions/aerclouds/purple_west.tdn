@@ -1,2 +1,2 @@
 unless entity @s[tag=preserved_clouds] function aether:aerclouds/purple
-scoreboard players set @s pmot_x -25
+set @s->pmot_x = -25

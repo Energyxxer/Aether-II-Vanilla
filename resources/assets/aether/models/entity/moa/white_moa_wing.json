@@ -1,0 +1,6 @@
+{
+    "parent": "aether:entity/moa/moa_wing",
+    "textures": {
+        "texture": "aether:entities/moa/moa_white"
+    }
+}

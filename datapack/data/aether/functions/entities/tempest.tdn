@@ -6,10 +6,10 @@
 
 #:require aether:entities/zephyr
 
-define local item aether:tempest_model minecraft:pufferfish#5
-define local item aether:tempest_model_hurt minecraft:pufferfish#6
+define local item aether:tempest_model aether:mob_model#5
+define local item aether:tempest_model_hurt aether:mob_model#6
 
-define local item aether:tempest_bolt_model minecraft:snowball
+#define local item aether:tempest_bolt_model minecraft:snowball
 
 define entity aether:tempest_bolt minecraft:armor_stand {
     default nbt {CustomName:"\"Tempest Bolt\"",Marker:1b,Invisible:1b}
@@ -32,10 +32,10 @@ define entity aether:tempest_bolt minecraft:armor_stand {
 }
 
 define entity aether:tempest minecraft:item {
-    default nbt {CustomName:"\"Tempest\"",Tags:["needs_id","model_target","model_holder","hitbox_target","init"],NoGravity:1b,PickupDelay:32767,Age:-32768,Item:{id:"minecraft:ender_chest",Count:1b}}
+    default nbt {CustomName:"\"Tempest\"",Tags:["needs_id","model_target","model_holder","hitbox_target","init"],NoGravity:1b,PickupDelay:32767s,Age:-32768s,Item:{id:"minecraft:ender_chest",Count:1b}}
     default passengers [
         $aether:entity_model{ArmorItems:[{},{},{},$nbt:aether:tempest_model],Tags:["glow"]},
-        $aether:zephyr_hitbox{HurtTime:0s,DeathLootTable:"aether:entities/zephyr",ActiveEffects:[{Id:12b,Duration:10000000,Amplifier:0,ShowParticles:0b}],Attributes:[{Base:15.0d,Name:"generic.maxHealth"}],Health:15f}
+        $aether:zephyr_hitbox{HurtTime:0s,DeathLootTable:"aether:entities/zephyr",ActiveEffects:[{Id:12b,Duration:10000000,Amplifier:0b,ShowParticles:0b}],Attributes:[{Base:15.0d,Name:"generic.maxHealth"}],Health:15f}
     ]
     
     function spawn {
@@ -46,15 +46,14 @@ define entity aether:tempest minecraft:item {
         data merge entity @s {Motion:[0d,0.1d,0d]}
         positioned ~ ~1 ~ facing entity @p[tag=hostile_target,distance=..10] tp @s ~ ~ ~ ~ ~
         
-        data modify entity $model Pose.Head[0] set from entity @s Rotation[1]
-        
-        scoreboard players set @s shoot_time 1
+        set ${model}.Pose.Head[0] = @s.Rotation[1]
+        set @s->shoot_time = 1
     }
     
     ticking function {
         function aether:entities/zephyr/identify_components
         
-        data modify entity @s FallDistance set value 0f
+        set @s.FallDistance = 0f
         particle dust 1 1 1 1 ~ ~.5 ~ 0.1 0.4 0.1 1 1
         
         unless entity @s[tag=init] unless score @s shoot_time matches 1..60 function {
@@ -86,15 +85,14 @@ define entity aether:tempest minecraft:item {
                 playsound aether:aemob.zephyr.shoot hostile @a
                 positioned ~ ~1 ~ summon $aether:tempest_bolt ^ ^ ^1.5 {Tags:["new"],Motion:[0.0,2.0,0.0]}
                 rotated as @s positioned 0.0 0.0 0.0 summon area_effect_cloud ^ ^ ^1 {Tags:["unit_vector"],Duration:10}
-                data modify entity @e[type=$aether:tempest_bolt,tag=new,limit=1,distance=..4] Motion set from entity @e[type=area_effect_cloud,tag=unit_vector,limit=1] Pos
-                #/tellraw @a {"nbt":"Motion","entity":"@e[tag=new,limit=1]"}
+                set @e[type=$aether:tempest_bolt,tag=new,limit=1,distance=..4].Motion = @e[type=area_effect_cloud,tag=unit_vector,limit=1].Pos
                 kill @e[type=area_effect_cloud,tag=unit_vector]
                 
                 tag @e[tag=new] remove new
             }
             
-            if score @s shoot_time matches 60 scoreboard players set @s travel_cooldown 0
-            if score @s shoot_time matches 100.. scoreboard players set @s shoot_time 0
+            set @s[scores={shoot_time=60}]->travel_cooldown = 0
+            set @s[scores={shoot_time=100..}]->shoot_time = 0
         }
         
         if entity @s[tag=init] function {
@@ -108,7 +106,7 @@ define entity aether:tempest minecraft:item {
 }
 
 define item aether:tempest_spawn_egg minecraft:evoker_spawn_egg {
-    default nbt {EntityTag:{id:"minecraft:area_effect_cloud",Duration:1,Radius:0,Tags:["spawn_tempest"]}}
+    default nbt {EntityTag:{id:"minecraft:area_effect_cloud",Duration:1,Radius:0f,Tags:["spawn_tempest"]}}
     
     default name {"text":"Tempest Spawn Egg","italic":false}
     

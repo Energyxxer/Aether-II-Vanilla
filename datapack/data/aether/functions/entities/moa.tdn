@@ -1,0 +1,302 @@
+#:on compile
+#:require aether:entities/general/entity_model
+#:require aether:entities/tick
+#:require aether:entities/common
+#:require aether:util/rand
+#:require aether:util/search
+
+define local item aether:moa_model aether:mob_model#67
+define local item aether:moa_model_hurt aether:mob_model#67
+
+#67: main body
+#68: legs
+#69: wings
+#70: jaw
+#71: main body with saddle
+
+define objective moa_cooldown
+define objective max_moa_jumps
+define objective moa_jumps_left
+
+var model_lower = @e[tag=lower_model_component,limit=1]
+var model_upper = @e[tag=upper_model_component,limit=1]
+var hitbox = @e[tag=hitbox_component,limit=1]
+
+define entity aether:moa_hitbox minecraft:mule {
+    default nbt {
+        CustomName:"\"Moa\"",
+        ActiveEffects:[{Id:14b,Amplifier:0b,Duration:1000000,ShowParticles:0b}],
+        Tags:["entity_hitbox","sync_hitbox","link_holder"],
+        Silent:1b,
+        Tame:1b
+    }
+    
+    default health 20
+    
+    ticking function {
+        if score @s[tag=!sync_hitbox] self_destruct matches 5.. kill @s
+        scoreboard players add @s self_destruct 1
+    }
+}
+
+define entity aether:moa minecraft:chicken {
+    default nbt {Silent:1b,CustomName:"\"Moa\"",Invulnerable:1b,Tags:["moa_root","needs_id","model_target","multiple_models","model_holder","hitbox_target","init"],ActiveEffects:[{Id:14b,Amplifier:0b,Duration:1000000,ShowParticles:0b}],Attributes:[{Base:0.0d,Name:"generic.followRange"}],EggLayTime:2147483647,DeathLootTable:"minecraft:empty"}
+    default passengers [
+        $aether:entity_model{Tags:["moa_model_lower","hand_models"],ArmorItems:[{},{},{},{id:"aether:mob_model",Count:1b,tag:{CustomModelData:67,Model:{BaseModel:67}}}],HandItems:[{id:"aether:mob_model",Count:1b,tag:{CustomModelData:68,Model:{BaseModel:68}}},{id:"aether:mob_model",Count:1b,tag:{CustomModelData:68,Model:{BaseModel:68}}}],Pose:{RightArm:[0.0f,0.0f,0.0f],LeftArm:[0.0f,0.0f,0.0f]}},
+        $aether:entity_model{Tags:["moa_model_upper","hand_models"],ArmorItems:[{},{},{},{id:"aether:mob_model",Count:1b,tag:{CustomModelData:70,Model:{BaseModel:70}}}],HandItems:[{id:"aether:mob_model",Count:1b,tag:{CustomModelData:69,Model:{BaseModel:69}}},{id:"aether:mob_model",Count:1b,tag:{CustomModelData:69,Model:{BaseModel:69}}}],Pose:{Head:[180.0f,0.0f,0.0f],RightArm:[0.0f,0.0f,0.0f],LeftArm:[0.0f,0.0f,0.0f]}},
+        $aether:moa_hitbox
+    ]
+    
+    function spawn {
+        summon $aether:moa ~ ~ ~
+    }
+    
+    function identify_components {
+        function aether:util/search/by_id
+        tag @e[tag=return,type=$aether:entity_model,tag=moa_model_lower] add lower_model_component
+        tag @e[tag=return,type=$aether:entity_model,tag=moa_model_upper] add upper_model_component
+        tag @e[tag=return,type=$aether:moa_hitbox] add hitbox_component
+        function aether:util/search/release
+    }
+    
+    function release_components {
+        tag @e[tag=lower_model_component] remove lower_model_component
+        tag @e[tag=upper_model_component] remove upper_model_component
+        tag @e[tag=hitbox_component] remove hitbox_component
+    }
+    
+    ticking function tick {
+        function aether:entities/moa/identify_components
+        
+        unless entity @s[tag=init] function {
+            set ${model_lower}->model_offset = 0
+            set ${model_upper}->model_offset = 0
+        
+            unless entity $hitbox kill @s
+            unless entity @s playsound aether:aemob.moa.say hostile @a
+            scoreboard players set $hitbox self_destruct 0
+            if entity $hitbox[nbt={HurtTime:8s}] playsound aether:aemob.moa.say hostile @a
+            data modify entity $model_upper Pose.Head[0] set value 5f
+            
+            data merge entity ${model_lower} {Pose:{RightArm:[15.0f,0.0f,0.0f],LeftArm:[15.0f,0.0f,0.0f]}}
+            data merge entity ${model_upper} {Pose:{RightArm:[0.0f,0.0625f,0.0f],LeftArm:[0.0f,0.0625f,0.0f]}}
+            if entity @s[nbt={OnGround:1b}] function {
+                set @s->op0 = -1
+                set @s->op1 = 360
+                set @s->op_x = @s.Motion[0] * 60
+                if score @s op_x matches ..-1 scoreboard players operation @s op_x *= @s op0
+                set @s->op_z = @s.Motion[2] * 60
+                if score @s op_z matches ..-1 scoreboard players operation @s op_z *= @s op0
+                
+                set @s->op0 = @s->op_x
+                scoreboard players operation @s op0 += @s op_z
+                #op0 ~=~ motion xz
+                
+                scoreboard players operation @s walk_time += @s op0
+                scoreboard players operation @s walk_time %= @s op1
+                summon area_effect_cloud 0.0 0.0 0.0 {Tags:["sin_calc"]}
+                set @e[tag=sin_calc,limit=1].Rotation[0] = @s->walk_time
+                as @e[tag=sin_calc,limit=1] at @s tp @s ^ ^ ^1
+                set ${model_lower}.Pose.RightArm[0] = @e[tag=sin_calc,limit=1].Pos[0] * 15
+                set ${model_lower}.Pose.LeftArm[0] = @e[tag=sin_calc,limit=1].Pos[0] * -15
+                #amplitude: 15
+                kill @e[tag=sin_calc]
+            }
+            unless entity @s[nbt={OnGround:1b}] function {
+                set @s->op1 = 1
+                
+                scoreboard players add @s jump_time 18
+                set @s->op0 = @s->jump_time
+                
+                summon area_effect_cloud 0.0 0.0 0.0 {Tags:["sin_calc"]}
+                set @e[tag=sin_calc,limit=1].Rotation[0] = @s->op0
+                as @e[tag=sin_calc,limit=1] at @s tp @s ^ ^ ^1
+                as @e[tag=sin_calc,limit=1] at @s tp ~1 ~ ~
+                set ${model_upper}.Pose.RightArm[2] = @e[tag=sin_calc,limit=1].Pos[0] * 60
+                set ${model_upper}.Pose.LeftArm[2] = @e[tag=sin_calc,limit=1].Pos[0] * -60
+                #amplitude: 60
+                kill @e[tag=sin_calc]
+                
+                if score @s jump_time matches 360.. playsound minecraft:entity.bat.takeoff neutral @a ~ ~ ~ 0.5 1 0
+                
+                if score @s jump_time matches 360.. scoreboard players set @s jump_time 0
+            }
+            scoreboard players remove @s[scores={walk_time=15..}] walk_time 15
+            scoreboard players set @s[nbt={OnGround:1b},scores={jump_time=1..}] jump_time 0
+        }
+        
+        unless entity $hitbox[nbt={HurtTime:0s}] set ${model_lower}->model_offset = 5
+        unless entity $hitbox[nbt={HurtTime:0s}] set ${model_upper}->model_offset = 5
+        
+        if entity @s[tag=init] function {
+            
+            function aether:util/rand/generate
+            set @s->op0 = 3
+            scoreboard players operation RANDOM global %= @s op0
+            
+            if score RANDOM global matches 0 function {
+                set @s->max_moa_jumps = 3
+            }
+            if score RANDOM global matches 1 function {
+                set @s->max_moa_jumps = 4
+                set ${model_lower}.ArmorItems[3].tag.Model.BaseModel = 77
+                set ${model_lower}.HandItems[0].tag.Model.BaseModel = 78
+                set ${model_lower}.HandItems[1].tag.Model.BaseModel = 78
+                set ${model_upper}.ArmorItems[3].tag.Model.BaseModel = 80
+                set ${model_upper}.HandItems[0].tag.Model.BaseModel = 79
+                set ${model_upper}.HandItems[1].tag.Model.BaseModel = 79
+            }
+            if score RANDOM global matches 2 function {
+                set @s->max_moa_jumps = 8
+                set ${model_lower}.ArmorItems[3].tag.Model.BaseModel = 87
+                set ${model_lower}.HandItems[0].tag.Model.BaseModel = 88
+                set ${model_lower}.HandItems[1].tag.Model.BaseModel = 88
+                set ${model_upper}.ArmorItems[3].tag.Model.BaseModel = 90
+                set ${model_upper}.HandItems[0].tag.Model.BaseModel = 89
+                set ${model_upper}.HandItems[1].tag.Model.BaseModel = 89
+            }
+            set @s->moa_jumps_left = @s->max_moa_jumps
+            tag @s remove init
+        }
+        
+        function aether:entities/moa/release_components
+    }
+}
+
+define item aether:moa_spawn_egg minecraft:turtle_spawn_egg {
+    default nbt {EntityTag:{id:"minecraft:area_effect_cloud",Duration:1,Radius:0f,Tags:["spawn_moa"]}}
+    
+    default name {"text":"Moa Spawn Egg","italic":false}
+    
+    function give {
+        give @s $aether:moa_spawn_egg
+    }
+}
+
+define function spawn_egg{
+    #:tag tick
+    
+    at @e[type=area_effect_cloud,tag=spawn_moa] summon $aether:moa
+    kill @e[type=area_effect_cloud,tag=spawn_moa]
+}
+
+var root = @e[tag=this_moa_root,limit=1]
+
+define function clear_bossbar {
+    
+}
+
+define function update_bossbar {
+    #:tag tick_5
+    
+    bossbar set aether:moa.3/3 players @a[scores={moa_jumps_left=3,max_moa_jumps=3}]
+    bossbar set aether:moa.2/3 players @a[scores={moa_jumps_left=2,max_moa_jumps=3}]
+    bossbar set aether:moa.1/3 players @a[scores={moa_jumps_left=1,max_moa_jumps=3}]
+    bossbar set aether:moa.0/3 players @a[scores={moa_jumps_left=0,max_moa_jumps=3}]
+    
+    bossbar set aether:moa.4/4 players @a[scores={moa_jumps_left=4,max_moa_jumps=4}]
+    bossbar set aether:moa.3/4 players @a[scores={moa_jumps_left=3,max_moa_jumps=4}]
+    bossbar set aether:moa.2/4 players @a[scores={moa_jumps_left=2,max_moa_jumps=4}]
+    bossbar set aether:moa.1/4 players @a[scores={moa_jumps_left=1,max_moa_jumps=4}]
+    bossbar set aether:moa.0/4 players @a[scores={moa_jumps_left=0,max_moa_jumps=4}]
+    
+    bossbar set aether:moa.8/8 players @a[scores={moa_jumps_left=8,max_moa_jumps=8}]
+    bossbar set aether:moa.7/8 players @a[scores={moa_jumps_left=7,max_moa_jumps=8}]
+    bossbar set aether:moa.6/8 players @a[scores={moa_jumps_left=6,max_moa_jumps=8}]
+    bossbar set aether:moa.5/8 players @a[scores={moa_jumps_left=5,max_moa_jumps=8}]
+    bossbar set aether:moa.4/8 players @a[scores={moa_jumps_left=4,max_moa_jumps=8}]
+    bossbar set aether:moa.3/8 players @a[scores={moa_jumps_left=3,max_moa_jumps=8}]
+    bossbar set aether:moa.2/8 players @a[scores={moa_jumps_left=2,max_moa_jumps=8}]
+    bossbar set aether:moa.1/8 players @a[scores={moa_jumps_left=1,max_moa_jumps=8}]
+    bossbar set aether:moa.0/8 players @a[scores={moa_jumps_left=0,max_moa_jumps=8}]
+}
+
+define function moa_riding {
+    #:tag tick
+    as @a[nbt={RootVehicle:{Entity:{Tags:["moa_root"],Passengers:[{SaddleItem:{Count:1b}}]}}}] at @s function {
+        tag @e[type=$aether:moa,distance=..6,sort=nearest,limit=1] add this_moa_root
+        
+        set ${root}.Rotation[0] = @s.Rotation[0]
+        
+        set ${root}.Motion[0] * 0.01 = @s.Motion[0] * 3000
+        set ${root}.Motion[2] * 0.01 = @s.Motion[2] * 3000
+        
+        if entity @s[x_rotation=75..90] set ${root}.Motion[1] = -0.5d
+        
+        tag @s remove jump
+        unless score @s moa_cooldown matches 1.. unless score $root moa_jumps_left matches 0 function {
+            set @s->op0 = @s.Pos[0] * 100
+            set @s->op1 = @s.RootVehicle.Entity.Pos[0] * 100
+            scoreboard players operation @s op0 -= @s op1
+            unless score @s op0 matches -25..25 tag @s add jump
+            set @s->op0 = @s.Pos[2] * 100
+            set @s->op1 = @s.RootVehicle.Entity.Pos[2] * 100
+            scoreboard players operation @s op0 -= @s op1
+            unless score @s op0 matches -25..25 tag @s add jump
+            
+            if entity @s[tag=jump] function {
+                set @s->moa_cooldown = 25
+                set ${root}.Motion[1] = 1.0d
+                scoreboard players remove $root moa_jumps_left 1
+                at ${root}[nbt={OnGround:0b}] particle cloud ~ ~1 ~ 0.6 0 0.6 0.3 10
+                if entity ${root}[nbt={OnGround:0b}] playsound minecraft:entity.bat.takeoff neutral @a ~ ~ ~ 1 1 0
+            }
+        }
+        scoreboard players remove @s[scores={moa_cooldown=1..}] moa_cooldown 1
+        
+        as ${root}[nbt={OnGround:1b}] set @s->moa_jumps_left = @s->max_moa_jumps
+        
+        set @s->moa_jumps_left = ${root}->moa_jumps_left
+        set @s->max_moa_jumps = ${root}->max_moa_jumps
+        
+        tag @e[tag=this_moa_root] remove this_moa_root
+    }
+    as @a unless data entity @s RootVehicle set @s->moa_cooldown = 5
+    as @a unless data entity @s RootVehicle set @s->max_moa_jumps = 0
+}
+
+define function setup {
+    #:tag load
+    
+    bossbar remove aether:moa.3/3
+    bossbar remove aether:moa.2/3
+    bossbar remove aether:moa.1/3
+    bossbar remove aether:moa.0/3
+    
+    bossbar add aether:moa.3/3 ["\uFEA7\uFEA7\uFEA7"]
+    bossbar add aether:moa.2/3 ["\uFEA7\uFEA7",{"text":"\uFEA7","color":"dark_gray"}]
+    bossbar add aether:moa.1/3 ["\uFEA7",{"text":"\uFEA7\uFEA7","color":"dark_gray"}]
+    bossbar add aether:moa.0/3 {"text":"\uFEA7\uFEA7\uFEA7","color":"dark_gray"}
+    
+    bossbar remove aether:moa.4/4
+    bossbar remove aether:moa.3/4
+    bossbar remove aether:moa.2/4
+    bossbar remove aether:moa.1/4
+    bossbar remove aether:moa.0/4
+    
+    bossbar add aether:moa.4/4 ["\uFEA7\uFEA7\uFEA7\uFEA7"]
+    bossbar add aether:moa.3/4 ["\uFEA7\uFEA7\uFEA7",{"text":"\uFEA7","color":"dark_gray"}]
+    bossbar add aether:moa.2/4 ["\uFEA7\uFEA7",{"text":"\uFEA7\uFEA7","color":"dark_gray"}]
+    bossbar add aether:moa.1/4 ["\uFEA7",{"text":"\uFEA7\uFEA7\uFEA7","color":"dark_gray"}]
+    bossbar add aether:moa.0/4 {"text":"\uFEA7\uFEA7\uFEA7\uFEA7","color":"dark_gray"}
+    
+    bossbar remove aether:moa.8/8
+    bossbar remove aether:moa.7/8
+    bossbar remove aether:moa.6/8
+    bossbar remove aether:moa.5/8
+    bossbar remove aether:moa.4/8
+    bossbar remove aether:moa.3/8
+    bossbar remove aether:moa.2/8
+    bossbar remove aether:moa.1/8
+    bossbar remove aether:moa.0/8
+    
+    bossbar add aether:moa.8/8 ["\uFEA7\uFEA7\uFEA7\uFEA7\uFEA7\uFEA7\uFEA7\uFEA7"]
+    bossbar add aether:moa.7/8 ["\uFEA7\uFEA7\uFEA7\uFEA7\uFEA7\uFEA7\uFEA7",{"text":"\uFEA7","color":"dark_gray"}]
+    bossbar add aether:moa.6/8 ["\uFEA7\uFEA7\uFEA7\uFEA7\uFEA7\uFEA7",{"text":"\uFEA7\uFEA7","color":"dark_gray"}]
+    bossbar add aether:moa.5/8 ["\uFEA7\uFEA7\uFEA7\uFEA7\uFEA7",{"text":"\uFEA7\uFEA7\uFEA7","color":"dark_gray"}]
+    bossbar add aether:moa.4/8 ["\uFEA7\uFEA7\uFEA7\uFEA7",{"text":"\uFEA7\uFEA7\uFEA7\uFEA7","color":"dark_gray"}]
+    bossbar add aether:moa.3/8 ["\uFEA7\uFEA7\uFEA7",{"text":"\uFEA7\uFEA7\uFEA7\uFEA7\uFEA7","color":"dark_gray"}]
+    bossbar add aether:moa.2/8 ["\uFEA7\uFEA7",{"text":"\uFEA7\uFEA7\uFEA7\uFEA7\uFEA7\uFEA7","color":"dark_gray"}]
+    bossbar add aether:moa.1/8 ["\uFEA7",{"text":"\uFEA7\uFEA7\uFEA7\uFEA7\uFEA7\uFEA7\uFEA7","color":"dark_gray"}]
+    bossbar add aether:moa.0/8 {"text":"\uFEA7\uFEA7\uFEA7\uFEA7\uFEA7\uFEA7\uFEA7\uFEA7","color":"dark_gray"}
+}

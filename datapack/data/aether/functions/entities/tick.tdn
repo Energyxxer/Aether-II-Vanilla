@@ -11,13 +11,13 @@ define entity default * {
             tag @s remove needs_id
         }
         as @e[type=$aether:entity_model,tag=sync_model] function {
-            scoreboard players operation @s entity_link = @e[tag=model_target,sort=nearest,limit=1] id
-            tag @s remove sync_model
+            set @s->entity_link = @e[tag=model_target,sort=nearest,limit=1]->id
+            tag @s[tag=!multiple_models] remove sync_model
         }
         
         as @e[tag=sync_hitbox] function {
-            scoreboard players operation @s entity_link = @e[tag=hitbox_target,sort=nearest,limit=1] id
-            tag @s remove sync_hitbox
+            set @s->entity_link = @e[tag=hitbox_target,sort=nearest,limit=1]->id
+            tag @s[tag=!multiple_hitboxes] remove sync_hitbox
         }
         
         tag @e[tag=model_target] remove model_target

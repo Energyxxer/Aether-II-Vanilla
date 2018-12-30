@@ -5,13 +5,13 @@
 #:require aether:util/rand
 #:require aether:util/search
 
-var aether:wings_1 <nbt_compound> = {id:"minecraft:pufferfish",Count:1b,tag:{CustomModelData:30}}
+var aether:wings_1 <nbt_compound> = {id:"aether:mob_model",Count:1b,tag:{CustomModelData:30}}
 
 define objective wing_level
 define objective wing_time
 
 define entity aether:phyg minecraft:pig {
-    default nbt {Tags:["needs_id","model_target","model_holder","winged","wing_offset_-0.5"],ActiveEffects:[{Id:28b,Duration:10000000,Amplifier:0,ShowParticles:0b}]}
+    default nbt {Tags:["needs_id","model_target","model_holder","winged","wing_offset_-0.5"],ActiveEffects:[{Id:28b,Duration:10000000,Amplifier:0b,ShowParticles:0b}]}
     
     function phyg/spawn {
         summon $aether:phyg
@@ -20,7 +20,7 @@ define entity aether:phyg minecraft:pig {
 }
 
 define item aether:phyg_spawn_egg minecraft:pig_spawn_egg {
-    default nbt {EntityTag:{id:"minecraft:area_effect_cloud",Duration:1,Radius:0,Tags:["spawn_phyg"]}}
+    default nbt {EntityTag:{id:"minecraft:area_effect_cloud",Duration:1,Radius:0f,Tags:["spawn_phyg"]}}
     
     default name {"text":"Phyg Spawn Egg","italic":false}
     
@@ -37,7 +37,7 @@ define function phyg/spawn_egg{
 }
 
 define entity aether:flying_cow minecraft:cow {
-    default nbt {Tags:["needs_id","model_target","model_holder","winged"],ActiveEffects:[{Id:28b,Duration:10000000,Amplifier:0,ShowParticles:0b}]}
+    default nbt {Tags:["needs_id","model_target","model_holder","winged"],ActiveEffects:[{Id:28b,Duration:10000000,Amplifier:0b,ShowParticles:0b}]}
     
     function flying_cow/spawn {
         summon $aether:flying_cow
@@ -46,7 +46,7 @@ define entity aether:flying_cow minecraft:cow {
 }
 
 define item aether:flying_cow_spawn_egg minecraft:cow_spawn_egg {
-    default nbt {EntityTag:{id:"minecraft:area_effect_cloud",Duration:1,Radius:0,Tags:["spawn_flying_cow"]}}
+    default nbt {EntityTag:{id:"minecraft:area_effect_cloud",Duration:1,Radius:0f,Tags:["spawn_flying_cow"]}}
     
     default name {"text":"Flying Cow Spawn Egg","italic":false}
     
@@ -67,29 +67,30 @@ define function wings {
     #:tag tick
     as @e[tag=winged] at @s function {
         scoreboard players add @s[nbt={OnGround:0b}] wing_time 2
-        scoreboard players set @s[nbt={OnGround:1b},scores={wing_time=41..}] wing_time 40
+        set @s[nbt={OnGround:1b},scores={wing_time=41..}]->wing_time = 40
         scoreboard players remove @s[nbt={OnGround:1b},scores={wing_time=1..}] wing_time 8
-        scoreboard players set @s[scores={wing_time=..-1}] wing_time 0
+        set @s[scores={wing_time=..-1}]->wing_time = 0
         
         function aether:util/search/by_id
         var wings <entity> = @e[tag=return,limit=1]
         
-        if score @s wing_time matches 0..8 data modify entity $wings HandItems[0].tag.CustomModelData set value 30
-        if score @s wing_time matches 9..18 data modify entity $wings HandItems[0].tag.CustomModelData set value 31
-        if score @s wing_time matches 19..26 data modify entity $wings HandItems[0].tag.CustomModelData set value 32
-        if score @s wing_time matches 27..42 data modify entity $wings HandItems[0].tag.CustomModelData set value 33
-        if score @s wing_time matches 43..59 data modify entity $wings HandItems[0].tag.CustomModelData set value 34
-        if score @s wing_time matches 60..90 data modify entity $wings HandItems[0].tag.CustomModelData set value 35
-        if score @s wing_time matches 91..120 data modify entity $wings HandItems[0].tag.CustomModelData set value 36
-        if score @s wing_time matches 121.. data modify entity $wings HandItems[0].tag.CustomModelData set value 37
-        as $wings data modify entity @s HandItems[1].tag.CustomModelData set from entity @s HandItems[0].tag.CustomModelData
+        var heldData = HandItems[0].tag.CustomModelData
         
-        scoreboard players set @s op0 70
+        if score @s wing_time matches 0..8 set ${wings}.$heldData = 30
+        if score @s wing_time matches 9..18 set ${wings}.$heldData = 31
+        if score @s wing_time matches 19..26 set ${wings}.$heldData = 32
+        if score @s wing_time matches 27..42 set ${wings}.$heldData = 33
+        if score @s wing_time matches 43..59 set ${wings}.$heldData = 34
+        if score @s wing_time matches 60..90 set ${wings}.$heldData = 35
+        if score @s wing_time matches 91.. set ${wings}.$heldData = 36
+        as $wings set @s.HandItems[1].tag.CustomModelData = @s.HandItems[0].tag.CustomModelData
+        
+        set @s->op0 = 70
         scoreboard players operation @s op0 < @s wing_time
         scoreboard players remove @s op0 170
         
-        store result entity $wings Pose.LeftArm[2] float 1 scoreboard players get @s op0
-        store result entity $wings Pose.RightArm[2] float -1 scoreboard players get @s op0
+        set ${wings}.Pose.LeftArm[2] (float) = @s->op0
+        set ${wings}.Pose.RightArm[2] * -1 (float) = @s->op0
         at @s tp $wings ~ ~ ~ ~ ~
         at @s[tag=wing_offset_-0.5] tp $wings ~ ~-.5 ~ ~ ~
         

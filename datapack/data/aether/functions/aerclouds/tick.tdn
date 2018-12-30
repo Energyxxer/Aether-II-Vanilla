@@ -1,7 +1,7 @@
 scoreboard players remove @e[scores={levitation_timer=0..}] levitation_timer 1
 effect clear @e[scores={levitation_timer=0}] minecraft:levitation
 
-at @a as @e[type=area_effect_cloud,name=preserve_cloud,distance=..3] data merge entity @s {Age:0s}
+at @a as @e[type=area_effect_cloud,name=preserve_cloud,distance=..3] set @s.Age = 0s
 as @e[type=area_effect_cloud,name=preserve_cloud] at @s function aether:aerclouds/preserve_blocks
 
 tag @a[tag=preserved_clouds] remove preserved_clouds

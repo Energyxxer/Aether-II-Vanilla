@@ -22,7 +22,7 @@ define entity default player {
     }
 }
 
-define item aether:shard_of_life minecraft:carrot_on_a_stick#1 {
+define item aether:shard_of_life aether:consumable#1 {
     
     default name {"text":"Shard of Life","color":"red","italic":false}
     

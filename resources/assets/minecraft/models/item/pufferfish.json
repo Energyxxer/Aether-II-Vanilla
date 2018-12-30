@@ -399,6 +399,186 @@
                 "custom_model_data": 66
             },
             "model": "aether:entity/swets/golden_swet_capture_hurt"
+        },
+        {
+            "predicate": {
+                "custom_model_data": 67
+            },
+            "model": "aether:entity/moa/blue_moa"
+        },
+        {
+            "predicate": {
+                "custom_model_data": 68
+            },
+            "model": "aether:entity/moa/blue_moa_leg"
+        },
+        {
+            "predicate": {
+                "custom_model_data": 69
+            },
+            "model": "aether:entity/moa/blue_moa_wing"
+        },
+        {
+            "predicate": {
+                "custom_model_data": 70
+            },
+            "model": "aether:entity/moa/blue_moa_jaw"
+        },
+        {
+            "predicate": {
+                "custom_model_data": 71
+            },
+            "model": "aether:entity/moa/blue_moa_saddle"
+        },
+        {
+            "predicate": {
+                "custom_model_data": 72
+            },
+            "model": "aether:entity/moa/blue_moa_hurt"
+        },
+        {
+            "predicate": {
+                "custom_model_data": 73
+            },
+            "model": "aether:entity/moa/blue_moa_leg_hurt"
+        },
+        {
+            "predicate": {
+                "custom_model_data": 74
+            },
+            "model": "aether:entity/moa/blue_moa_wing_hurt"
+        },
+        {
+            "predicate": {
+                "custom_model_data": 75
+            },
+            "model": "aether:entity/moa/blue_moa_jaw_hurt"
+        },
+        {
+            "predicate": {
+                "custom_model_data": 76
+            },
+            "model": "aether:entity/moa/blue_moa_saddle_hurt"
+        },
+        {
+            "predicate": {
+                "custom_model_data": 77
+            },
+            "model": "aether:entity/moa/white_moa"
+        },
+        {
+            "predicate": {
+                "custom_model_data": 78
+            },
+            "model": "aether:entity/moa/white_moa_leg"
+        },
+        {
+            "predicate": {
+                "custom_model_data": 79
+            },
+            "model": "aether:entity/moa/white_moa_wing"
+        },
+        {
+            "predicate": {
+                "custom_model_data": 80
+            },
+            "model": "aether:entity/moa/white_moa_jaw"
+        },
+        {
+            "predicate": {
+                "custom_model_data": 81
+            },
+            "model": "aether:entity/moa/white_moa_saddle"
+        },
+        {
+            "predicate": {
+                "custom_model_data": 82
+            },
+            "model": "aether:entity/moa/white_moa_hurt"
+        },
+        {
+            "predicate": {
+                "custom_model_data": 83
+            },
+            "model": "aether:entity/moa/white_moa_leg_hurt"
+        },
+        {
+            "predicate": {
+                "custom_model_data": 84
+            },
+            "model": "aether:entity/moa/white_moa_wing_hurt"
+        },
+        {
+            "predicate": {
+                "custom_model_data": 85
+            },
+            "model": "aether:entity/moa/white_moa_jaw_hurt"
+        },
+        {
+            "predicate": {
+                "custom_model_data": 86
+            },
+            "model": "aether:entity/moa/white_moa_saddle_hurt"
+        },
+        {
+            "predicate": {
+                "custom_model_data": 87
+            },
+            "model": "aether:entity/moa/black_moa"
+        },
+        {
+            "predicate": {
+                "custom_model_data": 88
+            },
+            "model": "aether:entity/moa/black_moa_leg"
+        },
+        {
+            "predicate": {
+                "custom_model_data": 89
+            },
+            "model": "aether:entity/moa/black_moa_wing"
+        },
+        {
+            "predicate": {
+                "custom_model_data": 90
+            },
+            "model": "aether:entity/moa/black_moa_jaw"
+        },
+        {
+            "predicate": {
+                "custom_model_data": 91
+            },
+            "model": "aether:entity/moa/black_moa_saddle"
+        },
+        {
+            "predicate": {
+                "custom_model_data": 92
+            },
+            "model": "aether:entity/moa/black_moa_hurt"
+        },
+        {
+            "predicate": {
+                "custom_model_data": 93
+            },
+            "model": "aether:entity/moa/black_moa_leg_hurt"
+        },
+        {
+            "predicate": {
+                "custom_model_data": 94
+            },
+            "model": "aether:entity/moa/black_moa_wing_hurt"
+        },
+        {
+            "predicate": {
+                "custom_model_data": 95
+            },
+            "model": "aether:entity/moa/black_moa_jaw_hurt"
+        },
+        {
+            "predicate": {
+                "custom_model_data": 96
+            },
+            "model": "aether:entity/moa/black_moa_saddle_hurt"
         }
     ]
 }

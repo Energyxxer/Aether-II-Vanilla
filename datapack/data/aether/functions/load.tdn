@@ -20,3 +20,5 @@ define objective id
 
 define objective entity_link
 define objective base_model
+
+define objective self_destruct
