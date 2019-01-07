@@ -3,5 +3,6 @@
 define objective walk_time
 define objective jump_time
 define objective hurt_time
+define objective age
 
 define objective auxiliary_model
