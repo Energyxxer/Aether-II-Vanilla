@@ -1,0 +1,128 @@
+@ on compile
+
+define objective coins
+define objective coinbar_link
+define objective coinbar_timer
+
+var CoinInfo = dict{
+    maxBars: 4,
+    barTime: 60,
+    pickupSound: resource<aether:aemisc.coin>,
+    allocationFunctions: list[0, 0, 0, 0],
+    bossbars: list[0, 0, 0, 0]
+}
+
+define function load {
+    @ tag load
+    var i = 0
+    for(i = 0; i < CoinInfo.maxBars; i += 1) {
+        eval CoinInfo.bossbars[i] = (resource) ("aether:coinbar" + (string)i)
+        var bar = ${CoinInfo.bossbars[i]}
+        
+        define function ${(resource) ("aether:coins/allocate_bar" + (string)i)} {
+            @ tag aether:coinbar_allocation
+            
+            tag @s add this
+            
+            if entity @s[tag=scheduled_coinbar] unless entity @a[tag=!this,scores={coinbar_link=$i}] function {
+                tag @s remove scheduled_coinbar
+                set @s->coinbar_link = $i
+                set @s->coinbar_timer = ${CoinInfo.barTime}
+                
+                bossbar set $bar name ["\uFCBA",{"translate":"space.-52"},"\uFC01 x",{"score":{"name":"@s","objective":"coins"}}]
+                bossbar set $bar players @s
+            }
+            tag @s remove this
+        }
+        
+        define function ${(resource) ("aether:coins/reset_bar" + (string)i)} {
+            @ tag aether:coinbar_resetting
+            
+            if entity @s[scores={coinbar_link=$i}] function {
+                bossbar set $bar players
+            }
+        }
+        bossbar remove $bar
+        
+        bossbar add $bar {"text":"placeholder coinbar"}
+    }
+}
+
+
+define function show_coinbar {
+    tag @s add scheduled_coinbar
+}
+
+define entity default player {
+    ticking function {
+        if entity @s[tag=scheduled_coinbar] function #aether:coinbar_allocation
+        
+        if score @s coinbar_link isset function {
+            scoreboard players remove @s coinbar_timer 1
+            if score @s coinbar_timer matches ..0 function {
+                function #aether:coinbar_resetting
+                
+                scoreboard players reset @s coinbar_link
+                scoreboard players reset @s coinbar_timer
+            }
+        }
+    }
+}
+
+
+
+define entity coin minecraft:armor_stand {
+    default nbt {Tags:["init"],Invisible:1b,Invulnerable:1b,Small:1b,ArmorItems:[{},{},{},{id:"aether:mob_model",Count:1b,tag:{CustomModelData:16}}]}
+    
+    ticking function {
+        set @s.Fire = 100s
+        if entity @s[tag=init] function {
+            unless score @s coins isset set @s->coins = 1
+            if score @s coins matches 5.. set @s.ArmorItems[3].tag.CustomModelData = 17
+            tag @s remove init
+        }
+        
+        at @s tp @s[nbt={OnGround:1b}] ~ ~.1 ~ ~18 ~
+        
+        tag @s add this
+        
+        unless entity @s[tag=kill] if entity @e[tag=!this,type=$coin,distance=..1] function {
+            tag @e[tag=!this,type=$coin,distance=..1,sort=nearest,limit=1] add to_merge
+            var toMerge = entity<@e[tag=to_merge,limit=1]>
+            
+            scoreboard players operation @s coins += $toMerge coins
+            tag @s add init
+            tag $toMerge add kill
+            tag $toMerge remove to_merge
+        }
+        tag @s remove this
+        
+        unless entity @s[tag=kill] if entity @a[distance=..1.25] function {
+            tag @p[distance=..1.25] add picked_up_coin
+            var target = entity<@a[tag=picked_up_coin,limit=1]>
+            
+            scoreboard players operation $target coins += @s coins
+            playsound ${CoinInfo.pickupSound} player $target
+            as $target at @s function aether:coins/show_coinbar
+            kill @s
+            
+            tag $target remove picked_up_coin
+        }
+    }
+    
+    function spawn {
+        anchored eyes summon $coin ^ ^ ^2
+    }
+}
+
+define function item_to_coin {
+    @ tag tick
+    as @e[type=item,nbt={Item:{tag:{SpawnCoins:1b}}}] at @s function {
+        summon $coin ~ ~ ~ {Tags:["new"]}
+        set @e[type=$coin,tag=new,limit=1]->coins = @s.Item.Count
+        set @e[type=$coin,tag=new,limit=1].Motion = @s.Motion
+        tag @e[type=$coin,tag=new,limit=1] remove new
+        kill @s
+    }
+}
+

@@ -15,6 +15,33 @@
             "chars": [
                 "\uFEA7"
             ]
+        },
+        {
+            "type": "bitmap",
+            "file": "aether:gui/coinbar_top.png",
+            "height": 15,
+            "ascent": 10,
+            "chars": [
+                "\uFCBA"
+            ]
+        },
+        {
+            "type": "bitmap",
+            "file": "aether:gui/coin.png",
+            "height": 10,
+            "ascent": 9,
+            "chars": [
+                "\uFC01"
+            ]
+        },
+        {
+            "type": "bitmap",
+            "file": "minecraft:gui/bg_overlay.png",
+            "height": 2048,
+            "ascent": 1024,
+            "chars": [
+                "\uF0A9"
+            ]
         }
     ]
 }

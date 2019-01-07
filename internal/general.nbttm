@@ -6,7 +6,9 @@ $ITEM_TAG: {
     Model: {
         BaseModel: Int
     },
-    StructureNode: $STRUCTURE_COMMAND
+    StructureNode: $STRUCTURE_COMMAND,
+    SetBerryBushStem: Byte (boolean),
+    SpawnCoins: Byte (boolean)
 }
 
 $STRUCTURE_COMMAND: {

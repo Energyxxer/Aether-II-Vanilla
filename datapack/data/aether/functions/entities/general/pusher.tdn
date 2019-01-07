@@ -12,6 +12,8 @@ define entity pusher minecraft:slime {
                 Amplifier:0b,
                 ShowParticles:0b
             }
-        ]
+        ],
+        NoAI:1b,
+        NoGravity:1b
     }
 }

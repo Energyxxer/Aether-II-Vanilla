@@ -18,6 +18,28 @@
                     ]
                 }
             ]
+        },
+        {
+            "rolls": 1,
+            "entries": [
+                {
+                    "type": "minecraft:item",
+                    "name": "minecraft:ender_chest",
+                    "functions": [
+                        {
+                            "function": "minecraft:set_count",
+                            "count": {
+                                "min": 1,
+                                "max": 2
+                            }
+                        },
+                        {
+                            "function": "minecraft:set_nbt",
+                            "tag": "{SpawnCoins:1b}"
+                        }
+                    ]
+                }
+            ]
         }
     ]
 }

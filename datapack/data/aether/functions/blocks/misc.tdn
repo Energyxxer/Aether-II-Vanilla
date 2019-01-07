@@ -1,0 +1,10 @@
+@ tag tick
+
+at @a function {
+    if block ~ ~-.1 ~ aether:quicksoil summon $pusher
+    if block ~ ~-.1 ~ aether:quicksoil summon $pusher
+    fill ~-5 ~-5 ~-5 ~5 ~5 ~5 minecraft:jungle_leaves[persistent=true] replace minecraft:dark_oak_sapling[stage=1]
+}
+
+at @e[type=item,nbt={PickupDelay:10s,Age:0s,Item:{tag:{SetBerryBushStem:1b}}}] setblock ~ ~ ~ minecraft:dark_oak_sapling
+kill @e[type=item,nbt={PickupDelay:10s,Age:0s,Item:{tag:{SetBerryBushStem:1b}}}]

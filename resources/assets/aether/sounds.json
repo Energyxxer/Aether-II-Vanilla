@@ -299,30 +299,40 @@
 			"aether:aemob/moa/say"
 		]
 	},
+	"aemob.moa.flap": {
+		"sounds": [
+		  "mob/bat/takeoff"
+		],
+		"subtitle": "subtitles.aether.entity.moa.flap"
+	},
 	"aemob.zephyr.say": {
 		"category": "hostile",
 		"sounds": [
 			"aether:aemob/zephyr/say1",
 			"aether:aemob/zephyr/say2"
-		]
+		],
+		"subtitle": "subtitles.aether.entity.zephyr.say"
 	},
 	"aemob.zephyr.shoot": {
 		"category": "hostile",
 		"sounds": [
 			"aether:aemob/zephyr/shoot"
-		]
+		],
+		"subtitle": "subtitles.aether.entity.tempest.shoot"
 	},
 	"aemob.zephyr.puff": {
 		"category": "hostile",
 		"sounds": [
 			"aether:aemob/zephyr/puff"
-		]
+		],
+		"subtitle": "subtitles.aether.entity.zephyr.puff"
 	},
 	"aemob.zephyr.blow": {
 		"category": "hostile",
 		"sounds": [
 			"aether:aemob/zephyr/blow"
-		]
+		],
+		"subtitle": "subtitles.aether.entity.zephyr.blow"
 	},
 	"aemisc.aercloud": {
 		"category": "neutral",
@@ -426,7 +436,8 @@
 		"category": "neutral",
 		"sounds": [
 			"aether:aemisc/coin"
-		]
+		],
+		"subtitle": "subtitles.aether.entity.coin.pickup"
 	},
 	"aemob.cog.wall": {
 		"category": "hostile",

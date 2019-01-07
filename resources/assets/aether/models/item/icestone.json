@@ -1,7 +1,7 @@
 {
 	"parent": "item/generated",
 	"textures": {
-		"layer0": "aether:items/icestone"
+		"layer0": "aether:items/materials/icestone"
 	},
 	"display": {
 		"thirdperson": {

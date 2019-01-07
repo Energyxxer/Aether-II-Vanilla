@@ -17,12 +17,12 @@
 	"display": {
 		"thirdperson_righthand": {
 			"rotation": [90, 0, 0],
-			"translation": [1.4, -3.185, 5.25],
+			"translation": [1.4, -3.185, 6],
 			"scale": [0.95, 0.95, 0.95]
 		},
 		"thirdperson_lefthand": {
 			"rotation": [90, 0, 0],
-			"translation": [1.4, -3.185, 5.25],
+			"translation": [1.4, -3.185, 6],
 			"scale": [-0.95, 0.95, 0.95]
 		},
 		"head": {

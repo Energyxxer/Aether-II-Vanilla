@@ -1,10 +1,10 @@
-if score @s pmot_x matches 1.. positioned ~-0.5 ~ ~ function aether:util/summon_pusher
-if score @s pmot_x matches ..-1 positioned ~0.5 ~ ~ function aether:util/summon_pusher
+if score @s pmot_x matches 1.. positioned ~-0.5 ~ ~ summon $pusher
+if score @s pmot_x matches ..-1 positioned ~0.5 ~ ~ summon $pusher
 if score @s pmot_x matches 1.. scoreboard players remove @s pmot_x 1
 if score @s pmot_x matches ..-1 scoreboard players add @s pmot_x 1
 
-if score @s pmot_z matches 1.. positioned ~ ~ ~-0.5 function aether:util/summon_pusher
-if score @s pmot_z matches ..-1 positioned ~ ~ ~0.5 function aether:util/summon_pusher
+if score @s pmot_z matches 1.. positioned ~ ~ ~-0.5 summon $pusher
+if score @s pmot_z matches ..-1 positioned ~ ~ ~0.5 summon $pusher
 if score @s pmot_z matches 1.. scoreboard players remove @s pmot_z 1
 if score @s pmot_z matches ..-1 scoreboard players add @s pmot_z 1
 
