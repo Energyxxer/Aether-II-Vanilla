@@ -1,11 +1,11 @@
-#:on compile
-#:require aether:load
-#:require aether:util/search
+@ on compile
+@ require aether:load
+@ require aether:util/search
 
 define objective model_offset
 define objective model_death_time
 
-define entity aether:entity_model minecraft:armor_stand {
+define entity entity_model minecraft:armor_stand {
     default nbt {
         Marker:1b,
         Invisible:1b,
@@ -19,7 +19,7 @@ define entity aether:entity_model minecraft:armor_stand {
         define function begin_death {
             scoreboard players add @s model_death_time 12
             
-            if score @s model_death_time matches ..90 set @s.Pose.Head[2] (float) = @s->model_death_time
+            if score @s model_death_time matches ..90 set @s.Pose.Head[2] = @s->model_death_time
             
             if score @s model_death_time matches ..90 if entity @s[tag=hand_models] function {
                 set @s.Pose.RightArm[2] = @s->model_death_time
@@ -46,12 +46,16 @@ define entity aether:entity_model minecraft:armor_stand {
         
         
         
-        set @s.FallDistance = 0f
         
         function aether:util/search/by_link
-        var parent <entity> = @e[tag=return,limit=1]
+        var parent = entity<@e[tag=return,limit=1]>
+        
+        if entity $parent unless entity @s[nbt={OnGround:0b,FallDistance:0.0f}] tag @s[tag=!teleporting] add teleporting_failsafe
+        
+        set @s.FallDistance = 0f
         
         if entity @s[tag=teleporting] at $parent teleport @s ~ ~ ~ ~ ~
+        if entity @s[tag=teleporting_failsafe] at $parent teleport @s ~ ~0.8 ~ ~ ~
         set @s.Rotation = ${parent}.Rotation
         if entity @s[tag=follow_pitch] run set @s.Pose.Head[0] = ${parent}.Rotation[1]
         

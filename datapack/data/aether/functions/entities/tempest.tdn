@@ -1,24 +1,24 @@
-#:on compile
-#:require aether:entities/general/entity_model
-#:require aether:entities/tick
-#:require aether:util/rand
-#:require aether:util/search
+@ on compile
+@ require aether:entities/general/entity_model
+@ require aether:entities/tick
+@ require aether:util/rand
+@ require aether:util/search
 
-#:require aether:entities/zephyr
+@ require aether:entities/zephyr
 
-define local item aether:tempest_model aether:mob_model#5
-define local item aether:tempest_model_hurt aether:mob_model#6
+define local item tempest_model aether:mob_model#5
+define local item tempest_model_hurt aether:mob_model#6
 
 #define local item aether:tempest_bolt_model minecraft:snowball
 
-define entity aether:tempest_bolt minecraft:armor_stand {
+define entity tempest_bolt minecraft:armor_stand {
     default nbt {CustomName:"\"Tempest Bolt\"",Marker:1b,Invisible:1b}
     
     default passengers [
-        minecraft:shulker_bullet,
-        minecraft:shulker_bullet,
-        minecraft:shulker_bullet,
-        minecraft:shulker_bullet
+        minecraft:shulker_bullet{Silent:1b},
+        minecraft:shulker_bullet{Silent:1b},
+        minecraft:shulker_bullet{Silent:1b},
+        minecraft:shulker_bullet{Silent:1b}
     ]
     
     ticking function {
@@ -31,15 +31,15 @@ define entity aether:tempest_bolt minecraft:armor_stand {
     }
 }
 
-define entity aether:tempest minecraft:item {
+define entity tempest minecraft:item {
     default nbt {CustomName:"\"Tempest\"",Tags:["needs_id","model_target","model_holder","hitbox_target","init"],NoGravity:1b,PickupDelay:32767s,Age:-32768s,Item:{id:"minecraft:ender_chest",Count:1b}}
     default passengers [
-        $aether:entity_model{ArmorItems:[{},{},{},$nbt:aether:tempest_model],Tags:["glow"]},
-        $aether:zephyr_hitbox{HurtTime:0s,DeathLootTable:"aether:entities/zephyr",ActiveEffects:[{Id:12b,Duration:10000000,Amplifier:0b,ShowParticles:0b}],Attributes:[{Base:15.0d,Name:"generic.maxHealth"}],Health:15f}
+        $entity_model{ArmorItems:[{},{},{},${tempest_model.getSettingNBT()}],Tags:["glow"]},
+        $zephyr_hitbox{HurtTime:0s,DeathLootTable:"aether:entities/zephyr",ActiveEffects:[{Id:12b,Duration:10000000,Amplifier:0b,ShowParticles:0b}],Attributes:[{Base:15.0d,Name:"generic.maxHealth"}],Health:15f}
     ]
     
     function spawn {
-        summon $aether:tempest ^ ^ ^3
+        summon $tempest ^ ^ ^3
     }
     
     function shoot {
@@ -69,8 +69,8 @@ define entity aether:tempest minecraft:item {
             unless score TIME global matches 13000..24000 kill @s
             if entity @e[tag=hitbox_component,limit=1,nbt={HurtTime:10s}] playsound aether:aemob.zephyr.say hostile @a
             
-            unless entity @e[tag=hitbox_component,limit=1,nbt={HurtTime:0s}] data merge entity $model {ArmorItems:[{},{},{},$nbt:aether:tempest_model_hurt]}
-            if entity @e[tag=hitbox_component,limit=1,nbt={HurtTime:0s}] data merge entity $model {ArmorItems:[{},{},{},$nbt:aether:tempest_model]}
+            unless entity @e[tag=hitbox_component,limit=1,nbt={HurtTime:0s}] data merge entity $model {ArmorItems:[{},{},{},${tempest_model_hurt.getSettingNBT()}]}
+            if entity @e[tag=hitbox_component,limit=1,nbt={HurtTime:0s}] data merge entity $model {ArmorItems:[{},{},{},${tempest_model.getSettingNBT()}]}
         }
         
         unless entity @s[tag=init] if score @s shoot_time matches 1.. function {
@@ -83,9 +83,9 @@ define entity aether:tempest minecraft:item {
             if score @s shoot_time matches 40 function {
                 data merge entity @s {Motion:[0d,0d,0d]}
                 playsound aether:aemob.zephyr.shoot hostile @a
-                positioned ~ ~1 ~ summon $aether:tempest_bolt ^ ^ ^1.5 {Tags:["new"],Motion:[0.0,2.0,0.0]}
+                positioned ~ ~1 ~ summon $tempest_bolt ^ ^ ^1.5 {Tags:["new"],Motion:[0.0,2.0,0.0]}
                 rotated as @s positioned 0.0 0.0 0.0 summon area_effect_cloud ^ ^ ^1 {Tags:["unit_vector"],Duration:10}
-                set @e[type=$aether:tempest_bolt,tag=new,limit=1,distance=..4].Motion = @e[type=area_effect_cloud,tag=unit_vector,limit=1].Pos
+                set @e[type=$tempest_bolt,tag=new,limit=1,distance=..4].Motion = @e[type=area_effect_cloud,tag=unit_vector,limit=1].Pos
                 kill @e[type=area_effect_cloud,tag=unit_vector]
                 
                 tag @e[tag=new] remove new
@@ -105,19 +105,19 @@ define entity aether:tempest minecraft:item {
     }
 }
 
-define item aether:tempest_spawn_egg minecraft:evoker_spawn_egg {
+define item tempest_spawn_egg minecraft:evoker_spawn_egg {
     default nbt {EntityTag:{id:"minecraft:area_effect_cloud",Duration:1,Radius:0f,Tags:["spawn_tempest"]}}
     
     default name {"text":"Tempest Spawn Egg","italic":false}
     
     function give {
-        give @s $aether:tempest_spawn_egg
+        give @s $tempest_spawn_egg
     }
 }
 
 define function spawn_egg{
-    #:tag tick
+    @ tag tick
     
-    at @e[type=area_effect_cloud,tag=spawn_tempest] summon $aether:tempest
+    at @e[type=area_effect_cloud,tag=spawn_tempest] summon $tempest
     kill @e[type=area_effect_cloud,tag=spawn_tempest]
 }

@@ -1,16 +1,16 @@
-#:on compile
-#:require aether:entities/general/entity_model
-#:require aether:entities/tick
-#:require aether:util/rand
-#:require aether:util/search
+@ on compile
+@ require aether:entities/general/entity_model
+@ require aether:entities/tick
+@ require aether:util/rand
+@ require aether:util/search
 
-define local item aether:sheepuff_model_large aether:mob_model#5
+define local item sheepuff_model_large aether:mob_model#5
 
-define entity aether:sheepuff minecraft:sheep {
+define entity sheepuff minecraft:sheep {
     default nbt {Tags:["needs_id","model_target","model_holder"]}
     
     function spawn {
-        summon $aether:sheepuff
+        summon $sheepuff
     }
     
     function jump {
@@ -20,8 +20,8 @@ define entity aether:sheepuff minecraft:sheep {
     }
     
     function jump_check {
-        #:tag tick_20
-        as @e[type=$aether:sheepuff,nbt={OnGround:1b}] at @s function {
+        @ tag tick_20
+        as @e[type=$sheepuff,nbt={OnGround:1b}] at @s function {
             function aether:util/rand/generate
             set @s->op0 = 50
             scoreboard players operation RANDOM global %= @s op0
@@ -31,19 +31,19 @@ define entity aether:sheepuff minecraft:sheep {
 }
 
 
-define item aether:sheepuff_spawn_egg minecraft:sheep_spawn_egg {
+define item sheepuff_spawn_egg minecraft:sheep_spawn_egg {
     default nbt {EntityTag:{id:"minecraft:area_effect_cloud",Duration:1,Radius:0f,Tags:["spawn_sheepuff"]}}
     
     default name {"text":"Sheepuff Spawn Egg","italic":false}
     
     function give {
-        give @s $aether:sheepuff_spawn_egg
+        give @s $sheepuff_spawn_egg
     }
 }
 
 define function extra {
-    #:tag tick
+    @ tag tick
     
-    at @e[type=area_effect_cloud,tag=spawn_sheepuff] summon $aether:sheepuff
+    at @e[type=area_effect_cloud,tag=spawn_sheepuff] summon $sheepuff
     kill @e[type=area_effect_cloud,tag=spawn_sheepuff]
 }

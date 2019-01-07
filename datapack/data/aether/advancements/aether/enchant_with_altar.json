@@ -1,0 +1,31 @@
+{
+    "parent": "aether:aether/root",
+    "display": {
+      "icon": {
+        "item": "minecraft:hopper"
+      },
+      "title": {
+        "translate": "advancements.aether.enchant_with_altar.title"
+      },
+      "description": {
+        "translate": "advancements.aether.enchant_with_altar.description"
+      },
+      "frame": "task",
+      "show_toast": true,
+      "announce_to_chat": true,
+      "hidden": false
+    },
+    "rewards": {
+      "function": "aether:advancements/play_tune"
+    },
+    "criteria": {
+      "enchant": {
+        "trigger": "minecraft:impossible"
+      }
+    },
+    "requirements": [
+      [
+        "enchant"
+      ]
+    ]
+  }

@@ -1,14 +1,14 @@
-#:on compile
-#:require aether:util/rand
+@ on compile
+@ require aether:util/rand
 
 define objective sgen
 
-var marker = @e[type=area_effect_cloud,tag=sgen,limit=1]
+var marker = entity<@e[type=area_effect_cloud,tag=sgen,limit=1]>
 
 
 
 define function generate/trunk {
-    #:tag aether:worldgen/function
+    @ tag aether:worldgen/function
     if entity @s[tag=trunk] function {
         tag @s remove trunk
         set MIN -> sgen = (0 0 0).RecordItem.tag.WorldGen.StructureStack[-1].MinHeight
@@ -34,7 +34,7 @@ define function generate/trunk {
 }
 
 define function generate/structure {
-    #:tag aether:worldgen/function
+    @ tag aether:worldgen/function
     if entity @s[tag=structure] function {
         tag @s remove structure
         at @s setblock ~ ~ ~ structure_block[mode=load]{mode:"LOAD"}
@@ -84,7 +84,7 @@ define function analyze {
 }
 
 define function generate/repeat {
-    #:tag aether:worldgen/function
+    @ tag aether:worldgen/function
     if entity @s[tag=repeat] function {
         tag @s remove repeat
         set MIN -> sgen = (0 0 0).RecordItem.tag.WorldGen.StructureStack[-1].Min

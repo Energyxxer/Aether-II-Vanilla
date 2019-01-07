@@ -1,5 +1,5 @@
-define entity aether:pusher minecraft:slime {
-    default nbt {Tags:["kill"],Silent:1b,Invulnerable:1b,ActiveEffects:[{Id:14b,Duration:10,Amplifier:0b,ShowParticles:0b}],NoAI:1b,NoGravity:1b}
-}
+#define entity pusher minecraft:slime {
+#    default nbt {Tags:["kill"],Silent:1b,Invulnerable:1b,ActiveEffects:[{Id:14b,Duration:10,Amplifier:0b,ShowParticles:0b}],NoAI:1b,NoGravity:1b}
+#}
 
-summon $aether:pusher
+#summon $pusher

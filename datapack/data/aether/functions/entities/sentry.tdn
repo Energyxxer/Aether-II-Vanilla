@@ -1,13 +1,13 @@
-#:on compile
-#:require aether:load
-#:require aether:util/rand
-#:require aether:util/search
-#:require aether:entities/general/entity_model
-#:require aether:entities/common
+@ on compile
+@ require aether:load
+@ require aether:util/rand
+@ require aether:util/search
+@ require aether:entities/general/entity_model
+@ require aether:entities/common
 
-define local item aether:sentry_model aether:mob_model#7
+define local item sentry_model aether:mob_model#7
 
-define entity aether:sentry minecraft:slime {
+define entity sentry minecraft:slime {
     
     default nbt {
         CustomName: "\"Sentry\"",
@@ -19,17 +19,17 @@ define entity aether:sentry minecraft:slime {
     }
     
     default passengers [
-        $aether:entity_model{Small:1b,ArmorItems:[{},{},{},{id:"aether:mob_model",Count:1b,tag:{CustomModelData:10,Model:{BaseModel:10}}}]}
+        $entity_model{Small:1b,ArmorItems:[{},{},{},{id:"aether:mob_model",Count:1b,tag:{CustomModelData:10,Model:{BaseModel:10}}}]}
     ]
     
     function spawn {
-        summon $aether:sentry ~ ~ ~
+        summon $sentry ~ ~ ~
     }
     
     ticking function {
         function aether:util/search/by_id
         tag @e[tag=return,limit=1] add model_component
-        var model = @e[tag=model_component,limit=1]
+        var model = entity<@e[tag=model_component,limit=1]>
         set ${model}->model_offset = 0
         
         if entity @a[tag=hostile_target,distance=..2,nbt={HurtTime:10s}] function {
@@ -37,9 +37,9 @@ define entity aether:sentry minecraft:slime {
             playsound minecraft:entity.generic.explode master @a
             effect give @a[tag=hostile_target,distance=..3] levitation 1 34 true
             set @a[tag=hostile_target,distance=..3]->levitation_timer = 4
-            at @a[tag=hostile_target,distance=..3] facing entity @s rotated ~ 0 summon $aether:pusher ^ ^ ^.1
-            at @a[tag=hostile_target,distance=..3] facing entity @s rotated ~ 0 summon $aether:pusher ^ ^ ^.1
-            at @a[tag=hostile_target,distance=..3] facing entity @s rotated ~ 0 summon $aether:pusher ^ ^ ^.1
+            at @a[tag=hostile_target,distance=..3] facing entity @s rotated ~ 0 summon $pusher ^ ^ ^.1
+            at @a[tag=hostile_target,distance=..3] facing entity @s rotated ~ 0 summon $pusher ^ ^ ^.1
+            at @a[tag=hostile_target,distance=..3] facing entity @s rotated ~ 0 summon $pusher ^ ^ ^.1
             tp @s ~ -512 ~
             kill $model
         }
@@ -72,21 +72,21 @@ define entity aether:sentry minecraft:slime {
 }
 
 
-define item aether:sentry_spawn_egg minecraft:vindicator_spawn_egg {
+define item sentry_spawn_egg minecraft:vindicator_spawn_egg {
     default nbt {EntityTag:{id:"minecraft:area_effect_cloud",Duration:1,Radius:0f,Tags:["spawn_sentry"]}}
     
     default name {"text":"Sentry Spawn Egg","italic":false}
     
     function give {
-        give @s $aether:sentry_spawn_egg
+        give @s $sentry_spawn_egg
     }
 }
 
 define function extra {
-    #:tag tick
+    @ tag tick
     
-    at @e[type=area_effect_cloud,tag=spawn_sentry] summon $aether:sentry
+    at @e[type=area_effect_cloud,tag=spawn_sentry] summon $sentry
     kill @e[type=area_effect_cloud,tag=spawn_sentry]
     
-    tag @e[type=slime,name="Sentry",tag=!trident-entity.aether.sentry] add kill
+    tag @e[type=slime,name="Sentry",tag=!trident-entity.sentry] add kill
 }

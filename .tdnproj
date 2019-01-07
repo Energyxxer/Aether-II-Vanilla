@@ -34,7 +34,8 @@
             "aether:zanite_block": "minecraft:iron_block",
             "aether:quicksoil_glass": "minecraft:yellow_stained_glass",
             "aether:white_rose": "minecraft:poppy",
-            "aether:purple_flower": "minecraft:dandelion"
+            "aether:purple_flower": "minecraft:dandelion",
+            "aether:enchanted_gravitite": "minecraft:diamond_block"
         },
         "item": {
             "aether:consumable": "minecraft:carrot_on_a_stick",
@@ -69,7 +70,11 @@
             "aether:quicksoil_glass": "minecraft:yellow_stained_glass",
             "aether:white_rose": "minecraft:poppy",
             "aether:purple_flower": "minecraft:dandelion",
-            "aether:ambrosium_shard": "minecraft:allium"
+            "aether:ambrosium_shard": "minecraft:allium",
+            "aether:enchanted_gravitite": "minecraft:diamond_block",
+            
+            "aether:blueberries": "minecraft:carrot",
+            "aether:enchanted_blueberries": "minecraft:golden_carrot"
         }
     }
 }

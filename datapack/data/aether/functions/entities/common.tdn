@@ -1,5 +1,7 @@
-#:on compile
+@ on compile
 
 define objective walk_time
 define objective jump_time
 define objective hurt_time
+
+define objective auxiliary_model

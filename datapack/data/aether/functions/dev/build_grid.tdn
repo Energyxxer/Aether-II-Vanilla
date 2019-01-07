@@ -1,6 +1,6 @@
-var blockA <block> = minecraft:white_stained_glass
-var blockB <block> = minecraft:light_gray_stained_glass
-var blockC <block> = minecraft:sea_lantern
+var blockA = block<minecraft:white_stained_glass>
+var blockB = block<minecraft:light_gray_stained_glass>
+var blockC = block<minecraft:sea_lantern>
 
 set EVEN -> global = 0
 

@@ -1,0 +1,323 @@
+@on compile
+@require aether:load
+@require aether:util/search
+
+var defaultAltar = block<minecraft:hopper[enabled=false]{LootTable:"minecraft:empty"}>
+
+define objective use_altar minecraft.custom:minecraft.inspect_hopper
+
+define objective ambrosium_count
+define objective rotate_speed
+
+define objective ambrosium_cost
+define objective item_cost
+
+
+define function gravitite_recipe {
+    @ tag aether:altar_recipe
+    # sender: altar
+    var display = entity<@e[type=item,tag=altar_display,tag=return,limit=1]>
+    if score @s ambrosium_count matches 3.. if entity ${display}[nbt={Item:{id:"aether:gravitite_ore"}}] function {
+        set @s->ambrosium_cost = ${display}.Item.Count
+        scoreboard players operation @s ambrosium_cost *= 3 const
+        scoreboard players operation @s ambrosium_cost < @s ambrosium_count
+        scoreboard players operation @s ambrosium_cost /= 3 const
+        scoreboard players operation @s ambrosium_cost *= 3 const
+        set @s->item_cost = @s->ambrosium_cost
+        scoreboard players operation @s item_cost /= 3 const
+        
+        summon item ~ ~1 ~ {Tags:["altar_output"],Item:{id:"aether:enchanted_gravitite",Count:1b},Motion:[0.0,0.2,0.0]}
+        set @e[type=item,tag=altar_output,limit=1].Item.Count = @s->item_cost
+        
+        if score @s item_cost matches 1.. tag @s add recipe_found
+    }
+}
+define function quicksoil_glass_recipe {
+    @ tag aether:altar_recipe
+    # sender: altar
+    var display = entity<@e[type=item,tag=altar_display,tag=return,limit=1]>
+    if score @s ambrosium_count matches 1.. if entity ${display}[nbt={Item:{id:"aether:quicksoil"}}] function {
+        set @s->ambrosium_cost = ${display}.Item.Count
+        scoreboard players operation @s ambrosium_cost < @s ambrosium_count
+        set @s->item_cost = @s->ambrosium_cost
+        
+        summon item ~ ~1 ~ {Tags:["altar_output"],Item:{id:"aether:quicksoil_glass",Count:1b},Motion:[0.0,0.2,0.0]}
+        set @e[type=item,tag=altar_output,limit=1].Item.Count = @s->item_cost
+        tag @s add recipe_found
+    }
+}
+define function enchanted_berries_recipe {
+    @ tag aether:altar_recipe
+    # sender: altar
+    var display = entity<@e[type=item,tag=altar_display,tag=return,limit=1]>
+    if score @s ambrosium_count matches 2.. if entity ${display}[nbt={Item:{id:"aether:blueberries"}}] function {
+        set @s->ambrosium_cost = ${display}.Item.Count
+        scoreboard players operation @s ambrosium_cost *= 2 const
+        scoreboard players operation @s ambrosium_cost < @s ambrosium_count
+        scoreboard players operation @s ambrosium_cost /= 2 const
+        scoreboard players operation @s ambrosium_cost *= 2 const
+        set @s->item_cost = @s->ambrosium_cost
+        scoreboard players operation @s item_cost /= 2 const
+        
+        summon item ~ ~1 ~ {Tags:["altar_output"],Item:{id:"aether:enchanted_blueberries",Count:1b},Motion:[0.0,0.2,0.0]}
+        set @e[type=item,tag=altar_output,limit=1].Item.Count = @s->item_cost
+        
+        if score @s item_cost matches 1.. tag @s add recipe_found
+    }
+}
+define function healing_stone_recipe {
+    @ tag aether:altar_recipe
+    # sender: altar
+    var display = entity<@e[type=item,tag=altar_display,tag=return,limit=1]>
+    if score @s ambrosium_count matches 2.. if entity ${display}[nbt={Item:{id:"aether:holystone"}}] function {
+        set @s->ambrosium_cost = ${display}.Item.Count
+        scoreboard players operation @s ambrosium_cost *= 2 const
+        scoreboard players operation @s ambrosium_cost < @s ambrosium_count
+        scoreboard players operation @s ambrosium_cost /= 2 const
+        scoreboard players operation @s ambrosium_cost *= 2 const
+        set @s->item_cost = @s->ambrosium_cost
+        scoreboard players operation @s item_cost /= 2 const
+        
+        summon item ~ ~1 ~ {Tags:["altar_output"],Item:{id:"minecraft:golden_apple",Count:1b},Motion:[0.0,0.2,0.0]}
+        set @e[type=item,tag=altar_output,limit=1].Item.Count = @s->item_cost
+        
+        if score @s item_cost matches 1.. tag @s add recipe_found
+    }
+}
+
+define function repair_recipe {
+    @ tag aether:altar_recipe
+    # sender: altar
+    var display = entity<@e[type=item,tag=altar_display,tag=return,limit=1]>
+    if score @s ambrosium_count matches 4.. if data entity ${display} Item.tag.Damage unless entity $display[nbt={Item:{tag:{Damage:0}}}] function {
+        summon item ~ ~1 ~ {Tags:["altar_output"],Item:{id:"aether:holystone",Count:1b},Motion:[0.0,0.2,0.0]}
+        set @e[type=item,tag=altar_output,limit=1].Item = ${display}.Item
+        set @e[type=item,tag=altar_output,limit=1].Item.tag.Damage = 0
+        
+        set @s->ambrosium_cost = 4
+        set @s->item_cost = 1
+        
+        tag @s add recipe_found
+    }
+}
+
+define local entity altar_ambrosium minecraft:snowball {
+    default nbt {Tags:["link_holder"],Item:{id:"aether:mob_model",Count:1b,tag:{CustomModelData:97}},Fire:1000s,NoGravity:1b}
+    
+    function ensure_kept {
+        @ tag tick_10
+        function aether:util/search/by_link
+        unless entity @e[tag=return] kill @s
+        function aether:util/search/release
+    }
+    
+    ticking function {
+        function aether:util/search/by_link
+        var altar = entity<@e[tag=return,limit=1]>
+        scoreboard players operation @s state += @s rotate_speed
+        set @s.Rotation[0] * 0.01 = @s->state
+        at $altar tp @s ~ ~1.2 ~
+        at @s rotated as @s tp @s ^ ^ ^0.4
+        function aether:util/search/release
+    }
+}
+
+define entity altar_entity minecraft:armor_stand {
+    default nbt {
+        NoGravity:1b,
+        NoBasePlate:1b,
+        Tags:["needs_id","link_holder"],
+        Invisible:1b,
+        Invulnerable:1b,
+        Marker:1b,
+        ArmorItems:[{},{},{},{id:"aether:mob_model",Count:1b,tag:{CustomModelData:98}}]
+    }
+    
+    function set_altar_block {
+        if entity @s[y_rotation=-45..45] setblock ~ ~ ~ $defaultAltar[facing=north]
+        if entity @s[y_rotation=45..135] setblock ~ ~ ~ $defaultAltar[facing=east]
+        if entity @s[y_rotation=-135..-45] setblock ~ ~ ~ $defaultAltar[facing=west]
+        unless entity @s[y_rotation=-135..135] setblock ~ ~ ~ $defaultAltar[facing=south]
+        data remove block ~ ~ ~ Items
+    }
+    
+    function updated_ambrosium {
+        function aether:util/search/by_id
+        
+        kill @e[type=$altar_ambrosium,tag=return]
+        
+        function aether:util/search/release
+        
+        if score @s ambrosium_count matches 1.. function {
+            set @s->op0 = @s->ambrosium_count
+            set @s->op1 = 36000
+            scoreboard players operation @s op1 /= @s op0
+            
+            summon area_effect_cloud ~ ~ ~ {Tags:["ambrosium_vector"]}
+            var vector = entity<@e[type=area_effect_cloud,tag=ambrosium_vector,limit=1]>
+            set ${vector}.Rotation[0] = @s.Rotation[0]
+            
+            define function loop {
+                as $vector at @s rotated as @s positioned ~ ~1.2 ~ summon $altar_ambrosium ^ ^ ^.4 {Tags:["new","newest"]}
+                
+                scoreboard players remove @s op0 1
+                
+                as $vector set @s->op0 = @s.Rotation[0] * 100
+                
+                set @e[type=$altar_ambrosium,tag=newest,limit=1]->state = ${vector}->op0
+                tag @e[type=$altar_ambrosium,tag=newest] remove newest
+                
+                scoreboard players operation $vector op0 += @s op1
+                as $vector set @s.Rotation[0] * 0.01 = @s->op0
+                
+                if score @s op0 matches 1.. function aether:blocks/altar/updated_ambrosium/_anonymous0/loop
+            }
+            
+            if score @s op0 matches 1.. function /loop
+            
+            set TEMP -> global = @s->id
+            as @e[type=$altar_ambrosium,tag=new] set @s->entity_link = TEMP -> global
+            set TEMP -> global = @s->ambrosium_count
+            scoreboard players operation TEMP global *= 400 const
+            as @e[type=$altar_ambrosium,tag=new] set @s->rotate_speed = TEMP -> global
+            tag @e[type=$altar_ambrosium,tag=new] remove new
+            kill $vector
+        }
+    }
+    
+    function enchant {
+        var altar = entity<@e[type=$altar_entity,sort=nearest,distance=..1,limit=1]>
+        as ${altar} function aether:util/search/by_link
+        
+        var display = entity<@e[type=item,tag=altar_display,tag=return,limit=1]>
+        
+        if entity $display function {
+            as $altar function #aether:altar_recipe
+            if entity $altar[tag=recipe_found] function {
+                as $altar function {
+                    particle dust 0.961 0.737 0 0.5 ~ ~1.2 ~ 0.2 0 0.2 0 100
+                    scoreboard players operation @s ambrosium_count -= @s ambrosium_cost
+                    set @s->op0 = ${display}.Item.Count
+                    scoreboard players operation @s op0 -= @s item_cost
+                    if score @s op0 matches ..0 kill ${display}
+                    if score @s op0 matches ..0 tag @s remove occupied
+                    set ${display}.Item.Count = @s->op0
+                    function aether:blocks/altar/updated_ambrosium
+                    tag @s remove recipe_found
+                }
+                
+                facing entity @s eyes positioned 0.0 0.0 0.0 summon area_effect_cloud ^ ^ ^.2 {Tags:["motion_vector"]}
+                set @e[tag=altar_output,limit=1].Motion = @e[type=area_effect_cloud,tag=motion_vector,limit=1].Pos
+                kill @e[type=area_effect_cloud,tag=motion_vector,limit=1]
+                
+                advancement grant @s only aether:aether/enchant_with_altar
+                
+                tag @e[tag=altar_output] remove altar_output
+            }
+        }
+        
+        function aether:util/search/release
+    }
+    
+    function release_ambrosium {
+        var altar = entity<@e[type=$altar_entity,sort=nearest,distance=..1,limit=1]>
+        
+        summon item ~ ~1.1 ~ {Tags:["new"],Item:{id:"aether:ambrosium_shard",Count:1b},Motion:[0.0,0.2,0.0]}
+        var shards = entity<@e[type=item,tag=new,limit=1,distance=..2]>
+        set ${shards}.Item.Count = ${altar}->ambrosium_count
+        set ${altar}->ambrosium_count = 0
+        
+        facing entity @s eyes positioned 0.0 0.0 0.0 summon area_effect_cloud ^ ^ ^.2 {Tags:["motion_vector"]}
+        set ${shards}.Motion = @e[type=area_effect_cloud,tag=motion_vector,limit=1].Pos
+        kill @e[type=area_effect_cloud,tag=motion_vector,limit=1]
+        
+        set CONSUMED -> control = 1
+        as $altar function aether:blocks/altar/updated_ambrosium
+    }
+    
+    function release_item {
+        var altar = entity<@e[type=$altar_entity,sort=nearest,distance=..1,limit=1]>
+        as ${altar} function aether:util/search/by_link
+        
+        var display = entity<@e[type=item,tag=altar_display,tag=return,limit=1]>
+        at @s tp ${display} ~ ~1 ~
+        data merge entity $display {NoGravity:0b,Age:0s,PickupDelay:0s,Invulnerable:0b,Tags:[]}
+        tag $altar remove occupied
+        scoreboard players reset $altar entity_link
+        set CONSUMED -> control = 1
+        
+        function aether:util/search/release
+    }
+    
+    function interact {
+        var altar = entity<@e[type=$altar_entity,sort=nearest,distance=..0.5,limit=1]>
+        
+        set CONSUMED -> control = 0
+        
+        if entity @s[nbt={SelectedItem:{id:"aether:ambrosium_shard"}}] function {
+            unless entity @s[gamemode=creative] clear @s aether:ambrosium_shard 1
+            scoreboard players add $altar ambrosium_count 1
+            set CONSUMED -> control = 1
+            as $altar function aether:blocks/altar/updated_ambrosium
+        }
+        unless score CONSUMED control matches 1 unless entity $altar[tag=occupied] if data entity @s SelectedItem unless entity @s[nbt={SelectedItem:{id:"aether:ambrosium_shard"}}] function {
+            # putting item in
+            var display = entity<@e[type=item,tag=altar_display,tag=new,limit=1,distance=..2]>
+            summon item ~ ~1.1 ~ {NoGravity:1b,Age:-32768s,PickupDelay:32767s,Invulnerable:1b,Tags:["altar_display","new"],Item:{id:"minecraft:stone",Count:1b,tag:{}}}
+            as $display function aether:entities/tick/assign_id
+            set ${altar}->entity_link = ${display}->id
+            set ${display}.Item = @s.SelectedItem
+            tag $display remove new
+            replaceitem entity @s weapon.mainhand air
+            tag $altar add occupied
+            set CONSUMED -> control = 1
+        }
+        unless score CONSUMED control matches 1 unless entity $altar[tag=occupied] if entity $altar[scores={ambrosium_count=1..}] function {
+            # taking ambrosium out
+            function aether:blocks/altar/release_ambrosium
+        }
+        unless score CONSUMED control matches 1 if entity $altar[tag=occupied] function {
+            # taking item out
+            function aether:blocks/altar/release_item
+        }
+        
+        if score ${altar} ambrosium_count matches 1.. function aether:blocks/altar/enchant
+    }
+    
+    ticking function {
+        unless block ~ ~ ~ hopper function {
+            # destroy
+            if score @s ambrosium_count matches 1.. function aether:blocks/altar/release_ambrosium
+            function aether:blocks/altar/release_item
+            kill @s
+        }
+        
+        if block ~ ~ ~ hopper if data block ~ ~ ~ Items function {
+            setblock ~ ~ ~ air
+            function aether:blocks/altar/set_altar_block
+            as @p[distance=..6,scores={use_altar=1..}] function aether:blocks/altar/interact
+        }
+        set (~ ~ ~).TransferCooldown = 100
+    }
+}
+
+define function spawn_altar {
+    if entity @s[y_rotation=-45..45] summon $altar_entity ~ ~ ~ {Rotation:[180.0f,0.0f]}
+    if entity @s[y_rotation=45..135] summon $altar_entity ~ ~ ~ {Rotation:[-90.0f,0.0f]}
+    if entity @s[y_rotation=-135..-45] summon $altar_entity ~ ~ ~ {Rotation:[90.0f,0.0f]}
+    unless entity @s[y_rotation=-135..135] summon $altar_entity ~ ~ ~ {Rotation:[0.0f,0.0f]}
+}
+
+define item default minecraft:hopper {
+    on used function {
+        within pos ~-5 ~-5 ~-5 ~5 ~5 ~5 {
+            positioned $pos align xyz positioned ~.5 ~ ~.5 if block ~ ~ ~ minecraft:hopper{Items:[]} function aether:blocks/altar/spawn_altar
+        }
+    }
+}
+
+define entity default player {
+    ticking function {
+        scoreboard players reset @s[scores={use_altar=1..}] use_altar
+    }
+}

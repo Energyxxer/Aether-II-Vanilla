@@ -1,4 +1,4 @@
-#:on compile
+@ on compile
 # -------- [Function cnl:craftr/restore_scope : 7 entries] --------
 
 #
@@ -8,6 +8,7 @@
 
 define objective levitation_timer
 define objective global
+define objective control
 
 define objective op0
 define objective op1
@@ -21,4 +22,27 @@ define objective id
 define objective entity_link
 define objective base_model
 
+define objective state
+
 define objective self_destruct
+
+define objective const
+define function constant_set {
+    @ tag load
+    set 1 -> const = 1
+    set 2 -> const = 2
+    set 3 -> const = 3
+    set 4 -> const = 4
+    set 8 -> const = 8
+    set 10 -> const = 10
+    set 20 -> const = 20
+    set 16 -> const = 16
+    set 32 -> const = 32
+    set 40 -> const = 40
+    set 64 -> const = 64
+    set 100 -> const = 100
+    set 128 -> const = 128
+    set 256 -> const = 256
+    set 360 -> const = 360
+    set 400 -> const = 400
+}

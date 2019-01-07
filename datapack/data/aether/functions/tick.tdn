@@ -1,4 +1,4 @@
-#:tag tick
+@ tag tick
 
 teleport @e[type=!player,tag=kill] ~ -512 ~
 as @e[type=!player,tag=kill] set @s.DeathTime = 19

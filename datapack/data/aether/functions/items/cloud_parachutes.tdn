@@ -1,22 +1,22 @@
-#:on compile
-#:require aether:util/summon_pusher
-#:require aether:util/search
+@ on compile
+@ require aether:util/summon_pusher
+@ require aether:util/search
 
 define objective active_parachute
 
-define local item aether:cold_cloud_parachute_model_item minecraft:cod#1
-define local item aether:gold_cloud_parachute_model_item minecraft:cod#2
-define local item aether:purple_cloud_parachute_model_item minecraft:cod#3
-define local item aether:green_cloud_parachute_model_item minecraft:cod#4
-define local item aether:blue_cloud_parachute_model_item minecraft:cod#5
+define local item cold_cloud_parachute_model_item minecraft:cod#1
+define local item gold_cloud_parachute_model_item minecraft:cod#2
+define local item purple_cloud_parachute_model_item minecraft:cod#3
+define local item green_cloud_parachute_model_item minecraft:cod#4
+define local item blue_cloud_parachute_model_item minecraft:cod#5
 
-define entity aether:cloud_parachute_model minecraft:armor_stand {
+define entity cloud_parachute_model minecraft:armor_stand {
     default nbt {Tags:["new"],Invisible:1b,Marker:1b,NoGravity:1b}
     
     ticking function {
         function aether:util/search/by_link
         
-        var parent = @a[tag=return,limit=1]
+        var parent = entity<@a[tag=return,limit=1]>
         
         at $parent run tp @s ~ ~ ~ ~ ~
         
@@ -28,7 +28,7 @@ define entity aether:cloud_parachute_model minecraft:armor_stand {
     }
 }
 
-define item aether:cold_cloud_parachute aether:consumable#2 {
+define item cold_cloud_parachute aether:consumable#2 {
     
     default name {"text":"Cold Cloud Parachute","italic":false}
     
@@ -38,22 +38,22 @@ define item aether:cold_cloud_parachute aether:consumable#2 {
     ]
     
     function cold/give {
-        give @s $aether:cold_cloud_parachute
+        give @s $cold_cloud_parachute
     }
     
     on used function cold/deploy {
         unless score @s active_parachute matches 1 function {
             set @s->active_parachute = 1
-            summon $aether:cloud_parachute_model ~ ~ ~ {ArmorItems:[{},{},{},$nbt:aether:cold_cloud_parachute_model_item]}
-            set @e[type=$aether:cloud_parachute_model,tag=new,limit=1]->entity_link = @s->id
-            set @e[type=$aether:cloud_parachute_model,tag=new,limit=1]->active_parachute = @s->active_parachute
-            tag @e[type=$aether:cloud_parachute_model,tag=new] remove new
+            summon $cloud_parachute_model ~ ~ ~ {ArmorItems:[{},{},{},${cold_cloud_parachute_model_item.getSettingNBT()}]}
+            set @e[type=$cloud_parachute_model,tag=new,limit=1]->entity_link = @s->id
+            set @e[type=$cloud_parachute_model,tag=new,limit=1]->active_parachute = @s->active_parachute
+            tag @e[type=$cloud_parachute_model,tag=new] remove new
             effect clear @s levitation
         }
     }
 }
 
-define item aether:gold_cloud_parachute aether:consumable#3 {
+define item gold_cloud_parachute aether:consumable#3 {
     
     default name {"text":"Gold Cloud Parachute","italic":false}
     
@@ -63,22 +63,22 @@ define item aether:gold_cloud_parachute aether:consumable#3 {
     ]
     
     function gold/give {
-        give @s $aether:gold_cloud_parachute
+        give @s $gold_cloud_parachute
     }
     
     on used function gold/deploy {
         unless score @s active_parachute matches 2 function {
             set @s->active_parachute = 2
-            summon $aether:cloud_parachute_model ~ ~ ~ {ArmorItems:[{},{},{},$nbt:aether:gold_cloud_parachute_model_item]}
-            set @e[type=$aether:cloud_parachute_model,tag=new,limit=1]->entity_link = @s->id
-            set @e[type=$aether:cloud_parachute_model,tag=new,limit=1]->active_parachute = @s->active_parachute
-            tag @e[type=$aether:cloud_parachute_model,tag=new] remove new
+            summon $cloud_parachute_model ~ ~ ~ {ArmorItems:[{},{},{},${gold_cloud_parachute_model_item.getSettingNBT()}]}
+            set @e[type=$cloud_parachute_model,tag=new,limit=1]->entity_link = @s->id
+            set @e[type=$cloud_parachute_model,tag=new,limit=1]->active_parachute = @s->active_parachute
+            tag @e[type=$cloud_parachute_model,tag=new] remove new
             effect clear @s levitation
         }
     }
 }
 
-define item aether:purple_cloud_parachute aether:consumable#4 {
+define item purple_cloud_parachute aether:consumable#4 {
     
     default name {"text":"Purple Cloud Parachute","italic":false}
     
@@ -88,22 +88,22 @@ define item aether:purple_cloud_parachute aether:consumable#4 {
     ]
     
     function purple/give {
-        give @s $aether:purple_cloud_parachute
+        give @s $purple_cloud_parachute
     }
     
     on used function purple/deploy {
         unless score @s active_parachute matches 3 function {
             set @s->active_parachute = 3
-            summon $aether:cloud_parachute_model ~ ~ ~ {ArmorItems:[{},{},{},$nbt:aether:purple_cloud_parachute_model_item]}
-            set @e[type=$aether:cloud_parachute_model,tag=new,limit=1]->entity_link = @s->id
-            set @e[type=$aether:cloud_parachute_model,tag=new,limit=1]->active_parachute = @s->active_parachute
-            tag @e[type=$aether:cloud_parachute_model,tag=new] remove new
+            summon $cloud_parachute_model ~ ~ ~ {ArmorItems:[{},{},{},${purple_cloud_parachute_model_item.getSettingNBT()}]}
+            set @e[type=$cloud_parachute_model,tag=new,limit=1]->entity_link = @s->id
+            set @e[type=$cloud_parachute_model,tag=new,limit=1]->active_parachute = @s->active_parachute
+            tag @e[type=$cloud_parachute_model,tag=new] remove new
             effect clear @s levitation
         }
     }
 }
 
-define item aether:green_cloud_parachute aether:consumable#5 {
+define item green_cloud_parachute aether:consumable#5 {
     
     default name {"text":"Green Cloud Parachute","italic":false}
     
@@ -113,22 +113,22 @@ define item aether:green_cloud_parachute aether:consumable#5 {
     ]
     
     function green/give {
-        give @s $aether:green_cloud_parachute
+        give @s $green_cloud_parachute
     }
     
     on used function green/deploy {
         unless score @s active_parachute matches 1 function {
             set @s->active_parachute = 1
-            summon $aether:cloud_parachute_model ~ ~ ~ {ArmorItems:[{},{},{},$nbt:aether:green_cloud_parachute_model_item]}
-            set @e[type=$aether:cloud_parachute_model,tag=new,limit=1]->entity_link = @s->id
-            set @e[type=$aether:cloud_parachute_model,tag=new,limit=1]->active_parachute = @s->active_parachute
-            tag @e[type=$aether:cloud_parachute_model,tag=new] remove new
+            summon $cloud_parachute_model ~ ~ ~ {ArmorItems:[{},{},{},${green_cloud_parachute_model_item.getSettingNBT()}]}
+            set @e[type=$cloud_parachute_model,tag=new,limit=1]->entity_link = @s->id
+            set @e[type=$cloud_parachute_model,tag=new,limit=1]->active_parachute = @s->active_parachute
+            tag @e[type=$cloud_parachute_model,tag=new] remove new
             effect clear @s levitation
         }
     }
 }
 
-define item aether:blue_cloud_parachute aether:consumable#6 {
+define item blue_cloud_parachute aether:consumable#6 {
     
     default name {"text":"Blue Cloud Parachute","italic":false}
     
@@ -138,23 +138,23 @@ define item aether:blue_cloud_parachute aether:consumable#6 {
     ]
     
     function blue/give {
-        give @s $aether:blue_cloud_parachute
+        give @s $blue_cloud_parachute
     }
     
     on used function blue/deploy {
         unless score @s active_parachute matches 5 function {
             set @s->active_parachute = 5
-            summon $aether:cloud_parachute_model ~ ~ ~ {ArmorItems:[{},{},{},$nbt:aether:blue_cloud_parachute_model_item]}
-            set @e[type=$aether:cloud_parachute_model,tag=new,limit=1]->entity_link = @s->id
-            set @e[type=$aether:cloud_parachute_model,tag=new,limit=1]->active_parachute = @s->active_parachute
-            tag @e[type=$aether:cloud_parachute_model,tag=new] remove new
+            summon $cloud_parachute_model ~ ~ ~ {ArmorItems:[{},{},{},${blue_cloud_parachute_model_item.getSettingNBT()}]}
+            set @e[type=$cloud_parachute_model,tag=new,limit=1]->entity_link = @s->id
+            set @e[type=$cloud_parachute_model,tag=new,limit=1]->active_parachute = @s->active_parachute
+            tag @e[type=$cloud_parachute_model,tag=new] remove new
             effect clear @s levitation
         }
     }
 }
 
 define function cloud_check {
-    #:tag tick
+    @ tag tick
     
     as @a[scores={active_parachute=1}] at @s function {
         effect give @s minecraft:levitation 1 253 true
@@ -181,7 +181,7 @@ define function cloud_check {
     as @a[scores={active_parachute=3}] at @s function {
         effect give @s minecraft:levitation 1 252 true
         effect give @s minecraft:slow_falling 1 0 true
-        rotated ~ 0 summon $aether:pusher ^ ^ ^-.25
+        rotated ~ 0 summon $pusher ^ ^ ^-.25
         if entity @s[nbt={OnGround:1b}] function {
             set @s->active_parachute = 0
             effect clear @s minecraft:levitation

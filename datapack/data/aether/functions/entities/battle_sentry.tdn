@@ -1,13 +1,13 @@
-#:on compile
-#:require aether:load
-#:require aether:util/rand
-#:require aether:util/search
-#:require aether:entities/general/entity_model
-#:require aether:entities/common
+@ on compile
+@ require aether:load
+@ require aether:util/rand
+@ require aether:util/search
+@ require aether:entities/general/entity_model
+@ require aether:entities/common
 
-define local item aether:battle_sentry_model aether:mob_model#7
+define local item battle_sentry_model aether:mob_model#7
 
-define entity aether:battle_sentry minecraft:slime {
+define entity battle_sentry minecraft:slime {
     
     default nbt {
         CustomName: "\"Battle Sentry\"",
@@ -33,17 +33,17 @@ define entity aether:battle_sentry minecraft:slime {
     }
     
     default passengers [
-        $aether:entity_model{Small:1b,ArmorItems:[{},{},{},{id:"aether:mob_model",Count:1b,tag:{CustomModelData:7,Model:{BaseModel:7}}}]}
+        $entity_model{Small:1b,ArmorItems:[{},{},{},{id:"aether:mob_model",Count:1b,tag:{CustomModelData:7,Model:{BaseModel:7}}}]}
     ]
     
     function spawn {
-        summon $aether:battle_sentry ~ ~ ~
+        summon $battle_sentry ~ ~ ~
     }
     
     ticking function {
         function aether:util/search/by_id
         tag @e[tag=return,limit=1] add model_component
-        var model = @e[tag=model_component,limit=1]
+        var model = entity<@e[tag=model_component,limit=1]>
         set ${model}->model_offset = 0
         
         tag @s remove aggro
@@ -87,21 +87,21 @@ define entity aether:battle_sentry minecraft:slime {
 }
 
 
-define item aether:battle_sentry_spawn_egg minecraft:zombie_villager_spawn_egg {
+define item battle_sentry_spawn_egg minecraft:zombie_villager_spawn_egg {
     default nbt {EntityTag:{id:"minecraft:area_effect_cloud",Duration:1,Radius:0f,Tags:["spawn_battle_sentry"]}}
     
     default name {"text":"Battle Sentry Spawn Egg","italic":false}
     
     function give {
-        give @s $aether:battle_sentry_spawn_egg
+        give @s $battle_sentry_spawn_egg
     }
 }
 
 define function extra {
-    #:tag tick
+    @ tag tick
     
-    at @e[type=area_effect_cloud,tag=spawn_battle_sentry] summon $aether:battle_sentry
+    at @e[type=area_effect_cloud,tag=spawn_battle_sentry] summon $battle_sentry
     kill @e[type=area_effect_cloud,tag=spawn_battle_sentry]
     
-    tag @e[type=slime,name="Battle Sentry",tag=!trident-entity.aether.battle_sentry] add kill
+    tag @e[type=slime,name="Battle Sentry",tag=!trident-entity.battle_sentry] add kill
 }

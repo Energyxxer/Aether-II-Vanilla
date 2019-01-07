@@ -1,15 +1,15 @@
-#:on compile
-#:require aether:load
-#:require aether:util/rand
-#:require aether:util/search
-#:require aether:entities/general/entity_model
-#:require aether:entities/common
+@ on compile
+@ require aether:load
+@ require aether:util/rand
+@ require aether:util/search
+@ require aether:entities/general/entity_model
+@ require aether:entities/common
 
-define local item aether:swet_model aether:mob_model#37
+define local item swet_model aether:mob_model#37
 
 define objective capture_time
 
-define entity aether:swet minecraft:slime {
+define entity swet minecraft:slime {
     
     default nbt {
         CustomName: "\"Swet\"",
@@ -19,15 +19,15 @@ define entity aether:swet minecraft:slime {
     }
     
     default passengers [
-        $aether:entity_model{ArmorItems:[{},{},{},{id:"aether:mob_model",Count:1b,tag:{CustomModelData:37,Model:{BaseModel:37}}}]}
+        $entity_model{ArmorItems:[{},{},{},{id:"aether:mob_model",Count:1b,tag:{CustomModelData:37,Model:{BaseModel:37}}}]}
     ]
     
     function spawn {
-        summon $aether:swet ~ ~ ~
+        summon $swet ~ ~ ~
     }
     
     function capture {
-        var victim <entity> = @a[distance=..5,tag=hostile_target,sort=nearest,limit=1]
+        var victim = entity<@a[distance=..5,tag=hostile_target,sort=nearest,limit=1]>
         
         set @s->entity_link = ${victim}->id
         set @s->capture_time = 1
@@ -42,7 +42,7 @@ define entity aether:swet minecraft:slime {
     ticking function {
         function aether:util/search/by_id
         tag @e[tag=return,limit=1] add model_component
-        var model = @e[tag=model_component,limit=1]
+        var model = entity<@e[tag=model_component,limit=1]>
         set ${model}->model_offset = 0
         if entity $model if entity @s[tag=init] function {
             function aether:util/rand/generate
@@ -69,7 +69,7 @@ define entity aether:swet minecraft:slime {
             if score @s capture_time matches 1..100 function {
                 function aether:util/search/by_link
             
-                var victim <entity> = @e[tag=return,limit=1]
+                var victim = entity<@e[tag=return,limit=1]>
                 
                 tp $victim ~ ~ ~
                 
@@ -97,21 +97,21 @@ define entity aether:swet minecraft:slime {
 }
 
 
-define item aether:swet_spawn_egg minecraft:slime_spawn_egg {
+define item swet_spawn_egg minecraft:slime_spawn_egg {
     default nbt {EntityTag:{id:"minecraft:area_effect_cloud",Duration:1,Radius:0f,Tags:["spawn_swet"]}}
     
     default name {"text":"Swet Spawn Egg","italic":false}
     
     function give {
-        give @s $aether:swet_spawn_egg
+        give @s $swet_spawn_egg
     }
 }
 
 define function extra {
-    #:tag tick
+    @ tag tick
     
-    at @e[type=area_effect_cloud,tag=spawn_swet] summon $aether:swet
+    at @e[type=area_effect_cloud,tag=spawn_swet] summon $swet
     kill @e[type=area_effect_cloud,tag=spawn_swet]
     
-    tag @e[type=slime,name="Swet",tag=!trident-entity.aether.swet] add kill
+    tag @e[type=slime,name="Swet",tag=!trident-entity.swet] add kill
 }

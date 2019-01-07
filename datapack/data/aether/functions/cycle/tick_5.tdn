@@ -1,4 +1,4 @@
-#:tag load
+@ tag load
 
 function #tick_5
 schedule function aether:cycle/tick_5 5t

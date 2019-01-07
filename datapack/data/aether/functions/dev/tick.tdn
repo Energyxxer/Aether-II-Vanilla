@@ -1,4 +1,4 @@
-#:tag tick
+@ tag tick
 
 as @a[gamemode=survival,x_rotation=89..90] function {
     gamemode creative @s

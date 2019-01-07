@@ -1,62 +1,62 @@
-#:on compile
-#:require aether:load
-#:require aether:entities/general/entity_model
-#:require aether:entities/tick
-#:require aether:util/rand
-#:require aether:util/search
+@ on compile
+@ require aether:load
+@ require aether:entities/general/entity_model
+@ require aether:entities/tick
+@ require aether:util/rand
+@ require aether:util/search
 
-var aether:wings_1 <nbt_compound> = {id:"aether:mob_model",Count:1b,tag:{CustomModelData:30}}
+var wings_1 = nbt<{id:"aether:mob_model",Count:1b,tag:{CustomModelData:30}}>
 
 define objective wing_level
 define objective wing_time
 
-define entity aether:phyg minecraft:pig {
+define entity phyg minecraft:pig {
     default nbt {Tags:["needs_id","model_target","model_holder","winged","wing_offset_-0.5"],ActiveEffects:[{Id:28b,Duration:10000000,Amplifier:0b,ShowParticles:0b}]}
     
     function phyg/spawn {
-        summon $aether:phyg
-        summon $aether:entity_model ~ ~ ~ {ShowArms:1b,Tags:["wings","glow"],Pose:{LeftArm:[0f,0f,-170f],RightArm:[0f,0f,170f]},HandItems:[$aether:wings_1,$aether:wings_1]}
+        summon $phyg
+        summon $entity_model ~ ~ ~ {ShowArms:1b,Tags:["wings","glow"],Pose:{LeftArm:[0f,0f,-170f],RightArm:[0f,0f,170f]},HandItems:[$wings_1,$wings_1]}
     }
 }
 
-define item aether:phyg_spawn_egg minecraft:pig_spawn_egg {
+define item phyg_spawn_egg minecraft:pig_spawn_egg {
     default nbt {EntityTag:{id:"minecraft:area_effect_cloud",Duration:1,Radius:0f,Tags:["spawn_phyg"]}}
     
     default name {"text":"Phyg Spawn Egg","italic":false}
     
     function phyg/give {
-        give @s $aether:phyg_spawn_egg
+        give @s $phyg_spawn_egg
     }
 }
 
 define function phyg/spawn_egg{
-    #:tag tick
+    @ tag tick
     
     at @e[type=area_effect_cloud,tag=spawn_phyg] function aether:entities/flying_animal/phyg/spawn
     kill @e[type=area_effect_cloud,tag=spawn_phyg]
 }
 
-define entity aether:flying_cow minecraft:cow {
+define entity flying_cow minecraft:cow {
     default nbt {Tags:["needs_id","model_target","model_holder","winged"],ActiveEffects:[{Id:28b,Duration:10000000,Amplifier:0b,ShowParticles:0b}]}
     
     function flying_cow/spawn {
-        summon $aether:flying_cow
-        summon $aether:entity_model ~ ~ ~ {ShowArms:1b,Tags:["wings","glow"],Pose:{LeftArm:[0f,0f,-170f],RightArm:[0f,0f,170f]},HandItems:[$aether:wings_1,$aether:wings_1]}
+        summon $flying_cow
+        summon $entity_model ~ ~ ~ {ShowArms:1b,Tags:["wings","glow"],Pose:{LeftArm:[0f,0f,-170f],RightArm:[0f,0f,170f]},HandItems:[$wings_1,$wings_1]}
     }
 }
 
-define item aether:flying_cow_spawn_egg minecraft:cow_spawn_egg {
+define item flying_cow_spawn_egg minecraft:cow_spawn_egg {
     default nbt {EntityTag:{id:"minecraft:area_effect_cloud",Duration:1,Radius:0f,Tags:["spawn_flying_cow"]}}
     
     default name {"text":"Flying Cow Spawn Egg","italic":false}
     
     function flying_cow/give {
-        give @s $aether:flying_cow_spawn_egg
+        give @s $flying_cow_spawn_egg
     }
 }
 
 define function flying_cow/spawn_egg{
-    #:tag tick
+    @ tag tick
     
     at @e[type=area_effect_cloud,tag=spawn_flying_cow] function aether:entities/flying_animal/flying_cow/spawn
     kill @e[type=area_effect_cloud,tag=spawn_flying_cow]
@@ -64,7 +64,7 @@ define function flying_cow/spawn_egg{
 
 
 define function wings {
-    #:tag tick
+    @ tag tick
     as @e[tag=winged] at @s function {
         scoreboard players add @s[nbt={OnGround:0b}] wing_time 2
         set @s[nbt={OnGround:1b},scores={wing_time=41..}]->wing_time = 40
@@ -72,9 +72,9 @@ define function wings {
         set @s[scores={wing_time=..-1}]->wing_time = 0
         
         function aether:util/search/by_id
-        var wings <entity> = @e[tag=return,limit=1]
+        var wings = entity<@e[tag=return,limit=1]>
         
-        var heldData = HandItems[0].tag.CustomModelData
+        var heldData = nbt_path<HandItems[0].tag.CustomModelData>
         
         if score @s wing_time matches 0..8 set ${wings}.$heldData = 30
         if score @s wing_time matches 9..18 set ${wings}.$heldData = 31

@@ -22,7 +22,7 @@ define entity default player {
     }
 }
 
-define item aether:shard_of_life aether:consumable#1 {
+define item shard_of_life aether:consumable#1 {
     
     default name {"text":"Shard of Life","color":"red","italic":false}
     
@@ -36,12 +36,12 @@ define item aether:shard_of_life aether:consumable#1 {
         if score @s extra_life matches 5.. title @s actionbar {"text":"You can only use a max of 5 life shards","color":"dark_aqua"}
         unless score @s extra_life matches 5.. function {
             scoreboard players add @s extra_life 1
-            clear @s $aether:shard_of_life 1
+            clear @s $shard_of_life 1
             function aether:items/shard_of_life/update_health
         }
     }
 }
 
 define function give {
-    give @s $aether:shard_of_life
+    give @s $shard_of_life
 }

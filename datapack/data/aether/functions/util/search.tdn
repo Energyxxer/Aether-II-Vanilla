@@ -1,5 +1,5 @@
-#:on compile
-#:require aether:load
+@ on compile
+@ require aether:load
 
 define function by_id {
     set LINK_SEARCH -> global = @s->id

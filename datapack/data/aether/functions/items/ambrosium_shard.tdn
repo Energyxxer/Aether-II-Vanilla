@@ -1,4 +1,4 @@
-#:on compile
+@ on compile
 
 define item default aether:ambrosium_shard {
     

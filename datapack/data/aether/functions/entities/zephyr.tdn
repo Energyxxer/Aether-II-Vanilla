@@ -1,35 +1,35 @@
-#:on compile
-#:require aether:entities/general/entity_model
-#:require aether:entities/general/pusher
-#:require aether:entities/tick
-#:require aether:util/rand
-#:require aether:util/search
+@ on compile
+@ require aether:entities/general/entity_model
+@ require aether:entities/general/pusher
+@ require aether:entities/tick
+@ require aether:util/rand
+@ require aether:util/search
 
 define objective travel_cooldown
 define objective shoot_time
 
-define local item aether:zephyr_model aether:mob_model#1
-define local item aether:zephyr_model_hurt aether:mob_model#2
+define local item zephyr_model aether:mob_model#1
+define local item zephyr_model_hurt aether:mob_model#2
 
-define local item aether:zephyr_model_size_1 aether:mob_model#3
-define local item aether:zephyr_model_size_2 aether:mob_model#4
+define local item zephyr_model_size_1 aether:mob_model#3
+define local item zephyr_model_size_2 aether:mob_model#4
 
-var model = @e[tag=model_component,limit=1]
-var hitbox = @e[tag=hitbox_component,limit=1]
+var model = entity<@e[tag=model_component,limit=1]>
+var hitbox = entity<@e[tag=hitbox_component,limit=1]>
 
-define local entity aether:zephyr_focus minecraft:area_effect_cloud {
+define local entity zephyr_focus minecraft:area_effect_cloud {
     default nbt {Duration:100000}
     
     function bias/spawn {
-        summon $aether:zephyr_focus
+        summon $zephyr_focus
     }
 }
 
-define local entity aether:zephyr_travel minecraft:area_effect_cloud {
+define local entity zephyr_travel minecraft:area_effect_cloud {
     default nbt {Duration:100000}
     
     function travel/spawn {
-        summon $aether:zephyr_travel
+        summon $zephyr_travel
     }
     
     function travel/bias {
@@ -38,7 +38,7 @@ define local entity aether:zephyr_travel minecraft:area_effect_cloud {
     }
 }
 
-define local entity aether:zephyr_hitbox minecraft:sheep {
+define local entity zephyr_hitbox minecraft:sheep {
     default nbt {ActiveEffects:[{Id:14b,Duration:1000000,Amplifier:1b,ShowParticles:0b}],Silent:1b,Tags:["entity_hitbox","sync_hitbox","link_holder"],DeathLootTable:"aether:entities/zephyr",Sheared:1b,Attributes:[{Base:5.0d,Name:"generic.maxHealth"}],Health:5f}
     
     ticking function {
@@ -47,17 +47,17 @@ define local entity aether:zephyr_hitbox minecraft:sheep {
     }
 }
 
-define entity aether:zephyr minecraft:item {
+define entity zephyr minecraft:item {
     default nbt {CustomName:"\"Zephyr\"",Tags:["needs_id","model_target","model_holder","hitbox_target","init"],NoGravity:1b,PickupDelay:32767s,Age:-32768s,Item:{id:"minecraft:ender_chest",Count:1b}}
     default passengers [
-        $aether:entity_model{ArmorItems:[{},{},{},$nbt:aether:zephyr_model]},
-        $aether:zephyr_hitbox{HurtTime:0s}
+        $entity_model{ArmorItems:[{},{},{},${zephyr_model.getSettingNBT()}]},
+        $zephyr_hitbox{HurtTime:0s}
     ]
     
     function identify_components {
         function aether:util/search/by_id
-        tag @e[tag=return,type=$aether:entity_model] add model_component
-        tag @e[tag=return,type=$aether:zephyr_hitbox] add hitbox_component
+        tag @e[tag=return,type=$entity_model] add model_component
+        tag @e[tag=return,type=$zephyr_hitbox] add hitbox_component
         function aether:util/search/release
     }
     
@@ -68,9 +68,9 @@ define entity aether:zephyr minecraft:item {
     
     function travel {
         #contract: must call this function after identify_components and before release_components
-        tag @e[type=$aether:zephyr_travel,sort=nearest,limit=1] add travel_target
+        tag @e[type=$zephyr_travel,sort=nearest,limit=1] add travel_target
         
-        var target = @e[tag=travel_target,limit=1]
+        var target = entity<@e[tag=travel_target,limit=1]>
         var scale = 0.015
         
         if entity $target set @s->travel_cooldown = 60
@@ -97,7 +97,7 @@ define entity aether:zephyr minecraft:item {
     }
     
     function spawn {
-        summon $aether:zephyr ^ ^ ^3
+        summon $zephyr ^ ^ ^3
     }
     
     function stop {
@@ -105,7 +105,7 @@ define entity aether:zephyr minecraft:item {
     }
     
     function idle_wander {
-        summon $aether:zephyr_travel ~ ~ ~ {Tags:["new"]}
+        summon $zephyr_travel ~ ~ ~ {Tags:["new"]}
         
         set @s->op_x = @s.Pos[0]
         set @s->op_y = @s.Pos[1]
@@ -125,12 +125,12 @@ define entity aether:zephyr minecraft:item {
         scoreboard players operation RANDOM global /= @s op0
         scoreboard players operation @s op_z += RANDOM global
         
-        set @e[type=$aether:zephyr_travel,tag=new,limit=1].Pos[0] = @s->op_x
-        set @e[type=$aether:zephyr_travel,tag=new,limit=1].Pos[1] = @s->op_y
-        set @e[type=$aether:zephyr_travel,tag=new,limit=1].Pos[2] = @s->op_z
+        set @e[type=$zephyr_travel,tag=new,limit=1].Pos[0] = @s->op_x
+        set @e[type=$zephyr_travel,tag=new,limit=1].Pos[1] = @s->op_y
+        set @e[type=$zephyr_travel,tag=new,limit=1].Pos[2] = @s->op_z
         
-        as @e[type=$aether:zephyr_travel,tag=new,limit=1] at @s function aether:entities/zephyr/travel/bias
-        as @e[type=$aether:zephyr_travel,tag=new,limit=1] at @s unless block ~ ~ ~ minecraft:air kill @s
+        as @e[type=$zephyr_travel,tag=new,limit=1] at @s function aether:entities/zephyr/travel/bias
+        as @e[type=$zephyr_travel,tag=new,limit=1] at @s unless block ~ ~ ~ minecraft:air kill @s
         
         function aether:entities/zephyr/travel
         
@@ -140,7 +140,7 @@ define entity aether:zephyr minecraft:item {
     function shoot {
         function aether:entities/zephyr/stop
         facing entity @p[tag=hostile_target,distance=..10] rotated ~ 0 tp @s ~ ~ ~ ~ ~
-        data merge entity @e[type=$aether:entity_model,distance=..2,sort=nearest,limit=1] {Pose:{Head:[0f,0.0625f,0f]}}
+        data merge entity @e[type=$entity_model,distance=..2,sort=nearest,limit=1] {Pose:{Head:[0f,0.0625f,0f]}}
         
         set @s->shoot_time = 1
         playsound aether:aemob.zephyr.puff hostile @a
@@ -155,8 +155,8 @@ define entity aether:zephyr minecraft:item {
             if score @s travel_cooldown matches 0 function aether:entities/zephyr/idle_wander
             scoreboard players remove @s[scores={travel_cooldown=1..}] travel_cooldown 1
             
-            unless entity @e[tag=hitbox_component,limit=1,nbt={HurtTime:0s}] data merge entity $model {ArmorItems:[{},{},{},$nbt:aether:zephyr_model_hurt]}
-            if entity @e[tag=hitbox_component,limit=1,nbt={HurtTime:0s}] data merge entity $model {ArmorItems:[{},{},{},$nbt:aether:zephyr_model]}
+            unless entity @e[tag=hitbox_component,limit=1,nbt={HurtTime:0s}] data merge entity $model {ArmorItems:[{},{},{},${zephyr_model_hurt.getSettingNBT()}]}
+            if entity @e[tag=hitbox_component,limit=1,nbt={HurtTime:0s}] data merge entity $model {ArmorItems:[{},{},{},${zephyr_model.getSettingNBT()}]}
             
             if score @s shoot_time matches ..0 if entity @a[tag=hostile_target,distance=..5] function aether:entities/zephyr/shoot
         }
@@ -170,8 +170,10 @@ define entity aether:zephyr minecraft:item {
         
         unless entity @s[tag=init] if score @s shoot_time matches 1.. function {
             scoreboard players add @s shoot_time 1
-            if entity @s[scores={shoot_time=10}] set ${model}.ArmorItems[3] = $nbt:aether:zephyr_model_size_1
-            if entity @s[scores={shoot_time=20}] set ${model}.ArmorItems[3] = $nbt:aether:zephyr_model_size_2
+            if entity @s[scores={shoot_time=10}] set ${model}.ArmorItems[3] = ${zephyr_model_size_1.getSettingNBT()}
+            if entity @s[scores={shoot_time=20}] set ${model}.ArmorItems[3] = ${zephyr_model_size_2.getSettingNBT()}
+            
+            if score @s shoot_time matches 40 playsound aether:aemob.zephyr.blow hostile @a
             
             if score @s shoot_time matches 40..100 function {
                 set@s->op0 = @s->shoot_time
@@ -187,9 +189,9 @@ define entity aether:zephyr minecraft:item {
             
             effect give @a[tag=zephyr_push] minecraft:levitation 1 19 true
             set @a[tag=zephyr_push]->levitation_timer = 3
-            at @a[tag=zephyr_push] facing entity @s rotated ~ 0 summon $aether:pusher ^ ^ ^.25
-            at @a[tag=zephyr_push] facing entity @s rotated ~ 0 summon $aether:pusher ^ ^ ^.25
-            at @a[tag=zephyr_push] facing entity @s rotated ~ 0 summon $aether:pusher ^ ^ ^.25
+            at @a[tag=zephyr_push] facing entity @s rotated ~ 0 summon $pusher ^ ^ ^.25
+            at @a[tag=zephyr_push] facing entity @s rotated ~ 0 summon $pusher ^ ^ ^.25
+            at @a[tag=zephyr_push] facing entity @s rotated ~ 0 summon $pusher ^ ^ ^.25
             tag @a[tag=zephyr_push] remove zephyr_push
             
             if score @s shoot_time matches 100 set @s->travel_cooldown = 0
@@ -206,19 +208,19 @@ define entity aether:zephyr minecraft:item {
     }
 }
 
-define item aether:zephyr_spawn_egg minecraft:elder_guardian_spawn_egg {
+define item zephyr_spawn_egg minecraft:elder_guardian_spawn_egg {
     default nbt {EntityTag:{id:"minecraft:area_effect_cloud",Duration:1,Radius:0f,Tags:["spawn_zephyr"]}}
     
     default name {"text":"Zephyr Spawn Egg","italic":false}
     
     function give {
-        give @s $aether:zephyr_spawn_egg
+        give @s $zephyr_spawn_egg
     }
 }
 
 define function spawn_egg{
-    #:tag tick
+    @ tag tick
     
-    at @e[type=area_effect_cloud,tag=spawn_zephyr] summon $aether:zephyr
+    at @e[type=area_effect_cloud,tag=spawn_zephyr] summon $zephyr
     kill @e[type=area_effect_cloud,tag=spawn_zephyr]
 }

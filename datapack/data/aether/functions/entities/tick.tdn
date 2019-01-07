@@ -1,16 +1,18 @@
-#:on compile
-#:require aether:entities/general/entity_model
-#:require aether:entities/setup
+@ on compile
+@ require aether:entities/general/entity_model
+@ require aether:entities/setup
+
+define function assign_id {
+    scoreboard players operation @s id > * id
+    scoreboard players add @s id 1
+    tag @s remove needs_id
+}
 
 define entity default * {
     ticking function {
         as @a unless score @s id isset tag @s add needs_id
-        as @e[tag=needs_id] function {
-            scoreboard players operation @s id > * id
-            scoreboard players add @s id 1
-            tag @s remove needs_id
-        }
-        as @e[type=$aether:entity_model,tag=sync_model] function {
+        as @e[tag=needs_id] function aether:entities/tick/assign_id
+        as @e[type=$entity_model,tag=sync_model] function {
             set @s->entity_link = @e[tag=model_target,sort=nearest,limit=1]->id
             tag @s[tag=!multiple_models] remove sync_model
         }

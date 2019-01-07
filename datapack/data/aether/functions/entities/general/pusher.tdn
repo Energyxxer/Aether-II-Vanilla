@@ -1,6 +1,6 @@
-#:on compile
+@ on compile
 
-define entity aether:pusher minecraft:slime {
+define entity pusher minecraft:slime {
     default nbt {
         Tags: [ "kill" ],
         Silent:1b,

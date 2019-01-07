@@ -1,9 +1,9 @@
-#:on compile
-#:require aether:entities/general/entity_model
+@ on compile
+@ require aether:entities/general/entity_model
 
-define local item aether:aerwhale_model aether:mob_model#18
+define local item aerwhale_model aether:mob_model#18
 
-define entity aether:aerwhale minecraft:ghast {
+define entity aerwhale minecraft:ghast {
     
     default nbt {
         CustomName: "\"Aerwhale\"",
@@ -19,10 +19,10 @@ define entity aether:aerwhale minecraft:ghast {
     }
     
     default passengers [
-        $aether:entity_model{ArmorItems:[{},{},{},$nbt:aether:aerwhale_model]}
+        $entity_model{ArmorItems:[{},{},{},${aerwhale_model.getSettingNBT()}]}
     ]
     
     function spawn {
-        summon $aether:aerwhale ~ ~ ~
+        summon $aerwhale ~ ~ ~
     }
 }

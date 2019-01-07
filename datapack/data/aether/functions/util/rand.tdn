@@ -1,5 +1,5 @@
-#:on compile
-#:require aether:load
+@ on compile
+@ require aether:load
 
 define function generate {
     summon minecraft:area_effect_cloud ~ ~ ~ {Tags:["prng"]}
