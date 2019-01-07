@@ -7,17 +7,14 @@ define objective coinbar_timer
 var CoinInfo = dict{
     maxBars: 4,
     barTime: 60,
-    pickupSound: resource<aether:aemisc.coin>,
-    allocationFunctions: list[0, 0, 0, 0],
-    bossbars: list[0, 0, 0, 0]
+    pickupSound: resource<aether:aemisc.coin>
 }
 
 define function load {
     @ tag load
     var i = 0
     for(i = 0; i < CoinInfo.maxBars; i += 1) {
-        eval CoinInfo.bossbars[i] = (resource) ("aether:coinbar" + (string)i)
-        var bar = ${CoinInfo.bossbars[i]}
+        var bar = (resource) ("aether:coinbar" + (string)i)
         
         define function ${(resource) ("aether:coins/allocate_bar" + (string)i)} {
             @ tag aether:coinbar_allocation
