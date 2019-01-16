@@ -1,0 +1,207 @@
+@on compile
+@require aether:crafting/recipes
+
+define objective cc
+define objective open_ct minecraft.custom:minecraft.open_enderchest
+define objective ct_page
+define objective old_head_rot
+
+var DataBanks = dict{
+    Craftable: coordinates<94 2 94>,
+    Uncraftable: coordinates<93 2 94>,
+    Merged: coordinates<91 2 94>,
+    Temporary: coordinates<89 2 94>,
+    General: coordinates<81 2 94>
+}
+
+var breakingTool = item<diamond_axe{ae:{drop_contents:true}}>
+var pageCap = 21
+
+define function setup {
+    @tag load
+    
+    positioned ${DataBanks.Craftable} unless block ~ ~ ~ shulker_box setblock ~ ~ ~ shulker_box
+    positioned ${DataBanks.Uncraftable} unless block ~ ~ ~ shulker_box setblock ~ ~ ~ shulker_box
+    positioned ${DataBanks.Merged} unless block ~ ~ ~ shulker_box setblock ~ ~ ~ shulker_box
+    positioned ${DataBanks.Temporary} unless block ~ ~ ~ shulker_box setblock ~ ~ ~ shulker_box
+    
+    positioned ${DataBanks.General} unless block ~ ~ ~ jukebox setblock ~ ~ ~ jukebox{RecordItem:{id:"minecraft:pufferfish",Count:1b,tag:{
+        StoredInventories: [],
+        ActiveInventory: {},
+        TemporaryList: []
+    }}}
+}
+
+var getDisplayName = function(itm) {
+    do if(itm.tag != null) {
+        var tag = (itm.tag).toDictionary()
+        do if(tag != null && tag.display != null && tag.display.Name != null) {
+            return Text.parse(tag.display.Name)
+        }
+    }
+    var prefix = "item."
+    do if(Block.exists((string)itm.itemType)) {
+        eval prefix = "block."
+    }
+    return new text_component(dict{"translate": prefix + ((string)itm.itemType).replace(":",".")})
+}
+
+define function retrieve_inventory {
+    set FOUND -> cc = 0
+    set (${DataBanks.General}).RecordItem.tag.TemporaryList = (${DataBanks.General}).RecordItem.tag.StoredInventories
+    if data block ${DataBanks.General} RecordItem.tag.TemporaryList[0] function {
+        set @s->op0 = (${DataBanks.General}).RecordItem.tag.TemporaryList[0].PlayerId
+        if score @s op0 = @s id set FOUND -> cc = 1
+        unless score FOUND cc matches 1 data remove block ${DataBanks.General} RecordItem.tag.TemporaryList[0]
+        unless score FOUND cc matches 1 if data block ${DataBanks.General} RecordItem.tag.TemporaryList[0] function /
+    }
+    if score FOUND cc matches 1 set (${DataBanks.General}).RecordItem.tag.ActiveInventory = (${DataBanks.General}).RecordItem.tag.TemporaryList[0]
+    unless score FOUND cc matches 1 function {
+        set (${DataBanks.General}).RecordItem.tag.ActiveInventory = {
+            PlayerId: 0,
+            Pages: [
+            ]
+        }
+        set (${DataBanks.General}).RecordItem.tag.ActiveInventory.PlayerId = @s->id
+        data modify block ${DataBanks.General} RecordItem.tag.StoredInventories append from block ${DataBanks.General} RecordItem.tag.ActiveInventory
+    }
+}
+
+define function restore_inventory {
+    set (${DataBanks.General}).RecordItem.tag.TemporaryList = (${DataBanks.General}).RecordItem.tag.StoredInventories
+    set (${DataBanks.General}).RecordItem.tag.StoredInventories = []
+    if data block ${DataBanks.General} RecordItem.tag.TemporaryList[0] function {
+        set @s->op0 = (${DataBanks.General}).RecordItem.tag.TemporaryList[0].PlayerId
+        if score @s op0 = @s id data modify block ${DataBanks.General} RecordItem.tag.StoredInventories append from block ${DataBanks.General} RecordItem.tag.ActiveInventory
+        unless score @s op0 = @s id data modify block ${DataBanks.General} RecordItem.tag.StoredInventories append from block ${DataBanks.General} RecordItem.tag.TemporaryList[0]
+        data remove block ${DataBanks.General} RecordItem.tag.TemporaryList[0]
+        if data block ${DataBanks.General} RecordItem.tag.TemporaryList[0] function /
+    }
+    data remove block ${DataBanks.General} RecordItem.tag.ActiveInventory
+}
+
+define function setup_page {
+    data merge block ${DataBanks.Merged} {Items:[]}
+    replaceitem block ${DataBanks.Merged} container.0 iron_hoe{Unbreakable:1b,Damage:1}
+    replaceitem block ${DataBanks.Merged} container.8 iron_hoe{Unbreakable:1b,Damage:1}
+    replaceitem block ${DataBanks.Merged} container.9 iron_hoe{Unbreakable:1b,Damage:3}
+    replaceitem block ${DataBanks.Merged} container.17 iron_hoe{Unbreakable:1b,Damage:4}
+    replaceitem block ${DataBanks.Merged} container.18 iron_hoe{Unbreakable:1b,Damage:1}
+    replaceitem block ${DataBanks.Merged} container.26 iron_hoe{Unbreakable:1b,Damage:1}
+    
+    set INSERTED -> cc = 0
+}
+
+define function end_page {
+    set (${DataBanks.General}).RecordItem.tag.ActivePage = {PageNumber:0,Items:[]}
+    set (${DataBanks.General}).RecordItem.tag.ActivePage.PageNumber = PAGE -> cc
+    set (${DataBanks.General}).RecordItem.tag.ActivePage.Items = (${DataBanks.Merged}).Items
+    data modify block ${DataBanks.General} RecordItem.tag.ActiveInventory.Pages append from block ${DataBanks.General} RecordItem.tag.ActivePage
+    scoreboard players add PAGE cc 1
+    
+    function aether:crafting/setup_page
+}
+
+var recipeId = 0
+for(recipe in recipes) {
+    eval recipe.validation = (resource) ("aether:crafting/recipes/validation/" + (string)recipeId)
+    eval recipe.instantiation = (resource) ("aether:crafting/recipes/instantiation/" + (string)recipeId)
+    
+    define function ${recipe.validation} {
+        set AVAILABLE -> cc = 1
+        for(material in recipe.materials) {
+            if score AVAILABLE cc matches 1.. store result score TEMP cc clear @s ${material.material} 0
+            if score AVAILABLE cc matches 1.. unless score TEMP cc matches ${new int_range(material.count, null)} set AVAILABLE -> cc = 0
+        }
+    }
+    
+    define function ${recipe.instantiation} {
+        @tag aether:crafting/recipes/insert
+        set (${DataBanks.Temporary}).Items = []
+        replaceitem block ${DataBanks.Temporary} container.0 ${recipe.out}{ae:{crafting_ui:1b}} ${recipe.count}
+        
+        data modify block ${DataBanks.Temporary} Items[0].tag.display.Lore append value "\"\""
+        data modify block ${DataBanks.Temporary} Items[0].tag.display.Lore append value ${(tag_string) (string) new text_component(dict{"text":"Materials","color":"gray","italic":false})}
+        
+        for(material in recipe.materials) {
+            var icon = material.icon
+            do if(icon == null) eval icon = " "
+            var countstr = (string) material.count
+            do if(material.count == 1) eval countstr = " "
+            var disabledColor = "dark_gray"
+            do if(material.dark == true) eval disabledColor = "gray"
+            data modify block ${DataBanks.Temporary} Items[0].tag.display.Lore append value "\"\""
+            store result score TEMP cc clear @s ${material.material} 0
+            if score TEMP cc matches ${new int_range(material.count, null)} data modify block ${DataBanks.Temporary} Items[0].tag.display.Lore append 
+                        value ${(tag_string) (string)new text_component(list[dict{text: "  " + icon + "\uF804", color: "white", italic: false}, dict{"text":countstr,color:"white"}, list[dict{"text":" ","color":"green","italic":true}, getDisplayName(material.material), dict{"text":" ✔", italic: false}]])}
+            unless score TEMP cc matches ${new int_range(material.count, null)} data modify block ${DataBanks.Temporary} Items[0].tag.display.Lore append
+                        value ${(tag_string) (string)new text_component(list[dict{text: "  " + icon + "\uF804", color: disabledColor, italic: false}, dict{"text":countstr,color:"white"}, list[dict{"text":" ","color":"dark_red","italic":true}, getDisplayName(material.material), dict{"text":" ✖", italic: false}]])}
+        }
+        
+        /${"replaceitem block "}
+        
+        loot insert ${DataBanks.Merged} mine ${DataBanks.Temporary} $breakingTool
+        scoreboard players add INSERTED cc 1
+        
+        if score INSERTED cc matches ${new int_range(pageCap, null)} function aether:crafting/end_page
+    }
+    
+    eval recipeId += 1
+}
+
+define function update_inventory {
+    function aether:crafting/retrieve_inventory
+    
+    set (${DataBanks.General}).RecordItem.tag.ActiveInventory.Pages = []
+    
+    set PAGE -> cc = 0
+    function aether:crafting/setup_page
+    
+    for(recipe in recipes) {
+        function ${recipe.instantiation}
+    }
+    
+    if score INSERTED cc matches 1.. function aether:crafting/end_page
+    data remove block ${DataBanks.General} RecordItem.tag.ActivePage
+    
+    function aether:crafting/restore_inventory
+}
+
+define function update_page {
+    function aether:crafting/retrieve_inventory
+    
+    set (${DataBanks.Temporary}).Items = []
+    set (${DataBanks.General}).RecordItem.tag.TemporaryPages = (${DataBanks.General}).RecordItem.tag.ActiveInventory.Pages
+    set @s->op0 = @s->ct_page
+    if score @s op0 matches 1.. function {
+        data remove block ${DataBanks.General} RecordItem.tag.TemporaryPages[0]
+        scoreboard players remove @s op0 1
+        if score @s op0 matches 1.. function /
+    }
+    set (${DataBanks.Temporary}).Items = (${DataBanks.General}).RecordItem.tag.TemporaryPages[0].Items
+    loot replace entity @s enderchest.0 mine ${DataBanks.Temporary} $breakingTool
+    
+    function aether:crafting/restore_inventory
+}
+
+define entity default player {
+    
+    ticking function {
+        if entity @s[tag=crafting_table_open] function {
+            set @s->op0 = @s.Rotation[0] * 10
+            unless score @s op0 = @s old_head_rot tag @s remove crafting_table_open
+            set @s->old_head_rot = @s->op0
+        }
+        
+        if entity @s[scores={open_ct=1..}] function {
+            tag @s add crafting_table_open
+            function aether:crafting/update_inventory
+            function aether:crafting/update_page
+            
+            unless score @s ct_page isset set @s->ct_page = 0
+        }
+        
+        scoreboard players reset @s open_ct
+    }
+}
+

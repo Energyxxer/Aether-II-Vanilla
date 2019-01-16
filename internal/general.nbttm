@@ -8,7 +8,10 @@ $ITEM_TAG: {
     },
     StructureNode: $STRUCTURE_COMMAND,
     SetBerryBushStem: Byte (boolean),
-    SpawnCoins: Byte (boolean)
+    SpawnCoins: Byte (boolean),
+    ae: {
+        drop_contents: Byte (boolean)
+    }
 }
 
 $STRUCTURE_COMMAND: {
@@ -21,4 +24,26 @@ $STRUCTURE_COMMAND: {
     Then: $STRUCTURE_COMMAND,
     Data: $BLOCK_ENTITY (protocol),
     SubCommand: $STRUCTURE_COMMAND
+}
+
+$CRAFTING_PAGE: {
+    PageNumber: Int,
+    Items: [$ITEM]
+}
+
+$CRAFTING_INVENTORY: {
+    PlayerId: Int,
+    Pages: [ $CRAFTING_PAGE ]
+}
+
+$BLOCK_ENTITY_MINECRAFT_JUKEBOX: {
+    RecordItem: {
+        tag: {
+            StoredInventories: [$CRAFTING_INVENTORY],
+            ActiveInventory: $CRAFTING_INVENTORY,
+            TemporaryList: [$CRAFTING_INVENTORY],
+            TemporaryPages: [$CRAFTING_PAGE],
+            ActivePage: $CRAFTING_PAGE
+        }
+    }
 }

@@ -1,0 +1,21 @@
+@on compile
+@require aether:load
+
+define entity labyrinth_totem minecraft:armor_stand {
+    default nbt {
+        NoGravity:1b,
+        NoBasePlate:1b,
+        Invulnerable:1b,
+        Marker:1b
+    }
+    
+    function spawn {
+        summon $labyrinth_totem
+    }
+}
+
+define function totem_drone {
+    @tag load
+    at @e[type=$labyrinth_totem] run playsound aether:aeportal.totem_drone block @a ~ ~ ~
+    schedule function / 32s
+}

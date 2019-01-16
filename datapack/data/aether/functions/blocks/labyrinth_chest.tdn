@@ -1,0 +1,32 @@
+@on compile
+@require aether:load
+
+define entity labyrinth_chest_entity minecraft:armor_stand {
+    default nbt {
+        NoGravity:1b,
+        NoBasePlate:1b,
+        Invisible:1b,
+        Invulnerable:1b,
+        Marker:1b,
+        Small:1b,
+        ArmorItems:[{},{},{},{id:"minecraft:shulker_box",Count:1b}]
+    }
+    
+    ticking function {
+        unless block ~ ~ ~ minecraft:shulker_box kill @s
+    }
+}
+
+var spawn_labyrinth_chest = function {
+    setblock ~ ~ ~ air
+    setblock ~ ~ ~ minecraft:shulker_box{CustomName:"{\"translate\":\"container.aether.labyrinth_chest\"}"}
+    summon $labyrinth_chest_entity
+}
+
+define item default minecraft:shulker_box {
+    on used function {
+        within pos ~-5 ~-5 ~-5 ~5 ~5 ~5 {
+            positioned $pos align xyz positioned ~.5 ~ ~.5 if block ~ ~ ~ minecraft:shulker_box{LootTable:"aether:function",LootTableSeed:1L} function $spawn_labyrinth_chest
+        }
+    }
+}

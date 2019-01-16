@@ -1,0 +1,56 @@
+@on compile
+@require aether:items/cloud_parachutes
+
+#/loot replace entity @s enderchest.0 mine 91 2 94 diamond_axe{ae:{drop_contents:true}}
+
+var newRecipe = function(out, count, materials) {
+    return dict{
+        out: out,
+        count: count,
+        materials: materials
+    }
+}
+
+var recipes = list[
+    newRecipe(item<aether:skyroot_planks>, 4, list[dict{ material: item<aether:skyroot_log>, count: 4, icon: "\uE00A" }]),
+    newRecipe(item<aether:skyroot_planks>, 4, list[dict{ material: item<aether:golden_oak_log>, count: 4, icon: "\uE00B" }]),
+    newRecipe(item<aether:holystone_brick>, 4, list[dict{ material: item<aether:holystone>, count: 4, icon: "\uE000" }]),
+    newRecipe(item<aether:cloudwool>, 1, list[dict{ material: item<aether:cloudtwine>, count: 4, icon: "\uE004" }]),
+    newRecipe(item<aether:skyroot_stick>, 4, list[dict{ material: item<aether:skyroot_planks>, count: 2, icon: "\uE001", dark: true }]),
+    newRecipe(item<aether:skyroot_chest>, 1, list[dict{ material: item<aether:skyroot_planks>, count: 8, icon: "\uE001", dark: true }]),
+    newRecipe(item<minecraft:furnace>, 1, list[dict{ material: item<aether:holystone>, count: 8, icon: "\uE000" }]),
+    newRecipe(item<aether:skyroot_ladder>, 3, list[dict{ material: item<aether:skyroot_stick>, count: 7, icon: "\uE002", dark: true }]),
+    newRecipe(item<aether:ambrosium_torch>, 4, list[dict{ material: item<aether:ambrosium_shard>, count: 1, icon: "\uE003" }, dict{ material: item<aether:skyroot_stick>, count: 1, icon: "\uE002", dark: true }]),
+    newRecipe(item<minecraft:oak_fence>, 3, list[dict{ material: item<aether:skyroot_planks>, count: 4, icon: "\uE001", dark: true }, dict{ material: item<aether:skyroot_stick>, count: 2, icon: "\uE002", dark: true }]),
+    newRecipe(item<minecraft:birch_fence>, 6, list[dict{ material: item<aether:skyroot_planks>, count: 6, icon: "\uE001", dark: true }]),
+    newRecipe(item<minecraft:cobblestone_wall>, 6, list[dict{ material: item<aether:holystone>, count: 6, icon: "\uE000" }]),
+    newRecipe(item<minecraft:mossy_cobblestone_wall>, 6, list[dict{ material: item<aether:mossy_holystone>, count: 6, icon: "\uE00E" }]),
+    newRecipe(item<aether:icestone_brick>, 1, list[dict{ material: item<aether:icestone>, count: 4, icon: "\uE00C" }]),
+    newRecipe(item<aether:zanite_block>, 1, list[dict{ material: item<aether:zanite_gemstone>, count: 9, icon: "\uE00D" }]),
+    newRecipe(item<minecraft:wooden_sword>, 1, list[dict{ material: item<aether:skyroot_planks>, count: 2, icon: "\uE001", dark: true }, dict{ material: item<aether:skyroot_stick>, count: 1, icon: "\uE002", dark: true }]),
+    newRecipe(item<minecraft:wooden_pickaxe>, 1, list[dict{ material: item<aether:skyroot_planks>, count: 3, icon: "\uE001", dark: true }, dict{ material: item<aether:skyroot_stick>, count: 2, icon: "\uE002", dark: true }]),
+    newRecipe(item<minecraft:wooden_axe>, 1, list[dict{ material: item<aether:skyroot_planks>, count: 3, icon: "\uE001", dark: true }, dict{ material: item<aether:skyroot_stick>, count: 2, icon: "\uE002", dark: true }]),
+    newRecipe(item<minecraft:wooden_shovel>, 1, list[dict{ material: item<aether:skyroot_planks>, count: 1, icon: "\uE001", dark: true }, dict{ material: item<aether:skyroot_stick>, count: 2, icon: "\uE002", dark: true }]),
+    newRecipe(item<minecraft:stone_sword>, 1, list[dict{ material: item<aether:holystone>, count: 2, icon: "\uE001" }, dict{ material: item<aether:skyroot_stick>, count: 1, icon: "\uE002", dark: true }]),
+    newRecipe(item<minecraft:stone_pickaxe>, 1, list[dict{ material: item<aether:holystone>, count: 3, icon: "\uE001" }, dict{ material: item<aether:skyroot_stick>, count: 2, icon: "\uE002", dark: true }]),
+    newRecipe(item<minecraft:stone_axe>, 1, list[dict{ material: item<aether:holystone>, count: 3, icon: "\uE001" }, dict{ material: item<aether:skyroot_stick>, count: 2, icon: "\uE002", dark: true }]),
+    newRecipe(item<minecraft:stone_shovel>, 1, list[dict{ material: item<aether:holystone>, count: 1, icon: "\uE001" }, dict{ material: item<aether:skyroot_stick>, count: 2, icon: "\uE002", dark: true }]),
+    newRecipe(item<minecraft:iron_sword>, 1, list[dict{ material: item<aether:zanite_gemstone>, count: 2, icon: "\uE001" }, dict{ material: item<aether:skyroot_stick>, count: 1, icon: "\uE002", dark: true }]),
+    newRecipe(item<minecraft:iron_pickaxe>, 1, list[dict{ material: item<aether:zanite_gemstone>, count: 3, icon: "\uE001" }, dict{ material: item<aether:skyroot_stick>, count: 2, icon: "\uE002", dark: true }]),
+    newRecipe(item<minecraft:iron_axe>, 1, list[dict{ material: item<aether:zanite_gemstone>, count: 3, icon: "\uE001" }, dict{ material: item<aether:skyroot_stick>, count: 2, icon: "\uE002", dark: true }]),
+    newRecipe(item<minecraft:iron_shovel>, 1, list[dict{ material: item<aether:zanite_gemstone>, count: 1, icon: "\uE001" }, dict{ material: item<aether:skyroot_stick>, count: 2, icon: "\uE002", dark: true }]),
+    newRecipe(item<minecraft:iron_sword{CustomModelData:1}>, 1, list[dict{ material: item<minecraft:gold_ingot>, count: 2, icon: "\uE00F" }, dict{ material: item<aether:skyroot_stick>, count: 1, icon: "\uE002", dark: true }]),
+    newRecipe(item<minecraft:iron_pickaxe{CustomModelData:1}>, 1, list[dict{ material: item<minecraft:gold_ingot>, count: 3, icon: "\uE00F" }, dict{ material: item<aether:skyroot_stick>, count: 2, icon: "\uE002", dark: true }]),
+    newRecipe(item<minecraft:iron_axe{CustomModelData:1}>, 1, list[dict{ material: item<minecraft:gold_ingot>, count: 3, icon: "\uE00F" }, dict{ material: item<aether:skyroot_stick>, count: 2, icon: "\uE002", dark: true }]),
+    newRecipe(item<minecraft:iron_shovel{CustomModelData:1}>, 1, list[dict{ material: item<minecraft:gold_ingot>, count: 1, icon: "\uE00F" }, dict{ material: item<aether:skyroot_stick>, count: 2, icon: "\uE002", dark: true }]),
+    newRecipe(item<minecraft:diamond_sword>, 1, list[dict{ material: item<minecraft:diamond>, count: 2, icon: "\uE011" }, dict{ material: item<aether:skyroot_stick>, count: 1, icon: "\uE002", dark: true }]),
+    newRecipe(item<minecraft:diamond_pickaxe>, 1, list[dict{ material: item<minecraft:diamond>, count: 3, icon: "\uE011" }, dict{ material: item<aether:skyroot_stick>, count: 2, icon: "\uE002", dark: true }]),
+    newRecipe(item<minecraft:diamond_axe>, 1, list[dict{ material: item<minecraft:diamond>, count: 3, icon: "\uE011" }, dict{ material: item<aether:skyroot_stick>, count: 2, icon: "\uE002", dark: true }]),
+    newRecipe(item<minecraft:diamond_shovel>, 1, list[dict{ material: item<minecraft:diamond>, count: 1, icon: "\uE011" }, dict{ material: item<aether:skyroot_stick>, count: 2, icon: "\uE002", dark: true }]),
+    newRecipe(item<minecraft:shears>, 1, list[dict{ material: item<minecraft:gold_nugget>, count: 2, icon: "\uE010" }]),
+    newRecipe(cold_cloud_parachute.getItem(), 1, list[dict{ material: item<aether:aercloud>, count: 3, icon: "\uE005" }, dict{ material: item<aether:cloudtwine>, count: 1, icon: "\uE004" }]),
+    newRecipe(blue_cloud_parachute.getItem(), 1, list[dict{ material: item<aether:aercloud>, count: 3, icon: "\uE006" }, dict{ material: item<aether:cloudtwine>, count: 1, icon: "\uE004" }]),
+    newRecipe(gold_cloud_parachute.getItem(), 1, list[dict{ material: item<aether:aercloud>, count: 3, icon: "\uE007" }, dict{ material: item<aether:cloudtwine>, count: 1, icon: "\uE004" }]),
+    newRecipe(green_cloud_parachute.getItem(), 1, list[dict{ material: item<aether:aercloud>, count: 3, icon: "\uE008" }, dict{ material: item<aether:cloudtwine>, count: 1, icon: "\uE004" }]),
+    newRecipe(purple_cloud_parachute.getItem(), 1, list[dict{ material: item<aether:aercloud>, count: 3, icon: "\uE008" }, dict{ material: item<aether:cloudtwine>, count: 1, icon: "\uE004" }])
+]

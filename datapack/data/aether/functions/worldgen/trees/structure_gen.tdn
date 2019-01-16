@@ -186,7 +186,7 @@ define function place_temp_dungeon_entrance {
     setblock 71 2 -72 minecraft:barrel{
         Items:[
             {
-                id:"aether:divine_sentry_stone",
+                id:"aether:holystone_brick",
                 Count:1b,
                 tag:{
                     display: {Name:"\"Dungeon Entrance\""},

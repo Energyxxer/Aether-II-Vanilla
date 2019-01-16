@@ -26,7 +26,7 @@ define function gravitite_recipe {
         set @s->item_cost = @s->ambrosium_cost
         scoreboard players operation @s item_cost /= 3 const
         
-        summon item ~ ~1 ~ {Tags:["altar_output"],Item:{id:"aether:enchanted_gravitite",Count:1b},Motion:[0.0,0.2,0.0]}
+        summon item ~ ~1 ~ {Tags:["altar_output"],Item:{id:"aether:gravitite_block",Count:1b},Motion:[0.0,0.2,0.0]}
         set @e[type=item,tag=altar_output,limit=1].Item.Count = @s->item_cost
         
         if score @s item_cost matches 1.. tag @s add recipe_found
@@ -129,8 +129,7 @@ define entity altar_entity minecraft:armor_stand {
         Tags:["needs_id","link_holder"],
         Invisible:1b,
         Invulnerable:1b,
-        Marker:1b,
-        ArmorItems:[{},{},{},{id:"aether:mob_model",Count:1b,tag:{CustomModelData:98}}]
+        Marker:1b
     }
     
     function set_altar_block {
