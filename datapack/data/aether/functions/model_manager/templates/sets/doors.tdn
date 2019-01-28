@@ -1,0 +1,95 @@
+@on compile
+@require aether:model_manager
+@priority 50
+
+eval ModelManager.templates.sets.door = {
+    create: function(bottomLeftModel, bottomRightModel, topLeftModel, topRightModel, inventoryModel) {
+        do if(isInstance(bottomLeftModel, "list")) {
+            return this.create(bottomLeftModel[0],bottomLeftModel[1],bottomLeftModel[2],bottomLeftModel[3],bottomLeftModel[4])
+        }
+        var obj = {
+            blockstate: ModelManager.createBlockstateObject(),
+            itemModel: ModelManager.createModelObject().setParent(inventoryModel),
+            export: function(blk, itm) {
+                do if(itm == null) {
+                    eval itm = blk
+                }
+                eval this.blockstate.export(blk)
+                eval this.itemModel.export(ModelManager.getPathForModel(ModelManager.toItem(itm)))
+            }
+        }
+        
+        eval obj.blockstate.forVariant("facing=east,half=lower,hinge=left,open=false").addModel({"model": bottomLeftModel})
+        eval obj.blockstate.forVariant("facing=south,half=lower,hinge=left,open=false").addModel({"model": bottomLeftModel, "y": 90})
+        eval obj.blockstate.forVariant("facing=west,half=lower,hinge=left,open=false").addModel({"model": bottomLeftModel, "y": 180})
+        eval obj.blockstate.forVariant("facing=north,half=lower,hinge=left,open=false").addModel({"model": bottomLeftModel, "y": 270})
+        eval obj.blockstate.forVariant("facing=east,half=lower,hinge=right,open=false").addModel({"model": bottomRightModel})
+        eval obj.blockstate.forVariant("facing=south,half=lower,hinge=right,open=false").addModel({"model": bottomRightModel, "y": 90})
+        eval obj.blockstate.forVariant("facing=west,half=lower,hinge=right,open=false").addModel({"model": bottomRightModel, "y": 180})
+        eval obj.blockstate.forVariant("facing=north,half=lower,hinge=right,open=false").addModel({"model": bottomRightModel, "y": 270})
+        eval obj.blockstate.forVariant("facing=east,half=lower,hinge=left,open=true").addModel({"model": bottomRightModel, "y": 90})
+        eval obj.blockstate.forVariant("facing=south,half=lower,hinge=left,open=true").addModel({"model": bottomRightModel, "y": 180})
+        eval obj.blockstate.forVariant("facing=west,half=lower,hinge=left,open=true").addModel({"model": bottomRightModel, "y": 270})
+        eval obj.blockstate.forVariant("facing=north,half=lower,hinge=left,open=true").addModel({"model": bottomRightModel})
+        eval obj.blockstate.forVariant("facing=east,half=lower,hinge=right,open=true").addModel({"model": bottomLeftModel, "y": 270})
+        eval obj.blockstate.forVariant("facing=south,half=lower,hinge=right,open=true").addModel({"model": bottomLeftModel})
+        eval obj.blockstate.forVariant("facing=west,half=lower,hinge=right,open=true").addModel({"model": bottomLeftModel, "y": 90})
+        eval obj.blockstate.forVariant("facing=north,half=lower,hinge=right,open=true").addModel({"model": bottomLeftModel, "y": 180})
+        eval obj.blockstate.forVariant("facing=east,half=upper,hinge=left,open=false").addModel({"model": topLeftModel})
+        eval obj.blockstate.forVariant("facing=south,half=upper,hinge=left,open=false").addModel({"model": topLeftModel, "y": 90})
+        eval obj.blockstate.forVariant("facing=west,half=upper,hinge=left,open=false").addModel({"model": topLeftModel, "y": 180})
+        eval obj.blockstate.forVariant("facing=north,half=upper,hinge=left,open=false").addModel({"model": topLeftModel, "y": 270})
+        eval obj.blockstate.forVariant("facing=east,half=upper,hinge=right,open=false").addModel({"model": topRightModel})
+        eval obj.blockstate.forVariant("facing=south,half=upper,hinge=right,open=false").addModel({"model": topRightModel, "y": 90})
+        eval obj.blockstate.forVariant("facing=west,half=upper,hinge=right,open=false").addModel({"model": topRightModel, "y": 180})
+        eval obj.blockstate.forVariant("facing=north,half=upper,hinge=right,open=false").addModel({"model": topRightModel, "y": 270})
+        eval obj.blockstate.forVariant("facing=east,half=upper,hinge=left,open=true").addModel({"model": topRightModel, "y": 90})
+        eval obj.blockstate.forVariant("facing=south,half=upper,hinge=left,open=true").addModel({"model": topRightModel, "y": 180})
+        eval obj.blockstate.forVariant("facing=west,half=upper,hinge=left,open=true").addModel({"model": topRightModel, "y": 270})
+        eval obj.blockstate.forVariant("facing=north,half=upper,hinge=left,open=true").addModel({"model": topRightModel})
+        eval obj.blockstate.forVariant("facing=east,half=upper,hinge=right,open=true").addModel({"model": topLeftModel, "y": 270})
+        eval obj.blockstate.forVariant("facing=south,half=upper,hinge=right,open=true").addModel({"model": topLeftModel})
+        eval obj.blockstate.forVariant("facing=west,half=upper,hinge=right,open=true").addModel({"model": topLeftModel, "y": 90})
+        eval obj.blockstate.forVariant("facing=north,half=upper,hinge=right,open=true").addModel({"model": topLeftModel, "y": 180})
+        
+        return obj
+    }
+}
+
+eval ModelManager.templates.sets.trapdoor = {
+    create: function(bottomModel, topModel, openModel) {
+        do if(isInstance(bottomModel, "list")) {
+            return this.create(bottomModel[0],bottomModel[1],bottomModel[2])
+        }
+        var obj = {
+            blockstate: ModelManager.createBlockstateObject(),
+            itemModel: ModelManager.createModelObject().setParent(bottomModel),
+            export: function(blk, itm) {
+                do if(itm == null) {
+                    eval itm = blk
+                }
+                eval this.blockstate.export(blk)
+                eval this.itemModel.export(ModelManager.getPathForModel(ModelManager.toItem(itm)))
+            }
+        }
+        
+        eval obj.blockstate.forVariant("facing=north,half=bottom,open=false").addModel({ "model": bottomModel })
+        eval obj.blockstate.forVariant("facing=south,half=bottom,open=false").addModel({ "model": bottomModel })
+        eval obj.blockstate.forVariant("facing=east,half=bottom,open=false").addModel({ "model": bottomModel })
+        eval obj.blockstate.forVariant("facing=west,half=bottom,open=false").addModel({ "model": bottomModel })
+        eval obj.blockstate.forVariant("facing=north,half=top,open=false").addModel({ "model": topModel })
+        eval obj.blockstate.forVariant("facing=south,half=top,open=false").addModel({ "model": topModel })
+        eval obj.blockstate.forVariant("facing=east,half=top,open=false").addModel({ "model": topModel })
+        eval obj.blockstate.forVariant("facing=west,half=top,open=false").addModel({ "model": topModel })
+        eval obj.blockstate.forVariant("facing=north,half=bottom,open=true").addModel({ "model": openModel })
+        eval obj.blockstate.forVariant("facing=south,half=bottom,open=true").addModel({ "model": openModel, "y": 180 })
+        eval obj.blockstate.forVariant("facing=east,half=bottom,open=true").addModel({ "model": openModel, "y": 90 })
+        eval obj.blockstate.forVariant("facing=west,half=bottom,open=true").addModel({ "model": openModel, "y": 270 })
+        eval obj.blockstate.forVariant("facing=north,half=top,open=true").addModel({ "model": openModel })
+        eval obj.blockstate.forVariant("facing=south,half=top,open=true").addModel({ "model": openModel, "y": 180 })
+        eval obj.blockstate.forVariant("facing=east,half=top,open=true").addModel({ "model": openModel, "y": 90 })
+        eval obj.blockstate.forVariant("facing=west,half=top,open=true").addModel({ "model": openModel, "y": 270 })
+                
+        return obj
+    }
+}

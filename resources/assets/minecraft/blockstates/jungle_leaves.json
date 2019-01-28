@@ -1,6 +1,6 @@
 {
     "variants": {
-        "persistent=false": { "model": "aether:block/aether_leaves/purple_fruit_leaves"},
-        "persistent=true": { "model": "aether:block/blueberry_bush/blueberry_bush_ripe"}
+        "persistent=false": { "model": "aether:block/leaves/purple_fruit_leaves"},
+        "persistent=true": { "model": "aether:block/bushes/blueberry_bush_ripe"}
     }
 }

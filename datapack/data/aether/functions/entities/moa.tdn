@@ -89,9 +89,9 @@ define entity moa minecraft:turtle {
             set ${model_upper}->model_offset = 0
         
             unless entity $hitbox kill @s
-            unless entity @s playsound aether:aemob.moa.say hostile @a
+            unless entity @s playsound aether:mob.moa.hurt hostile @a
             scoreboard players set $hitbox self_destruct 0
-            if entity $hitbox[nbt={HurtTime:8s}] playsound aether:aemob.moa.say hostile @a
+            if entity $hitbox[nbt={HurtTime:8s}] playsound aether:mob.moa.hurt hostile @a
             data modify entity $model_upper Pose.Head[0] set value 5f
             
             data merge entity ${model_lower} {Pose:{RightArm:[15.0f,0.0f,0.0f],LeftArm:[15.0f,0.0f,0.0f]}}
@@ -133,7 +133,7 @@ define entity moa minecraft:turtle {
                 #amplitude: 60
                 kill @e[tag=sin_calc]
                 
-                if score @s jump_time matches 360.. playsound aether:aemob.moa.flap neutral @a ~ ~ ~ 0.5 1 0
+                if score @s jump_time matches 360.. playsound aether:mob.generic.wings.flap neutral @a ~ ~ ~ 0.5 1 0
                 
                 if score @s jump_time matches 360.. scoreboard players set @s jump_time 0
             }
@@ -277,7 +277,7 @@ define function moa_riding {
                 set ${root}.Motion[1] = 1.0d
                 scoreboard players remove $root moa_jumps_left 1
                 at ${root}[nbt={OnGround:0b}] particle cloud ~ ~1 ~ 0.6 0 0.6 0.3 10
-                if entity ${root}[nbt={OnGround:0b}] playsound aether:aemob.moa.flap neutral @a ~ ~ ~ 1 1 0
+                if entity ${root}[nbt={OnGround:0b}] playsound aether:mob.generic.wings.flap neutral @a ~ ~ ~ 1 1 0
             }
         }
         scoreboard players remove @s[scores={moa_cooldown=1..}] moa_cooldown 1

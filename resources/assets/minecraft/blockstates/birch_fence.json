@@ -1,19 +1,28 @@
 {
     "multipart": [
-        {   
-            "apply": { "model": "aether:block/skyroot_wall_post" }
+        {
+            "when": {"OR": [
+                {"north": "true", "east": "true"},
+                {"east": "true", "south": "true"},
+                {"south": "true", "west": "true"},
+                {"west": "true", "north": "true"},
+                {"east": "false", "south": "false", "west": "false"},
+                {"north": "false", "south": "false", "west": "false"},
+                {"north": "false", "east": "false", "west": "false"},
+                {"north": "false", "east": "false", "south": "false"}]},
+            "apply": { "model": "aether:block/aether_wall/skyroot_wall_post" }
         },
         {   "when": { "north": "true" },
-            "apply": { "model": "aether:block/skyroot_wall_side", "uvlock": true }
+            "apply": { "model": "aether:block/aether_wall/skyroot_wall_side", "uvlock": true }
         },
         {   "when": { "east": "true" },
-            "apply": { "model": "aether:block/skyroot_wall_side", "y": 90, "uvlock": true }
+            "apply": { "model": "aether:block/aether_wall/skyroot_wall_side", "y": 90, "uvlock": true }
         },
         {   "when": { "south": "true" },
-            "apply": { "model": "aether:block/skyroot_wall_side", "y": 180, "uvlock": true }
+            "apply": { "model": "aether:block/aether_wall/skyroot_wall_side", "y": 180, "uvlock": true }
         },
         {   "when": { "west": "true" },
-            "apply": { "model": "aether:block/skyroot_wall_side", "y": 270, "uvlock": true }
+            "apply": { "model": "aether:block/aether_wall/skyroot_wall_side", "y": 270, "uvlock": true }
         }
     ]
 }

@@ -1,6 +1,6 @@
 {
-	"parent": "block/tinted_cross",
+	"parent": "block/cross",
 	"textures": {
-		"cross": "aether:blocks/tall_grass/normal_irradiated"
+		"cross": "aether:blocks/tall_grass/normal_enchanted"
 	}
 }

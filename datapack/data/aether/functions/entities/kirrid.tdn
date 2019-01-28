@@ -1,0 +1,128 @@
+@ on compile
+@ require aether:entities/general/entity_model
+@ require aether:entities/tick
+@ require aether:util/rand
+@ require aether:util/search
+
+var model_main = entity<@e[tag=main_model_component,limit=1]>
+var model_secondary = entity<@e[tag=secondary_model_component,limit=1]>
+
+define entity kirrid minecraft:sheep {
+    
+    default nbt {
+        CustomName: "\"Kirrid\"",
+        Tags: ["needs_id","model_target","multiple_models","model_holder"],
+        ActiveEffects:[
+            {
+                Id:14b,
+                Duration:1000000,
+                Amplifier:1b,
+                ShowParticles:0b
+            }
+        ],
+        Silent:1b,
+        DeathLootTable: "aether:entities/kirrid"
+    }
+    
+    default health 12
+    
+    default passengers [
+        $entity_model{
+            Tags:["kirrid_model_main","hand_models"],
+            Pose:{
+                Head:[0.0f,0.0f,0.0f],
+                RightArm:[0.0f,0.0f,0.0f],
+                LeftArm:[0.0f,0.0f,0.0f]
+            },
+            ArmorItems:[
+                {},
+                {},
+                {},
+                {id:"aether:mob_model",Count:1b,tag:{CustomModelData:100,Model:{BaseModel:100}}}
+            ],
+            HandItems:[
+                {id:"aether:mob_model",Count:1b,tag:{CustomModelData:102,Model:{BaseModel:102}}},
+                {id:"aether:mob_model",Count:1b,tag:{CustomModelData:102,Model:{BaseModel:102}}}
+            ]
+        },
+        $entity_model{
+            Tags:["kirrid_model_secondary","hand_models"],
+            ArmorItems:[{},{},{},{id:"aether:mob_model",Count:1b,tag:{CustomModelData:104,Model:{BaseModel:104}}}]
+        }
+    ]
+    
+    function identify_components {
+        function aether:util/search/by_id
+        tag @e[tag=return,type=$entity_model,tag=kirrid_model_main] add main_model_component
+        tag @e[tag=return,type=$entity_model,tag=kirrid_model_secondary] add secondary_model_component
+        function aether:util/search/release
+    }
+    
+    function release_components {
+        tag @e[tag=main_model_component] remove main_model_component
+        tag @e[tag=secondary_model_component] remove secondary_model_component
+    }
+    
+    ticking function tick {
+        function aether:entities/kirrid/identify_components
+        
+        unless entity @s[tag=init] function {
+            set $model_main->model_offset = 0
+            set $model_secondary->model_offset = 0
+            if entity @s[nbt={Sheared:1b}] set $model_main->model_offset = 1
+            unless entity @s[nbt={HurtTime:0s}] scoreboard players add $model_main model_offset 5
+            unless entity @s[nbt={HurtTime:0s}] scoreboard players add $model_secondary model_offset 5
+            if entity @s[nbt={Sheared:1b},tag=!sheared] playsound minecraft:entity.sheep.shear player @a
+            tag @s remove sheared
+            tag @s[nbt={Sheared:1b}] add sheared
+            #set $model_secondary->model_offset = 0
+            
+            if entity @s[nbt={HurtTime:8s}] playsound minecraft:entity.sheep.hurt neutral @a ~ ~ ~ 1 0.5 0
+            
+            data merge entity $model_main {Pose:{RightArm:[0.0f,0.0625f,0.0f],LeftArm:[0.0f,0.0625f,0.0f]}}
+            if entity @a[distance=..16] function {
+                set @s->op0 = -1
+                set @s->op1 = 360
+                set @s->op_x = @s.Motion[0] * 120
+                if score @s op_x matches ..-1 scoreboard players operation @s op_x *= @s op0
+                set @s->op_z = @s.Motion[2] * 120
+                if score @s op_z matches ..-1 scoreboard players operation @s op_z *= @s op0
+                
+                set @s->op0 = @s->op_x
+                scoreboard players operation @s op0 += @s op_z
+                #op0 ~=~ motion xz
+                
+                scoreboard players operation @s walk_time += @s op0
+                scoreboard players operation @s walk_time %= @s op1
+                summon area_effect_cloud 0.0 0.0 0.0 {Tags:["sin_calc"]}
+                set @e[tag=sin_calc,limit=1].Rotation[0] * 0.1 = @s->walk_time * 10
+                as @e[tag=sin_calc,limit=1] at @s tp @s ^ ^ ^1
+                set $model_main.Pose.RightArm[0] * 0.1 = @e[tag=sin_calc,limit=1].Pos[0] * 60
+                set $model_main.Pose.LeftArm[0] * 0.1 = @e[tag=sin_calc,limit=1].Pos[0] * -60
+                #amplitude: 15
+                kill @e[tag=sin_calc]
+                scoreboard players remove @s[scores={walk_time=360..}] walk_time 360
+            }
+            scoreboard players remove @s[scores={walk_time=15..}] walk_time 3
+        }
+        
+        function aether:entities/kirrid/release_components
+    }
+}
+
+define item kirrid_spawn_egg minecraft:sheep_spawn_egg {
+    default nbt {EntityTag:{id:"minecraft:area_effect_cloud",Duration:1,Radius:0f,Tags:["spawn_kirrid"]}}
+    
+    default name {"text":"Kirrid Spawn Egg","italic":false}
+    
+    function give {
+        give @s $kirrid_spawn_egg
+    }
+}
+
+define function extra {
+    @ tag tick
+    
+    at @e[type=area_effect_cloud,tag=spawn_kirrid] summon $kirrid
+    kill @e[type=area_effect_cloud,tag=spawn_kirrid]
+}

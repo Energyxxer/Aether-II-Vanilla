@@ -1,5 +1,5 @@
 {
-    "parent": "aether:item/skyroot_crafting_table",
+    "parent": "aether:item/crafting_tables/skyroot_crafting_table",
     "display": {
 	    "head": {
 	        "rotation": [ 0, 180, 0 ],

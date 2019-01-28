@@ -2,8 +2,8 @@
 	"ambientocclusion": false,
 
 	"textures": {
-		"inner": "aether:blocks/blueberry_bush/blueberry_bush_stem",
-		"particle": "aether:blocks/blueberry_bush/blueberry_bush_stem"
+		"inner": "aether:blocks/bushes/blueberry_bush_stem",
+		"particle": "aether:blocks/bushes/blueberry_bush_stem"
 	},
 
 	"elements": [

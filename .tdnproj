@@ -2,7 +2,7 @@
     "language-level": 2,
     "default-namespace": "trident-aetherii",
     "datapack-output": "C:\\Users\\Usuario\\AppData\\Roaming\\.minecraft\\saves\\Aether II Vanilla\\datapacks\\The Aether II Genesis",
-    "resources-output": "C:\\Users\\Usuario\\AppData\\Roaming\\.minecraft\\saves\\Aether II Vanilla\\resources.zip",
+    "resources-output": "C:\\Users\\Usuario\\AppData\\Roaming\\.minecraft\\resourcepacks\\Aether II Vanilla",
     "export-comments": true,
     "aliases": {
         "block": {

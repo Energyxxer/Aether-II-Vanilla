@@ -1,7 +1,7 @@
 {
 	"parent": "item/generated",
 	"textures": {
-		"layer0": "aether:blocks/aether_sapling/golden_oak_sapling"
+		"layer0": "aether:blocks/saplings/golden_oak_sapling"
 	},
 	"display": {
 		"thirdperson": {

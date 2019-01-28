@@ -1,0 +1,167 @@
+@on compile
+@require aether:model_manager
+@priority 50
+
+eval ModelManager.templates.sets.stairs = {
+    create: function(model, outerModel, innerModel) {
+        do if(isInstance(model, "list")) {
+            return this.create(model[0],model[1],model[2])
+        }
+        var obj = {
+            blockstate: ModelManager.createBlockstateObject(),
+            itemModel: ModelManager.createModelObject().setParent(model),
+            export: function(blk, itm) {
+                do if(itm == null) {
+                    eval itm = blk
+                }
+                eval this.blockstate.export(blk)
+                eval this.itemModel.export(ModelManager.getPathForModel(ModelManager.toItem(itm)))
+            }
+        }
+        
+        eval obj.blockstate.forVariant("facing=east,half=bottom,shape=straight").addModel({ "model": model })
+        eval obj.blockstate.forVariant("facing=west,half=bottom,shape=straight").addModel({ "model": model, "y": 180, "uvlock": true })
+        eval obj.blockstate.forVariant("facing=south,half=bottom,shape=straight").addModel({ "model": model, "y": 90, "uvlock": true })
+        eval obj.blockstate.forVariant("facing=north,half=bottom,shape=straight").addModel({ "model": model, "y": 270, "uvlock": true })
+        eval obj.blockstate.forVariant("facing=east,half=bottom,shape=outer_right").addModel({ "model": outerModel })
+        eval obj.blockstate.forVariant("facing=west,half=bottom,shape=outer_right").addModel({ "model": outerModel, "y": 180, "uvlock": true })
+        eval obj.blockstate.forVariant("facing=south,half=bottom,shape=outer_right").addModel({ "model": outerModel, "y": 90, "uvlock": true })
+        eval obj.blockstate.forVariant("facing=north,half=bottom,shape=outer_right").addModel({ "model": outerModel, "y": 270, "uvlock": true })
+        eval obj.blockstate.forVariant("facing=east,half=bottom,shape=outer_left").addModel({ "model": outerModel, "y": 270, "uvlock": true })
+        eval obj.blockstate.forVariant("facing=west,half=bottom,shape=outer_left").addModel({ "model": outerModel, "y": 90, "uvlock": true })
+        eval obj.blockstate.forVariant("facing=south,half=bottom,shape=outer_left").addModel({ "model": outerModel })
+        eval obj.blockstate.forVariant("facing=north,half=bottom,shape=outer_left").addModel({ "model": outerModel, "y": 180, "uvlock": true })
+        eval obj.blockstate.forVariant("facing=east,half=bottom,shape=inner_right").addModel({ "model": innerModel })
+        eval obj.blockstate.forVariant("facing=west,half=bottom,shape=inner_right").addModel({ "model": innerModel, "y": 180, "uvlock": true })
+        eval obj.blockstate.forVariant("facing=south,half=bottom,shape=inner_right").addModel({ "model": innerModel, "y": 90, "uvlock": true })
+        eval obj.blockstate.forVariant("facing=north,half=bottom,shape=inner_right").addModel({ "model": innerModel, "y": 270, "uvlock": true })
+        eval obj.blockstate.forVariant("facing=east,half=bottom,shape=inner_left").addModel({ "model": innerModel, "y": 270, "uvlock": true })
+        eval obj.blockstate.forVariant("facing=west,half=bottom,shape=inner_left").addModel({ "model": innerModel, "y": 90, "uvlock": true })
+        eval obj.blockstate.forVariant("facing=south,half=bottom,shape=inner_left").addModel({ "model": innerModel })
+        eval obj.blockstate.forVariant("facing=north,half=bottom,shape=inner_left").addModel({ "model": innerModel, "y": 180, "uvlock": true })
+        eval obj.blockstate.forVariant("facing=east,half=top,shape=straight").addModel({ "model": model, "x": 180, "uvlock": true })
+        eval obj.blockstate.forVariant("facing=west,half=top,shape=straight").addModel({ "model": model, "x": 180, "y": 180, "uvlock": true })
+        eval obj.blockstate.forVariant("facing=south,half=top,shape=straight").addModel({ "model": model, "x": 180, "y": 90, "uvlock": true })
+        eval obj.blockstate.forVariant("facing=north,half=top,shape=straight").addModel({ "model": model, "x": 180, "y": 270, "uvlock": true })
+        eval obj.blockstate.forVariant("facing=east,half=top,shape=outer_right").addModel({ "model": outerModel, "x": 180, "y": 90, "uvlock": true })
+        eval obj.blockstate.forVariant("facing=west,half=top,shape=outer_right").addModel({ "model": outerModel, "x": 180, "y": 270, "uvlock": true })
+        eval obj.blockstate.forVariant("facing=south,half=top,shape=outer_right").addModel({ "model": outerModel, "x": 180, "y": 180, "uvlock": true })
+        eval obj.blockstate.forVariant("facing=north,half=top,shape=outer_right").addModel({ "model": outerModel, "x": 180, "uvlock": true })
+        eval obj.blockstate.forVariant("facing=east,half=top,shape=outer_left").addModel({ "model": outerModel, "x": 180, "uvlock": true })
+        eval obj.blockstate.forVariant("facing=west,half=top,shape=outer_left").addModel({ "model": outerModel, "x": 180, "y": 180, "uvlock": true })
+        eval obj.blockstate.forVariant("facing=south,half=top,shape=outer_left").addModel({ "model": outerModel, "x": 180, "y": 90, "uvlock": true })
+        eval obj.blockstate.forVariant("facing=north,half=top,shape=outer_left").addModel({ "model": outerModel, "x": 180, "y": 270, "uvlock": true })
+        eval obj.blockstate.forVariant("facing=east,half=top,shape=inner_right").addModel({ "model": innerModel, "x": 180, "y": 90, "uvlock": true })
+        eval obj.blockstate.forVariant("facing=west,half=top,shape=inner_right").addModel({ "model": innerModel, "x": 180, "y": 270, "uvlock": true })
+        eval obj.blockstate.forVariant("facing=south,half=top,shape=inner_right").addModel({ "model": innerModel, "x": 180, "y": 180, "uvlock": true })
+        eval obj.blockstate.forVariant("facing=north,half=top,shape=inner_right").addModel({ "model": innerModel, "x": 180, "uvlock": true })
+        eval obj.blockstate.forVariant("facing=east,half=top,shape=inner_left").addModel({ "model": innerModel, "x": 180, "uvlock": true })
+        eval obj.blockstate.forVariant("facing=west,half=top,shape=inner_left").addModel({ "model": innerModel, "x": 180, "y": 180, "uvlock": true })
+        eval obj.blockstate.forVariant("facing=south,half=top,shape=inner_left").addModel({ "model": innerModel, "x": 180, "y": 90, "uvlock": true })
+        eval obj.blockstate.forVariant("facing=north,half=top,shape=inner_left").addModel({ "model": innerModel, "x": 180, "y": 270, "uvlock": true })
+        
+        return obj
+    }
+}
+
+eval ModelManager.templates.blocks.stairs = {
+    create: function(sideTexture, topTexture, bottomTexture) {
+        do if(topTexture == null) {
+            eval topTexture = sideTexture
+        }
+        do if(bottomTexture == null) {
+            eval bottomTexture = sideTexture
+        }
+        var modelPrefix = ((string) sideTexture)
+        do if(modelPrefix.contains("/")) {
+            eval modelPrefix = modelPrefix.substring(modelPrefix.lastIndexOf("/")+1)
+        }
+        var straightPath = (resource) (((string)ModelManager.generatedModelPath) + "/stairs/" + modelPrefix + "_stairs")
+        var outerPath = (resource) (((string)ModelManager.generatedModelPath) + "/stairs/" + modelPrefix + "_stairs_outer")
+        var innerPath = (resource) (((string)ModelManager.generatedModelPath) + "/stairs/" + modelPrefix + "_stairs_inner")
+        
+        eval ModelManager.createModelObject()
+                    .setParent(resource<block/stairs>)
+                    .setTexture("bottom", bottomTexture)
+                    .setTexture("side", sideTexture)
+                    .setTexture("top", topTexture)
+                    .export(straightPath)
+        eval ModelManager.createModelObject()
+                    .setParent(resource<block/outer_stairs>)
+                    .setTexture("bottom", bottomTexture)
+                    .setTexture("side", sideTexture)
+                    .setTexture("top", topTexture)
+                    .export(outerPath)
+        eval ModelManager.createModelObject()
+                    .setParent(resource<block/inner_stairs>)
+                    .setTexture("bottom", bottomTexture)
+                    .setTexture("side", sideTexture)
+                    .setTexture("top", topTexture)
+                    .export(innerPath)
+                    
+        return [straightPath, outerPath, innerPath]
+    }
+}
+
+eval ModelManager.templates.sets.slab = {
+    create: function(lowerModel, upperModel, doubleModel) {
+        do if(isInstance(lowerModel, "list")) {
+            return this.create(lowerModel[0],lowerModel[1],lowerModel[2])
+        }
+        var obj = {
+            blockstate: ModelManager.createBlockstateObject(),
+            itemModel: ModelManager.createModelObject().setParent(lowerModel),
+            export: function(blk, itm) {
+                do if(itm == null) {
+                    eval itm = blk
+                }
+                eval this.blockstate.export(blk)
+                eval this.itemModel.export(ModelManager.getPathForModel(ModelManager.toItem(itm)))
+            }
+        }
+        
+        eval obj.blockstate.forVariant("type=bottom").addModel(lowerModel)
+        eval obj.blockstate.forVariant("type=top").addModel(upperModel)
+        eval obj.blockstate.forVariant("type=double").addModel(doubleModel)
+        return obj
+    }
+}
+
+eval ModelManager.templates.blocks.slab = {
+    create: function(sideTexture, topTexture, bottomTexture) {
+        do if(topTexture == null) {
+            eval topTexture = sideTexture
+        }
+        do if(bottomTexture == null) {
+            eval bottomTexture = sideTexture
+        }
+        var modelPrefix = ((string) sideTexture)
+        do if(modelPrefix.contains("/")) {
+            eval modelPrefix = modelPrefix.substring(modelPrefix.lastIndexOf("/")+1)
+        }
+        var lowerPath = (resource) (((string)ModelManager.generatedModelPath) + "/slabs/" + modelPrefix + "_slab_lower")
+        var upperPath = (resource) (((string)ModelManager.generatedModelPath) + "/slabs/" + modelPrefix + "_slab_upper")
+        var doublePath = (resource) (((string)ModelManager.generatedModelPath) + "/slabs/" + modelPrefix + "_slab_double")
+        
+        eval ModelManager.createModelObject()
+                    .setParent(resource<block/slab>)
+                    .setTexture("bottom", bottomTexture)
+                    .setTexture("side", sideTexture)
+                    .setTexture("top", topTexture)
+                    .export(lowerPath)
+        eval ModelManager.createModelObject()
+                    .setParent(resource<block/slab_top>)
+                    .setTexture("bottom", bottomTexture)
+                    .setTexture("side", sideTexture)
+                    .setTexture("top", topTexture)
+                    .export(upperPath)
+        eval ModelManager.createModelObject()
+                    .setParent(resource<block/cube_bottom_top>)
+                    .setTexture("bottom", bottomTexture)
+                    .setTexture("side", sideTexture)
+                    .setTexture("top", topTexture)
+                    .export(doublePath)
+                    
+        return [lowerPath, upperPath, doublePath]
+    }
+}

@@ -16,6 +16,6 @@ define entity labyrinth_totem minecraft:armor_stand {
 
 define function totem_drone {
     @tag load
-    at @e[type=$labyrinth_totem] run playsound aether:aeportal.totem_drone block @a ~ ~ ~
+    at @e[type=$labyrinth_totem] run playsound aether:portal.labyrinth_totem.drone block @a ~ ~ ~
     schedule function / 32s
 }

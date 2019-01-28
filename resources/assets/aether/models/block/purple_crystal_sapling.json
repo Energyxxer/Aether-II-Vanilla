@@ -1,7 +1,7 @@
 {
     "parent": "block/cross",
     "textures": {
-        "cross": "aether:blocks/aether_sapling/purple_crystal_sapling",
-        "particle": "aether:blocks/aether_sapling/purple_crystal_sapling"
+        "cross": "aether:blocks/saplings/purple_crystal_sapling",
+        "particle": "aether:blocks/saplings/purple_crystal_sapling"
     }
 }

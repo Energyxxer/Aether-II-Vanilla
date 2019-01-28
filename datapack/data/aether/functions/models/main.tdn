@@ -1,0 +1,124 @@
+@on compile
+@require aether:model_manager
+
+#Holystone
+eval ModelManager.templates.sets.basic.create(resource<aether:block/holystone/holystone>).export(block<minecraft:stone>)
+eval ModelManager.templates.sets.basic.create(resource<aether:block/holystone/holystone>).export(block<minecraft:cobblestone>)
+eval ModelManager.templates.sets.basic.create(resource<aether:block/holystone/mossy_holystone>).export(block<minecraft:andesite>)
+eval ModelManager.templates.sets.basic.create(resource<aether:block/holystone/blood_moss_holystone>).export(block<minecraft:obsidian>)
+
+#Nature
+eval ModelManager.templates.sets.basic.create(resource<aether:block/grass/aether_grass>).addRandomRotations().export(block<minecraft:grass_block>)
+eval ModelManager.templates.sets.basic.create(resource<aether:block/aether_dirt/dirt>).addRandomRotations().export(block<minecraft:dirt>)
+eval ModelManager.templates.sets.basic.create(resource<aether:block/aether_dirt/coarse_dirt>).addRandomRotations().export(block<minecraft:coarse_dirt>)
+eval ModelManager.templates.sets.basic.create(resource<aether:block/grass/enchanted_aether_grass>).addRandomRotations().export(block<minecraft:podzol>)
+
+eval ModelManager.templates.sets.basic.create(resource<aether:block/saplings/green_skyroot_sapling>, resource<aether:item/saplings/green_skyroot_sapling>).export(block<minecraft:oak_sapling>)
+#reserved for spruce sapling
+eval ModelManager.templates.sets.basic.create(resource<aether:block/saplings/golden_oak_sapling>, resource<aether:item/saplings/golden_oak_sapling>).export(block<minecraft:birch_sapling>)
+eval ModelManager.templates.sets.basic.create(resource<aether:block/saplings/dark_blue_skyroot_sapling>, resource<aether:item/saplings/dark_blue_skyroot_sapling>).export(block<minecraft:jungle_sapling>)
+eval ModelManager.templates.sets.basic.create(resource<aether:block/saplings/blue_skyroot_sapling>, resource<aether:item/saplings/blue_skyroot_sapling>).export(block<minecraft:acacia_sapling>)
+
+eval ModelManager.templates.sets.basic.create(resource<aether:block/leaves/green_skyroot_leaves>).export(block<minecraft:oak_leaves>)
+eval ModelManager.templates.sets.basic.create(resource<aether:block/leaves/golden_oak_leaves>).export(block<minecraft:birch_leaves>)
+eval ModelManager.templates.sets.basic.create(resource<aether:block/leaves/dark_blue_skyroot_leaves>).export(block<minecraft:acacia_leaves>)
+eval ModelManager.templates.sets.basic.create(resource<aether:block/leaves/blue_skyroot_leaves>).export(block<minecraft:dark_oak_leaves>)
+
+eval ModelManager.templates.sets.basic.create([
+            resource<aether:block/tall_grass/short_aether>,
+            resource<aether:block/tall_grass/normal_aether>,
+            resource<aether:block/tall_grass/long_aether>
+], resource<aether:item/tall_grass/long_aether>).export(block<minecraft:grass>)
+
+# Flowers
+eval ModelManager.templates.sets.basic.create(resource<aether:block/flowers/purple_flower>, resource<aether:item/flowers/purple_flower>).export(block<minecraft:dandelion>)
+eval ModelManager.templates.sets.basic.create(resource<aether:block/flowers/white_rose>, resource<aether:item/flowers/white_rose>).export(block<minecraft:poppy>)
+eval ModelManager.templates.sets.basic.create(resource<aether:block/flowers/burstblossom>, resource<aether:item/flowers/burstblossom>).export(block<minecraft:azure_bluet>)
+eval ModelManager.templates.sets.basic.create(resource<aether:block/flowers/moonlit_bloom>, resource<aether:item/flowers/moonlit_bloom>).export(block<minecraft:cornflower>)
+
+# Decoration
+# twigs and holystone rock blockstates must be in the resource pack, as they are too specific for writing with code
+eval ModelManager.createModelObject()
+            .setParent(resource<aether:item/skyroot_twigs>)
+            .export(ModelManager.getPathForModel(item<minecraft:orange_tulip>))
+eval ModelManager.createModelObject()
+            .setParent(resource<aether:item/holystone_rock>)
+            .export(ModelManager.getPathForModel(item<minecraft:white_tulip>))
+
+# Blueberry Bushes
+eval ModelManager.createBlockstateObject()
+            .forVariant("stage=0").addModel(resource<aether:block/bushes/blueberry_bush_stem>).back()
+            .forVariant("stage=1").addModel(resource<aether:block/bushes/blueberry_bush_ripe>).back().export(block<minecraft:dark_oak_sapling>)
+eval ModelManager.createModelObject()
+            .setParent(resource<aether:item/bushes/blueberry_bush_stem>)
+            .export(ModelManager.getPathForModel(item<minecraft:dark_oak_sapling>))
+eval ModelManager.templates.sets.basic.create(resource<aether:block/bushes/blueberry_bush_ripe>).export(block<minecraft:jungle_leaves>)
+
+# Ores
+eval ModelManager.templates.sets.basic.create(resource<aether:block/icestone_ore>).export(block<minecraft:lapis_ore>)
+eval ModelManager.templates.sets.basic.create(resource<aether:block/ores/ambrosium_ore>).export(block<minecraft:coal_ore>)
+eval ModelManager.templates.sets.basic.create(resource<aether:block/ores/zanite_ore>).export(block<minecraft:iron_ore>)
+eval ModelManager.templates.sets.basic.create(resource<aether:block/ores/arkenium_ore>).export(block<minecraft:gold_ore>)
+eval ModelManager.templates.sets.basic.create(resource<aether:block/ores/gravitite_ore>).export(block<minecraft:diamond_ore>)
+
+# Ore Blocks
+eval ModelManager.templates.sets.basic.create(resource<aether:block/zanite_block>).export(block<minecraft:iron_block>)
+eval ModelManager.templates.sets.basic.create(resource<aether:block/gravitite_block>).export(block<minecraft:diamond_block>)
+
+
+# Misc
+eval ModelManager.templates.sets.basic.create(resource<aether:block/cloudwool>).export(block<minecraft:white_wool>)
+eval ModelManager.templates.sets.basic.create(resource<aether:block/quicksoil>).export(block<minecraft:yellow_wool>)
+eval ModelManager.templates.sets.basic.create(resource<aether:block/skyroot_bookshelf>).export(block<minecraft:bookshelf>)
+eval ModelManager.templates.sets.torch.create(resource<aether:block/ambrosium_torch/ambrosium_torch>, resource<aether:block/ambrosium_torch/ambrosium_torch_wall>, resource<aether:item/ambrosium_torch>).export(block<minecraft:torch>, block<minecraft:wall_torch>)
+eval ModelManager.templates.sets.orientable.create(resource<aether:block/masonry_bench>).export(block<minecraft:stonecutter>)
+eval ModelManager.templates.sets.furnace.create(resource<aether:block/holystone_furnace/holystone_furnace_unlit>,resource<aether:block/holystone_furnace/holystone_furnace_lit>).export(block<minecraft:furnace>)
+eval ModelManager.templates.sets.reverse_orientable.create(resource<aether:block/ladders/skyroot_ladder>).export(block<minecraft:ladder>)
+eval ModelManager.templates.sets.basic.create(resource<aether:block/crafting_tables/skyroot_crafting_table>).export(block<minecraft:crafting_table>)
+eval ModelManager.templates.sets.reverse_orientable.create(resource<aether:block/altar>).export(block<minecraft:hopper>)
+
+eval ModelManager.templates.sets.basic.create(resource<aether:block/woven_sticks/woven_skyroot_sticks>).export(block<minecraft:dried_kelp_block>)
+
+eval ModelManager.templates.sets.door.create(
+            [resource<aether:block/doors/skyroot_door_bottom_left>,
+             resource<aether:block/doors/skyroot_door_bottom_right>,
+             resource<aether:block/doors/skyroot_door_top_left>,
+             resource<aether:block/doors/skyroot_door_top_right>,
+             resource<aether:item/skyroot_door>
+            ]
+).export(block<minecraft:oak_door>)
+eval ModelManager.templates.sets.door.create(
+            [resource<aether:block/doors/arkenium_door_bottom_left>,
+             resource<aether:block/doors/arkenium_door_bottom_right>,
+             resource<aether:block/doors/arkenium_door_top_left>,
+             resource<aether:block/doors/arkenium_door_top_right>,
+             resource<aether:item/arkenium_door>
+            ]
+).export(block<minecraft:iron_door>)
+eval ModelManager.templates.sets.door.create(
+            [resource<aether:block/doors/secret_skyroot_door_bottom_left>,
+             resource<aether:block/doors/secret_skyroot_door_bottom_right>,
+             resource<aether:block/doors/secret_skyroot_door_top_left>,
+             resource<aether:block/doors/secret_skyroot_door_top_right>,
+             resource<aether:item/secret_skyroot_door>
+            ]
+).export(block<minecraft:spruce_door>)
+
+eval ModelManager.templates.sets.trapdoor.create(
+            [resource<aether:block/skyroot_trapdoor/skyroot_trapdoor_bottom>,
+             resource<aether:block/skyroot_trapdoor/skyroot_trapdoor_top>,
+             resource<aether:block/skyroot_trapdoor/skyroot_trapdoor_open>
+            ]
+).export(block<minecraft:oak_trapdoor>)
+eval ModelManager.templates.sets.trapdoor.create(
+            [resource<aether:block/arkenium_trapdoor/arkenium_trapdoor_bottom>,
+             resource<aether:block/arkenium_trapdoor/arkenium_trapdoor_top>,
+             resource<aether:block/arkenium_trapdoor/arkenium_trapdoor_open>
+            ]
+).export(block<minecraft:iron_trapdoor>)
+eval ModelManager.templates.sets.trapdoor.create(
+            [resource<aether:block/secret_skyroot_trapdoor/secret_skyroot_trapdoor_bottom>,
+             resource<aether:block/secret_skyroot_trapdoor/secret_skyroot_trapdoor_top>,
+             resource<aether:block/secret_skyroot_trapdoor/secret_skyroot_trapdoor_open>
+            ]
+).export(block<minecraft:spruce_trapdoor>)

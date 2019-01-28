@@ -1,10 +1,6 @@
 {
-    "parent": "aether:block/skyroot_fence_inventory",
-    "display": {
-        "thirdperson": {
-            "rotation": [ 0, 0, 180 ],
-            "translation": [ 0, 1.5, -2.75 ],
-            "scale": [ 0.375, 0.375, 0.375 ]
-        }
-    }
+	"parent": "block/fence_inventory",
+	"textures": {
+		"texture": "aether:blocks/skyroot_planks/skyroot_planks"
+	}
 }

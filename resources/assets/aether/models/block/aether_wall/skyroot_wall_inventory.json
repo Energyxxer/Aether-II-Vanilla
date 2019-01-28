@@ -1,7 +1,6 @@
 {
-    "parent": "aether:block/aether_wall/special_models/wall_inventory_special_top",
+    "parent": "block/template_wall_inventory",
     "textures": {
-        "wall": "aether:blocks/skyroot_planks",
-		"top": "aether:blocks/skyroot_planks"
+        "wall": "aether:blocks/skyroot_planks/skyroot_planks"
     }
 }

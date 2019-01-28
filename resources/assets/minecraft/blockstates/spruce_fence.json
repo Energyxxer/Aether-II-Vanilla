@@ -1,6 +1,15 @@
 {
     "multipart": [
-        {   
+        {
+            "when": {"OR": [
+                {"north": "true", "east": "true"},
+                {"east": "true", "south": "true"},
+                {"south": "true", "west": "true"},
+                {"west": "true", "north": "true"},
+                {"east": "false", "south": "false", "west": "false"},
+                {"north": "false", "south": "false", "west": "false"},
+                {"north": "false", "east": "false", "west": "false"},
+                {"north": "false", "east": "false", "south": "false"}]},
             "apply": { "model": "aether:block/aether_wall/skyroot_log_wall_post" }
         },
         {   "when": { "north": "true" },

@@ -1,7 +1,7 @@
 {
 	"parent": "item/generated",
 	"textures": {
-		"layer0": "aether:blocks/aether_sapling/purple_crystal_sapling"
+		"layer0": "aether:blocks/saplings/purple_crystal_sapling"
 	},
 	"display": {
 		"thirdperson": {

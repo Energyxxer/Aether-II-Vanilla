@@ -1,5 +1,5 @@
 {
     "variants": {
-        "": { "model": "aether:block/aether_flower/white_rose" }
+        "": { "model": "aether:block/flowers/white_rose" }
     }
 }

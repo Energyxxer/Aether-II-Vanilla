@@ -1,6 +1,6 @@
 {
     "variants": {
-        "stage=0": { "model": "aether:block/aether_sapling/green_skyroot_sapling"},
-        "stage=1": { "model": "aether:block/aether_sapling/green_skyroot_sapling"}
+        "stage=0": { "model": "aether:block/saplings/green_skyroot_sapling"},
+        "stage=1": { "model": "aether:block/saplings/green_skyroot_sapling"}
     }
 }

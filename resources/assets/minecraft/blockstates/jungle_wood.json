@@ -1,0 +1,13 @@
+{
+    "variants": {
+        "axis=y": {
+			"model": "aether:block/skyroot_planks/normal"
+		},
+		"axis=z": {
+			"model": "aether:block/skyroot_planks/tiles"
+		},
+		"axis=x": {
+			"model": "aether:block/skyroot_planks/highlight"
+		}
+    }
+}

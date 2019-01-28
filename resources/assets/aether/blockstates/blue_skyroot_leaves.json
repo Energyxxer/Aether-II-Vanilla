@@ -1,7 +1,7 @@
 {
 	"variants": {
-		"": {
-			"model": "aether:aether_leaves/blue_skyroot_leaves"
+		"normal": {
+			"model": "aether:leaves/blue_skyroot_leaves"
 		}
 	}
 }

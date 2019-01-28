@@ -1,5 +1,5 @@
 {
     "variants": {
-        "": { "model": "aether:block/aether_leaves/golden_oak_leaves"}
+        "": { "model": "aether:block/leaves/golden_oak_leaves"}
     }
 }

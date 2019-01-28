@@ -1,5 +1,5 @@
 {
-	"parent": "aether:block/aether_log/golden_oak_log",
+	"parent": "aether:block/logs/golden_oak_log",
 	"display": {
 		"thirdperson": {
 			"rotation": [ 10, -45, 170 ],

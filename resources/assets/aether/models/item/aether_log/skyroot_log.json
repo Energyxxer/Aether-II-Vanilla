@@ -1,5 +1,5 @@
 {
-	"parent": "aether:block/aether_log/skyroot_log",
+	"parent": "aether:block/logs/skyroot_log",
 	"display": {
 		"thirdperson": {
 			"rotation": [ 10, -45, 170 ],

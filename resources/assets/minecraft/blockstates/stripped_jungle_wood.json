@@ -1,0 +1,13 @@
+{
+    "variants": {
+        "axis=y": {
+			"model": "aether:block/skyroot_planks/floorboards"
+		},
+		"axis=z": {
+			"model": "aether:block/skyroot_planks/tiles_small"
+		},
+		"axis=x": {
+			"model": "aether:block/skyroot_planks/top_beam"
+		}
+    }
+}

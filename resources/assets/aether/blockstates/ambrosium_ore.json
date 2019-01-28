@@ -1,6 +1,6 @@
 {
 	"variants": {
-		"": {
+		"normal": {
 			"model": "aether:ores/ambrosium_ore"
 		}
 	}

@@ -1,5 +1,5 @@
 {
     "variants": {
-        "": { "model": "aether:block/skyroot_crafting_table" }
+        "": { "model": "aether:block/crafting_tables/skyroot_crafting_table" }
     }
 }

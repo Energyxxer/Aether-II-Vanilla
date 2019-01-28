@@ -1,7 +1,6 @@
 {
-    "parent": "aether:block/aether_wall/special_models/wall_n_special_top",
-    "textures": {
-        "wall": "aether:blocks/aether_log/skyroot_log_side",
-        "top": "aether:blocks/aether_log/skyroot_log_top"
-    }
+	"parent": "block/template_wall_side",
+	"textures": {
+		"wall": "aether:blocks/logs/skyroot_log_side"
+	}
 }

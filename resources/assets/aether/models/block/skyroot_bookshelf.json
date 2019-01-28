@@ -1,8 +1,7 @@
 {
-    "parent": "block/cube_column",
-    "textures": {
-    	"end": "aether:blocks/skyroot_bookshelf/skyroot_bookshelf_top",
-        "side": "aether:blocks/skyroot_bookshelf/skyroot_bookshelf_side",
-        "particle": "aether:blocks/skyroot_bookshelf/skyroot_bookshelf_side"
-    }
+	"parent": "block/cube_column",
+	"textures": {
+		"end": "aether:blocks/skyroot_planks/skyroot_planks",
+		"side": "aether:blocks/skyroot_bookshelf"
+	}
 }

@@ -1,8 +1,8 @@
 {
     "ambientocclusion": false,
     "textures": {
-        "particle": "aether:blocks/skyroot_ladder",
-        "texture": "aether:blocks/skyroot_ladder"
+        "particle": "aether:blocks/ladders/skyroot_ladder",
+        "texture": "aether:blocks/ladders/skyroot_ladder"
     },
     "elements": [
         {   "from": [ 0, 0, 15.2 ],

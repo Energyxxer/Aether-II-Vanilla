@@ -1,5 +1,5 @@
 {
     "variants": {
-        "": { "model": "aether:block/holystone/blood_moss_holystone" }
+        "": { "model": "aether:block/labyrinth_strongblock" }
     }
 }

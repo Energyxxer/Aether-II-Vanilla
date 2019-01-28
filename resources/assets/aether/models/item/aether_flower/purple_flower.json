@@ -1,7 +1,7 @@
 {
 	"parent": "item/generated",
 	"textures": {
-		"layer0": "aether:blocks/aether_flower/purple_flower"
+		"layer0": "aether:blocks/flowers/purple_flower"
 	},
 	"display": {
 		"thirdperson": {

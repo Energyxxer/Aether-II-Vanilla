@@ -1,6 +1,6 @@
 {
 	"variants": {
-		"": {
+		"normal": {
 			"model": "aether:ores/gravitite_ore"
 		}
 	}

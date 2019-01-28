@@ -2,6 +2,7 @@
   "advancements.aether.enchant_with_altar.title": "Do You Believe in Magic?",
   "advancements.aether.enchant_with_altar.description": "Enchant an item using an Altar",
 
+  "ﺧ": "feather",
 
   "block.minecraft.stone": "Holystone",
   "block.minecraft.granite": "Icestone Ore",
@@ -221,6 +222,8 @@
   "subtitles.aether.entity.zephyr.blow": "Zephyr blows",
   "subtitles.aether.entity.tempest.shoot": "Tempest shoots",
   "subtitles.aether.entity.coin.pickup": "Coin collected",
+
+  "container.aether.labyrinth_chest": "Labyrinth Chest",
 
   
   "biome.minecraft.the_void": "The Aether",

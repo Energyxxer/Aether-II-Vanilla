@@ -1,6 +1,6 @@
 {
 	"variants": {
-		"": {
+		"normal": {
 			"model": "aether:skyroot_chest"
 		}
 	}

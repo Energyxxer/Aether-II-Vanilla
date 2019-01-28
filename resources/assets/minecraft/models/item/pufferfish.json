@@ -590,7 +590,67 @@
             "predicate": {
                 "custom_model_data": 98
             },
-            "model": "aether:block/altar_book"
+            "model": "aether:block/labyrinth_chest"
+        },
+        {
+            "predicate": {
+                "custom_model_data": 100
+            },
+            "model": "aether:entity/kirrid/base"
+        },
+        {
+            "predicate": {
+                "custom_model_data": 101
+            },
+            "model": "aether:entity/kirrid/base_sheared"
+        },
+        {
+            "predicate": {
+                "custom_model_data": 102
+            },
+            "model": "aether:entity/kirrid/legs"
+        },
+        {
+            "predicate": {
+                "custom_model_data": 103
+            },
+            "model": "aether:entity/kirrid/legs_sheared"
+        },
+        {
+            "predicate": {
+                "custom_model_data": 104
+            },
+            "model": "aether:entity/kirrid/head"
+        },
+        {
+            "predicate": {
+                "custom_model_data": 105
+            },
+            "model": "aether:entity/kirrid/base_hurt"
+        },
+        {
+            "predicate": {
+                "custom_model_data": 106
+            },
+            "model": "aether:entity/kirrid/base_sheared_hurt"
+        },
+        {
+            "predicate": {
+                "custom_model_data": 107
+            },
+            "model": "aether:entity/kirrid/legs_hurt"
+        },
+        {
+            "predicate": {
+                "custom_model_data": 108
+            },
+            "model": "aether:entity/kirrid/legs_sheared_hurt"
+        },
+        {
+            "predicate": {
+                "custom_model_data": 109
+            },
+            "model": "aether:entity/kirrid/head_hurt"
         }
     ]
 }

@@ -6,7 +6,7 @@ define objective coinbar_link
 define objective coinbar_timer
 
 # Common access settings for coins
-var CoinInfo = dict{
+var CoinInfo = {
     maxBars: 4,
     barTime: 60,
     pickupSound: resource<aether:aemisc.coin>

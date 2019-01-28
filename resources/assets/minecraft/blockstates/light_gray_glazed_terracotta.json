@@ -1,0 +1,8 @@
+{
+    "variants": {
+        "facing=north": { "model": "aether:block/holystone_bricks/pillar" },
+        "facing=west": { "model": "aether:block/holystone_bricks/pillar", "x": 90 },
+        "facing=south": { "model": "aether:block/holystone_bricks/pillar", "x": 90, "y": 90 },
+        "facing=east": { "model": "aether:block/holystone_bricks/normal" }
+    }
+}

@@ -1,5 +1,5 @@
 {
     "variants": {
-        "": { "model": "aether:block/aether_leaves/dark_blue_skyroot_leaves"}
+        "": { "model": "aether:block/leaves/dark_blue_skyroot_leaves"}
     }
 }

@@ -1,5 +1,5 @@
 {
     "variants": {
-        "": { "model": "aether:block/ores/icestone_ore" }
+        "": { "model": "aether:block/agiosite_bricks/normal"}
     }
 }

@@ -1,7 +1,7 @@
 {
 	"parent": "item/generated",
 	"textures": {
-		"layer0": "aether:blocks/aether_sapling/blue_skyroot_sapling"
+		"layer0": "aether:blocks/saplings/blue_skyroot_sapling"
 	},
 	"display": {
 		"thirdperson": {

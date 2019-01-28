@@ -8,43 +8,37 @@
             "predicate": {
                 "custom_model_data": 1
             },
-            "model": "aether:item/consumables/shard_of_life"
+            "model": "aether:item/miscellaneous/shard_of_life"
         },
         {
             "predicate": {
                 "custom_model_data": 2
             },
-            "model": "aether:item/consumables/cold_cloud_parachute"
+            "model": "aether:item/cloud_parachute/cold_cloud_parachute"
         },
         {
             "predicate": {
                 "custom_model_data": 3
             },
-            "model": "aether:item/consumables/golden_cloud_parachute"
+            "model": "aether:item/cloud_parachute/golden_cloud_parachute"
         },
         {
             "predicate": {
                 "custom_model_data": 4
             },
-            "model": "aether:item/consumables/purple_cloud_parachute"
+            "model": "aether:item/cloud_parachute/purple_cloud_parachute"
         },
         {
             "predicate": {
                 "custom_model_data": 5
             },
-            "model": "aether:item/consumables/green_cloud_parachute"
+            "model": "aether:item/cloud_parachute/green_cloud_parachute"
         },
         {
             "predicate": {
                 "custom_model_data": 6
             },
-            "model": "aether:item/consumables/blue_cloud_parachute"
-        },
-        {
-            "predicate": {
-                "custom_model_data": 7
-            },
-            "model": "aether:item/consumables/continuum_orb"
+            "model": "aether:item/cloud_parachute/blue_cloud_parachute"
         }
     ]
 }

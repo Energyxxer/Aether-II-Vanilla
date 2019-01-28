@@ -1,0 +1,288 @@
+@on compile
+@require aether:model_manager
+@priority 50
+
+eval ModelManager.templates.sets.fence = {
+    create: function(post, side, inventory) {
+        do if(isInstance(post, "list")) {
+            return this.create(post[0],post[1],post[2])
+        }
+        var obj = {
+            blockstate: ModelManager.createMultipartObject(),
+            itemModel: ModelManager.createModelObject().setParent(inventory),
+            export: function(blk, itm) {
+                do if(itm == null) {
+                    eval itm = blk
+                }
+                eval this.blockstate.export(blk)
+                eval this.itemModel.export(ModelManager.getPathForModel(ModelManager.toItem(itm)))
+            }
+        }
+        
+        eval obj.blockstate.apply(post)
+        eval obj.blockstate.apply({model:side, uvlock: true}, {north:true})
+        eval obj.blockstate.apply({model:side, uvlock: true, y: 90}, {east:true})
+        eval obj.blockstate.apply({model:side, uvlock: true, y: 180}, {south:true})
+        eval obj.blockstate.apply({model:side, uvlock: true, y: 270}, {west:true})
+        return obj
+    }
+}
+
+eval ModelManager.templates.blocks.fence = {
+    create: function(texture) {
+        var modelPrefix = ((string) texture)
+        do if(modelPrefix.contains("/")) {
+            eval modelPrefix = modelPrefix.substring(modelPrefix.lastIndexOf("/")+1)
+        }
+        var postPath = (resource) (((string)ModelManager.generatedModelPath) + "/fences/" + modelPrefix + "_fence_post")
+        var sidePath = (resource) (((string)ModelManager.generatedModelPath) + "/fences/" + modelPrefix + "_fence_side")
+        var inventoryPath = (resource) (((string)ModelManager.generatedModelPath) + "/fences/" + modelPrefix + "_fence_inventory")
+        
+        eval ModelManager.createModelObject()
+                    .setParent(resource<block/fence_post>)
+                    .setTexture("texture", texture)
+                    .export(postPath)
+        eval ModelManager.createModelObject()
+                    .setParent(resource<block/fence_side>)
+                    .setTexture("texture", texture)
+                    .export(sidePath)
+        eval ModelManager.createModelObject()
+                    .setParent(resource<block/fence_inventory>)
+                    .setTexture("texture", texture)
+                    .export(inventoryPath)
+                    
+        return [postPath, sidePath, inventoryPath]
+    }
+}
+
+eval ModelManager.templates.sets.fence_gate = {
+    create: function(closedModel, openModel, wallClosedModel, wallOpenModel) {
+        do if(isInstance(closedModel, "list")) {
+            return this.create(closedModel[0],closedModel[1],closedModel[2],closedModel[3])
+        }
+        var obj = {
+            blockstate: ModelManager.createBlockstateObject(),
+            itemModel: ModelManager.createModelObject().setParent(closedModel),
+            export: function(blk, itm) {
+                do if(itm == null) {
+                    eval itm = blk
+                }
+                eval this.blockstate.export(blk)
+                eval this.itemModel.export(ModelManager.getPathForModel(ModelManager.toItem(itm)))
+            }
+        }
+        
+        eval obj.blockstate.forVariant("facing=south,in_wall=false,open=false").addModel({ "model": closedModel, "uvlock": true })
+        eval obj.blockstate.forVariant("facing=west,in_wall=false,open=false").addModel({ "model": closedModel, "uvlock": true, "y": 90 })
+        eval obj.blockstate.forVariant("facing=north,in_wall=false,open=false").addModel({ "model": closedModel, "uvlock": true, "y": 180 })
+        eval obj.blockstate.forVariant("facing=east,in_wall=false,open=false").addModel({ "model": closedModel, "uvlock": true, "y": 270 })
+        eval obj.blockstate.forVariant("facing=south,in_wall=false,open=true").addModel({ "model": openModel, "uvlock": true })
+        eval obj.blockstate.forVariant("facing=west,in_wall=false,open=true").addModel({ "model": openModel, "uvlock": true, "y": 90 })
+        eval obj.blockstate.forVariant("facing=north,in_wall=false,open=true").addModel({ "model": openModel, "uvlock": true, "y": 180 })
+        eval obj.blockstate.forVariant("facing=east,in_wall=false,open=true").addModel({ "model": openModel, "uvlock": true, "y": 270 })
+        eval obj.blockstate.forVariant("facing=south,in_wall=true,open=false").addModel({ "model": wallClosedModel, "uvlock": true })
+        eval obj.blockstate.forVariant("facing=west,in_wall=true,open=false").addModel({ "model": wallClosedModel, "uvlock": true, "y": 90 })
+        eval obj.blockstate.forVariant("facing=north,in_wall=true,open=false").addModel({ "model": wallClosedModel, "uvlock": true, "y": 180 })
+        eval obj.blockstate.forVariant("facing=east,in_wall=true,open=false").addModel({ "model": wallClosedModel, "uvlock": true, "y": 270 })
+        eval obj.blockstate.forVariant("facing=south,in_wall=true,open=true").addModel({ "model": wallOpenModel, "uvlock": true })
+        eval obj.blockstate.forVariant("facing=west,in_wall=true,open=true").addModel({ "model": wallOpenModel, "uvlock": true, "y": 90 })
+        eval obj.blockstate.forVariant("facing=north,in_wall=true,open=true").addModel({ "model": wallOpenModel, "uvlock": true, "y": 180 })
+        eval obj.blockstate.forVariant("facing=east,in_wall=true,open=true").addModel({ "model": wallOpenModel, "uvlock": true, "y": 270 })
+        return obj
+    }
+}
+
+eval ModelManager.templates.blocks.fence_gate = {
+    create: function(texture) {
+        var modelPrefix = ((string) texture)
+        do if(modelPrefix.contains("/")) {
+            eval modelPrefix = modelPrefix.substring(modelPrefix.lastIndexOf("/")+1)
+        }
+        var closedPath = (resource) (((string)ModelManager.generatedModelPath) + "/fence_gates/" + modelPrefix + "_fence_gate")
+        var openPath = (resource) (((string)ModelManager.generatedModelPath) + "/fence_gates/" + modelPrefix + "_fence_gate_open")
+        var wallClosedPath = (resource) (((string)ModelManager.generatedModelPath) + "/fence_gates/" + modelPrefix + "_fence_gate_wall")
+        var wallOpenPath = (resource) (((string)ModelManager.generatedModelPath) + "/fence_gates/" + modelPrefix + "_fence_gate_wall_open")
+        
+        eval ModelManager.createModelObject()
+                    .setParent(resource<block/template_fence_gate>)
+                    .setTexture("texture", texture)
+                    .export(closedPath)
+        eval ModelManager.createModelObject()
+                    .setParent(resource<block/template_fence_gate_open>)
+                    .setTexture("texture", texture)
+                    .export(openPath)
+        eval ModelManager.createModelObject()
+                    .setParent(resource<block/template_fence_gate_wall>)
+                    .setTexture("texture", texture)
+                    .export(wallClosedPath)
+        eval ModelManager.createModelObject()
+                    .setParent(resource<block/template_fence_gate_wall_open>)
+                    .setTexture("texture", texture)
+                    .export(wallOpenPath)
+                    
+        return [closedPath, openPath, wallClosedPath, wallOpenPath]
+    }
+}
+
+eval ModelManager.templates.sets.wall = {
+    create: function(post, side, inventory) {
+        do if(isInstance(post, "list")) {
+            return this.create(post[0],post[1],post[2])
+        }
+        var obj = {
+            blockstate: ModelManager.createMultipartObject(),
+            itemModel: ModelManager.createModelObject().setParent(inventory),
+            export: function(blk, itm) {
+                do if(itm == null) {
+                    eval itm = blk
+                }
+                eval this.blockstate.export(blk)
+                eval this.itemModel.export(ModelManager.getPathForModel(ModelManager.toItem(itm)))
+            }
+        }
+        
+        eval obj.blockstate.apply(post, {up:true})
+        eval obj.blockstate.apply({model:side, uvlock: true}, {north:true})
+        eval obj.blockstate.apply({model:side, uvlock: true, y: 90}, {east:true})
+        eval obj.blockstate.apply({model:side, uvlock: true, y: 180}, {south:true})
+        eval obj.blockstate.apply({model:side, uvlock: true, y: 270}, {west:true})
+        return obj
+    }
+}
+
+eval ModelManager.templates.blocks.wall = {
+    create: function(texture) {
+        var modelPrefix = ((string) texture)
+        do if(modelPrefix.contains("/")) {
+            eval modelPrefix = modelPrefix.substring(modelPrefix.lastIndexOf("/")+1)
+        }
+        var postPath = (resource) (((string)ModelManager.generatedModelPath) + "/walls/" + modelPrefix + "_wall_post")
+        var sidePath = (resource) (((string)ModelManager.generatedModelPath) + "/walls/" + modelPrefix + "_wall_side")
+        var inventoryPath = (resource) (((string)ModelManager.generatedModelPath) + "/walls/" + modelPrefix + "_wall_inventory")
+        
+        eval ModelManager.createModelObject()
+                    .setParent(resource<block/template_wall_post>)
+                    .setTexture("wall", texture)
+                    .export(postPath)
+        eval ModelManager.createModelObject()
+                    .setParent(resource<block/template_wall_side>)
+                    .setTexture("wall", texture)
+                    .export(sidePath)
+        eval ModelManager.createModelObject()
+                    .setParent(resource<block/wall_inventory>)
+                    .setTexture("wall", texture)
+                    .export(inventoryPath)
+                    
+        return [postPath, sidePath, inventoryPath]
+    }
+}
+
+eval ModelManager.templates.sets.glass_pane = {
+    create: function(post, side, side_alt, noside, noside_alt, inventory) {
+        do if(isInstance(post, "list")) {
+            return this.create(post[0],post[1],post[2],post[3],post[4],post[5])
+        }
+        var obj = {
+            blockstate: ModelManager.createMultipartObject(),
+            itemModel: ModelManager.createModelObject().setParent(inventory),
+            export: function(blk, itm) {
+                do if(itm == null) {
+                    eval itm = blk
+                }
+                eval this.blockstate.export(blk)
+                eval this.itemModel.export(ModelManager.getPathForModel(ModelManager.toItem(itm)))
+            }
+        }
+        
+        eval obj.blockstate.apply(post)
+        eval obj.blockstate.apply({model:side}, {north:true})
+        eval obj.blockstate.apply({model:side, y: 90}, {east:true})
+        eval obj.blockstate.apply({model:side_alt}, {south:true})
+        eval obj.blockstate.apply({model:side_alt, y: 90}, {west:true})
+        eval obj.blockstate.apply({model:noside}, {north:false})
+        eval obj.blockstate.apply({model:noside_alt}, {east:false})
+        eval obj.blockstate.apply({model:noside_alt, y: 90}, {south:false})
+        eval obj.blockstate.apply({model:noside, uvlock: true, y: 270}, {west:false})
+        return obj
+    }
+}
+
+eval ModelManager.templates.blocks.glass_pane = {
+    create: function(texture) {
+        var modelPrefix = ((string) texture)
+        do if(modelPrefix.contains("/")) {
+            eval modelPrefix = modelPrefix.substring(modelPrefix.lastIndexOf("/")+1)
+        }
+        var postPath = (resource) (((string)ModelManager.generatedModelPath) + "/glass_panes/" + modelPrefix + "_post")
+        var sidePath = (resource) (((string)ModelManager.generatedModelPath) + "/glass_panes/" + modelPrefix + "_side")
+        var sideAltPath = (resource) (((string)ModelManager.generatedModelPath) + "/glass_panes/" + modelPrefix + "_side_alt")
+        var nosidePath = (resource) (((string)ModelManager.generatedModelPath) + "/glass_panes/" + modelPrefix + "_noside")
+        var nosideAltPath = (resource) (((string)ModelManager.generatedModelPath) + "/glass_panes/" + modelPrefix + "_noside_alt")
+        var inventoryPath = (resource) (((string)ModelManager.generatedModelPath) + "/glass_panes/" + modelPrefix + "_inventory")
+        
+        eval ModelManager.createModelObject()
+                    .setParent(resource<block/template_glass_pane_post>)
+                    .setTexture("edge", texture)
+                    .setTexture("pane", texture)
+                    .export(postPath)
+        eval ModelManager.createModelObject()
+                    .setParent(resource<block/template_glass_pane_side>)
+                    .setTexture("edge", texture)
+                    .setTexture("pane", texture)
+                    .export(sidePath)
+        eval ModelManager.createModelObject()
+                    .setParent(resource<block/template_glass_pane_side_alt>)
+                    .setTexture("edge", texture)
+                    .setTexture("pane", texture)
+                    .export(sideAltPath)
+        eval ModelManager.createModelObject()
+                    .setParent(resource<block/template_glass_pane_noside>)
+                    .setTexture("edge", texture)
+                    .setTexture("pane", texture)
+                    .export(nosidePath)
+        eval ModelManager.createModelObject()
+                    .setParent(resource<block/template_glass_pane_noside_alt>)
+                    .setTexture("edge", texture)
+                    .setTexture("pane", texture)
+                    .export(nosideAltPath)
+        eval ModelManager.createModelObject()
+                    .setParent(resource<item/generated>)
+                    .setTexture("layer0", texture)
+                    .export(inventoryPath)
+                    
+        return [postPath, sidePath, sideAltPath, nosidePath, nosideAltPath, inventoryPath]
+    }
+}
+eval ModelManager.templates.sets.fake_wall = {
+    create: function(post, side, inventory) {
+        do if(isInstance(post, "list")) {
+            return this.create(post[0],post[1],post[2])
+        }
+        var obj = {
+            blockstate: ModelManager.createMultipartObject(),
+            itemModel: ModelManager.createModelObject().setParent(inventory),
+            export: function(blk, itm) {
+                do if(itm == null) {
+                    eval itm = blk
+                }
+                eval this.blockstate.export(blk)
+                eval this.itemModel.export(ModelManager.getPathForModel(ModelManager.toItem(itm)))
+            }
+        }
+        
+        eval obj.blockstate.apply(post, {"OR": [
+                {"north": "true", "east": "true"},
+                {"east": "true", "south": "true"},
+                {"south": "true", "west": "true"},
+                {"west": "true", "north": "true"},
+                {"east": "false", "south": "false", "west": "false"},
+                {"north": "false", "south": "false", "west": "false"},
+                {"north": "false", "east": "false", "west": "false"},
+                {"north": "false", "east": "false", "south": "false"}]})
+        eval obj.blockstate.apply({model:side, uvlock: true}, {north:true})
+        eval obj.blockstate.apply({model:side, uvlock: true, y: 90}, {east:true})
+        eval obj.blockstate.apply({model:side, uvlock: true, y: 180}, {south:true})
+        eval obj.blockstate.apply({model:side, uvlock: true, y: 270}, {west:true})
+        return obj
+    }
+}

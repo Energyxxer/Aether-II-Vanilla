@@ -1,8 +1,8 @@
 {
     "variants": {
-        "facing=north": { "model": "aether:block/skyroot_ladder" },
-        "facing=east":  { "model": "aether:block/skyroot_ladder", "y": 90 },
-        "facing=south": { "model": "aether:block/skyroot_ladder", "y": 180 },
-        "facing=west":  { "model": "aether:block/skyroot_ladder", "y": 270 }
+        "facing=north": { "model": "aether:block/ladders/skyroot_ladder" },
+        "facing=east":  { "model": "aether:block/ladders/skyroot_ladder", "y": 90 },
+        "facing=south": { "model": "aether:block/ladders/skyroot_ladder", "y": 180 },
+        "facing=west":  { "model": "aether:block/ladders/skyroot_ladder", "y": 270 }
     }
 }

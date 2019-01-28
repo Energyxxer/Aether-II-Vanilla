@@ -1,0 +1,121 @@
+@on compile
+@require aether:model_manager
+
+# Stairs
+eval ModelManager.templates.sets.stairs.create(
+            ModelManager.templates.blocks.stairs.create(resource<aether:blocks/skyroot_planks/skyroot_planks>)
+).export(block<minecraft:oak_stairs>)
+eval ModelManager.templates.sets.stairs.create(
+            ModelManager.templates.blocks.stairs.create(resource<aether:blocks/dark_skyroot_planks/greatroot_planks>)
+).export(block<minecraft:spruce_stairs>)
+eval ModelManager.templates.sets.stairs.create(
+            ModelManager.templates.blocks.stairs.create(resource<aether:blocks/light_skyroot_planks/wisproot_planks>)
+).export(block<minecraft:birch_stairs>)
+
+eval ModelManager.templates.sets.stairs.create(
+            ModelManager.templates.blocks.stairs.create(resource<aether:blocks/holystone/holystone>)
+).export(block<minecraft:stone_stairs>)
+eval ModelManager.templates.sets.stairs.create(
+            ModelManager.templates.blocks.stairs.create(resource<aether:blocks/holystone/mossy_holystone>)
+).export(block<minecraft:mossy_cobblestone_stairs>)
+eval ModelManager.templates.sets.stairs.create(
+            ModelManager.templates.blocks.stairs.create(resource<aether:blocks/holystone_brick>)
+).export(block<minecraft:stone_brick_stairs>)
+eval ModelManager.templates.sets.stairs.create(
+            ModelManager.templates.blocks.stairs.create(resource<aether:blocks/faded_holystone_brick>)
+).export(block<minecraft:mossy_stone_brick_stairs>)
+eval ModelManager.templates.sets.stairs.create(
+            ModelManager.templates.blocks.stairs.create(resource<aether:blocks/agiosite_brick>)
+).export(block<minecraft:granite_stairs>)
+eval ModelManager.templates.sets.stairs.create(
+            ModelManager.templates.blocks.stairs.create(resource<aether:blocks/icestone_bricks>)
+).export(block<minecraft:end_stone_brick_stairs>)
+
+# Slabs
+eval ModelManager.templates.sets.slab.create(
+            ModelManager.templates.blocks.slab.create(resource<aether:blocks/skyroot_planks/skyroot_planks>)
+).export(block<minecraft:oak_slab>)
+eval ModelManager.templates.sets.slab.create(
+            ModelManager.templates.blocks.slab.create(resource<aether:blocks/dark_skyroot_planks/greatroot_planks>)
+).export(block<minecraft:spruce_slab>)
+eval ModelManager.templates.sets.slab.create(
+            ModelManager.templates.blocks.slab.create(resource<aether:blocks/light_skyroot_planks/wisproot_planks>)
+).export(block<minecraft:birch_slab>)
+
+eval ModelManager.templates.sets.slab.create(
+            ModelManager.templates.blocks.slab.create(resource<aether:blocks/holystone/holystone>)
+).export(block<minecraft:stone_slab>)
+eval ModelManager.templates.sets.slab.create(
+            ModelManager.templates.blocks.slab.create(resource<aether:blocks/holystone/mossy_holystone>)
+).export(block<minecraft:mossy_cobblestone_slab>)
+eval ModelManager.templates.sets.slab.create(
+            ModelManager.templates.blocks.slab.create(resource<aether:blocks/holystone_brick>)
+).export(block<minecraft:stone_brick_slab>)
+eval ModelManager.templates.sets.slab.create(
+            ModelManager.templates.blocks.slab.create(resource<aether:blocks/faded_holystone_brick>)
+).export(block<minecraft:mossy_stone_brick_slab>)
+eval ModelManager.templates.sets.slab.create(
+            ModelManager.templates.blocks.slab.create(resource<aether:blocks/agiosite_brick>)
+).export(block<minecraft:granite_slab>)
+eval ModelManager.templates.sets.slab.create(
+            ModelManager.templates.blocks.slab.create(resource<aether:blocks/icestone_bricks>)
+).export(block<minecraft:end_stone_brick_slab>)
+
+# Fences
+eval ModelManager.templates.sets.fence.create(
+            ModelManager.templates.blocks.fence.create(resource<aether:blocks/skyroot_planks/skyroot_planks>)
+).export(block<minecraft:oak_fence>)
+eval ModelManager.templates.sets.fence.create(
+            ModelManager.templates.blocks.fence.create(resource<aether:blocks/dark_skyroot_planks/greatroot_planks>)
+).export(block<minecraft:spruce_fence>)
+eval ModelManager.templates.sets.fence.create(
+            ModelManager.templates.blocks.fence.create(resource<aether:blocks/light_skyroot_planks/wisproot_planks>)
+).export(block<minecraft:birch_fence>)
+
+# Fence Gates
+eval ModelManager.templates.sets.fence_gate.create(
+            ModelManager.templates.blocks.fence_gate.create(resource<aether:blocks/skyroot_planks/skyroot_planks>)
+).export(block<minecraft:oak_fence_gate>)
+eval ModelManager.templates.sets.fence_gate.create(
+            ModelManager.templates.blocks.fence_gate.create(resource<aether:blocks/dark_skyroot_planks/greatroot_planks>)
+).export(block<minecraft:spruce_fence_gate>)
+eval ModelManager.templates.sets.fence_gate.create(
+            ModelManager.templates.blocks.fence_gate.create(resource<aether:blocks/light_skyroot_planks/wisproot_planks>)
+).export(block<minecraft:birch_fence_gate>)
+
+# Walls
+eval ModelManager.templates.sets.wall.create(
+            ModelManager.templates.blocks.wall.create(resource<aether:blocks/holystone/holystone>)
+).export(block<minecraft:cobblestone_wall>)
+eval ModelManager.templates.sets.wall.create(
+            ModelManager.templates.blocks.wall.create(resource<aether:blocks/holystone/mossy_holystone>)
+).export(block<minecraft:mossy_cobblestone_wall>)
+eval ModelManager.templates.sets.wall.create(
+            ModelManager.templates.blocks.wall.create(resource<aether:blocks/holystone_brick>)
+).export(block<minecraft:stone_brick_wall>)
+eval ModelManager.templates.sets.wall.create(
+            ModelManager.templates.blocks.wall.create(resource<aether:blocks/faded_holystone_brick>)
+).export(block<minecraft:mossy_stone_brick_wall>)
+eval ModelManager.templates.sets.wall.create(
+            ModelManager.templates.blocks.wall.create(resource<aether:blocks/agiosite_brick>)
+).export(block<minecraft:granite_wall>)
+eval ModelManager.templates.sets.wall.create(
+            ModelManager.templates.blocks.wall.create(resource<aether:blocks/icestone_bricks>)
+).export(block<minecraft:end_stone_brick_wall>)
+
+# Fake Walls (fences)
+eval ModelManager.templates.sets.fake_wall.create(
+            ModelManager.templates.blocks.wall.create(resource<aether:blocks/skyroot_planks/skyroot_planks>)
+).export(block<minecraft:acacia_fence>)
+eval ModelManager.templates.sets.fake_wall.create(
+            [resource<aether:block/aether_wall/skyroot_log_wall_post>, resource<aether:block/aether_wall/skyroot_log_wall_side>, resource<aether:item/aether_wall/skyroot_log_wall>]
+).export(block<minecraft:dark_oak_fence>)
+
+
+
+eval ModelManager.templates.sets.glass_pane.create(
+            ModelManager.templates.blocks.glass_pane.create(resource<aether:blocks/quicksoil_glass>)
+).export(block<minecraft:yellow_stained_glass_pane>)
+eval ModelManager.templates.sets.glass_pane.create(
+            ModelManager.templates.blocks.glass_pane.create(resource<aether:blocks/scatterglass>)
+).export(block<minecraft:light_gray_stained_glass_pane>)

@@ -1,0 +1,331 @@
+@on compile
+@priority 100
+
+var ModelManager = {
+    generatedModelPath: resource<aether:generated>,
+    getModel: function(thing) {
+        do if(isInstance(thing, "block")) {
+            var res = thing.blockType
+            return (resource) (res.namespace + ":block/" + res.body)
+        } else do if(isInstance(thing, "item")) {
+            var res = thing.itemType
+            return (resource) (res.namespace + ":item/" + res.body)
+        } else throw "Cannot compute the model of a value of type '" + typeOf(thing) + "'"
+    },
+    getPathForModel: function(res) {
+        do if(isInstance(res, "resource")) {
+            return "assets/" + res.namespace + "/models/" + res.body + ".json"
+        } else do if(isInstance(res, "block") || isInstance(res, "item")) {
+            return this.getPathForModel(this.getModel(res))
+        } else throw "Cannot compute the model path of a value of type '" + typeOf(res) + "'"
+    },
+    getPathForBlockstate: function(blk) {
+        do if(isInstance(blk, "block")) {
+            return this.getPathForModel(this.getModel(blk)).replace("/models/block/", "/blockstates/")
+        }
+    },
+    createModelObject: function() {
+        return {
+            parent: null,
+            textures: {},
+            setParent: function(model) {
+                do if(isInstance(model, "resource")) {
+                    eval this.parent = model
+                    return this
+                } else throw "Parent model must be a resource location, instead got " + model
+            },
+            setTexture: function(name, texture) {
+                eval this.textures[name] = texture
+                return this
+            },
+            export: function(path) {
+                do if(isInstance(path, "string")) {
+                    eval File.out.writeResource(path, JSON.stringify(this.construct(), true))
+                } else do if(isInstance(path, "resource")) {
+                    eval this.export(ModelManager.getPathForModel(path))
+                } else throw "Cannot turn the given value into a path to export to: '" + path + "'"
+                return this
+            },
+            construct: function() {
+                var obj = {}
+                do if(this.parent != null) eval obj.parent = (string)this.parent
+                for(tex in this.textures) {
+                    do if(obj.textures == null) eval obj.textures = {}
+                    eval obj.textures[tex.key] = (string)tex.value
+                }
+                return obj
+            }
+        }
+    },
+    createBlockstateObject: function() {
+        return {
+            variants: {},
+            forVariant: function(variant) {
+                do if(isInstance(variant, "string")) {
+                    do if(this.variants[variant] != null) {
+                        return this.variants[variant]
+                    }
+                    var context = {
+                        blockstate: this,
+                        models: [],
+                        addModel: function(model) {
+                            eval this.models.add(ModelManager.parseBlockstateArgument(model))
+                            return this
+                        },
+                        back: function() {
+                            return this.blockstate
+                        }
+                    }
+                    eval this.variants[variant] = context
+                    return context
+                } else do if(isInstance(variant, "dictionary")) {
+                    return this.forVariant(JSON.stringify(variant).replace("\"","").replace("{","").replace("}","").replace(":","="))
+                } else throw "Cannot resolve an object of type '" + typeOf(variant) + "' into a variant"
+            },
+            export: function(path) {
+                do if(isInstance(path, "string")) {
+                    eval File.out.writeResource(path, JSON.stringify(this.construct(), true))
+                } else do if(isInstance(path, "block")) {
+                    eval this.export(ModelManager.getPathForBlockstate(path))
+                }
+            },
+            construct: function() {
+                var obj = {
+                    variants: {}
+                }
+                for(variant in this.variants) {
+                    do if(variant.value.models.length != 1) {
+                        eval obj.variants[variant.key] = variant.value.models
+                    } else {
+                        eval obj.variants[variant.key] = variant.value.models[0]
+                    }
+                }
+                return obj
+            }
+        }
+    },
+    createMultipartObject: function() {
+        return {
+            cases: [],
+            apply: function(model, when) {
+                var case = {apply: ModelManager.parseBlockstateArgument(model)}
+                do if(when != null) {
+                    eval case.when = when
+                }
+                eval this.cases.add(case)
+                return this
+            },
+            export: function(path) {
+                do if(isInstance(path, "string")) {
+                    eval File.out.writeResource(path, JSON.stringify(this.construct(), true))
+                } else do if(isInstance(path, "block")) {
+                    eval this.export(ModelManager.getPathForBlockstate(path))
+                }
+            },
+            construct: function() {
+                return { multipart: this.cases }
+            }
+        }
+    },
+    parseBlockstateArgument: function(arg) {
+        var model = null
+        do if(isInstance(arg, "resource")) {
+            eval model = {}
+            eval model.model = arg
+            return model
+        } else do if(isInstance(arg, "dictionary")) {
+            eval model = {}
+            do if(isInstance(arg.model, "resource")) {
+                eval model.model = arg.model
+            } else {
+                throw "Cannot turn given object into a model; expected a resource in the 'model' property, instead got: " + arg.model
+            }
+            
+            do if(isInstance(arg.weight, "int")) {
+                eval model.weight = arg.weight
+            }
+            
+            do if(isInstance(arg.x, "int")) {
+                eval model.x = arg.x
+            }
+            do if(isInstance(arg.y, "int")) {
+                eval model.y = arg.y
+            }
+            do if(isInstance(arg.z, "int")) {
+                eval model.z = arg.z
+            }
+            
+            do if(isInstance(arg.uvlock, "boolean")) {
+                eval model.uvlock = arg.uvlock
+            }
+            return model
+        } else do if(isInstance(arg, "list")) {
+            eval model = []
+            for(elem in arg) {
+                eval model.add(ModelManager.parseBlockstateArgument(elem))
+            }
+            return model
+        } else {
+            throw "Cannot turn given object into a model; unexpected type '" + typeOf(arg) + "'"
+        }
+    },
+    toBlock: function(itm) {
+        return new block(itm.itemType)
+    },
+    toItem: function(blk) {
+        return new item(blk.blockType)
+    },
+    templates: {
+        blocks: {},
+        sets: {
+            basic: {
+                create: function(model, itemModel) {
+                    do if(itemModel == null) {
+                        eval itemModel = model
+                    }
+                    return {
+                        blockstate: ModelManager.createBlockstateObject().forVariant("").addModel(model).back(),
+                        itemModel: ModelManager.createModelObject().setParent(itemModel),
+                        addRandomRotations: function() {
+                            var model = this.blockstate.variants[""].models[0].model
+                            eval this.blockstate.forVariant("")
+                                .addModel({model:model,y:90})
+                                .addModel({model:model,y:180})
+                                .addModel({model:model,y:270})
+                            return this
+                        },
+                        export: function(blk, itm) {
+                            do if(itm == null) {
+                                eval itm = blk
+                            }
+                            eval this.blockstate.export(blk)
+                            eval this.itemModel.export(ModelManager.getPathForModel(ModelManager.toItem(itm)))
+                        }
+                    }
+                }
+            },
+            column: {
+                create: function(model) {
+                    return {
+                        blockstate: ModelManager.createBlockstateObject()
+                            .forVariant("axis=y").addModel(model).back()
+                            .forVariant("axis=z").addModel({model:model, x: 90}).back()
+                            .forVariant("axis=x").addModel({model:model, x: 90, y: 90}).back(),
+                        itemModel: ModelManager.createModelObject().setParent(model),
+                        export: function(blk, itm) {
+                            do if(itm == null) {
+                                eval itm = blk
+                            }
+                            eval this.blockstate.export(blk)
+                            eval this.itemModel.export(ModelManager.getPathForModel(ModelManager.toItem(itm)))
+                        }
+                    }
+                }
+            },
+            custom_column: {
+                create: function(model) {
+                    return {
+                        blockstate: ModelManager.createBlockstateObject()
+                            .forVariant("facing=north").addModel(model).back()
+                            .forVariant("facing=west").addModel({model:model, x: 90}).back()
+                            .forVariant("facing=south").addModel({model:model, x: 90, y: 90}).back()
+                            .forVariant("facing=east").addModel({model:resource<aether:block/holystone/blood_moss_holystone>}).back(),
+                        itemModel: ModelManager.createModelObject().setParent(model),
+                        export: function(blk, itm) {
+                            do if(itm == null) {
+                                eval itm = blk
+                            }
+                            eval this.blockstate.export(blk)
+                            eval this.itemModel.export(ModelManager.getPathForModel(ModelManager.toItem(itm)))
+                        }
+                    }
+                }
+            },
+            orientable: {
+                create: function(model) {
+                    return {
+                        blockstate: ModelManager.createBlockstateObject()
+                            .forVariant("facing=south").addModel(model).back()
+                            .forVariant("facing=west").addModel({model:model, y: 90}).back()
+                            .forVariant("facing=north").addModel({model:model, y: 180}).back()
+                            .forVariant("facing=east").addModel({model:model, y: 270}).back(),
+                        itemModel: ModelManager.createModelObject().setParent(model),
+                        export: function(blk, itm) {
+                            do if(itm == null) {
+                                eval itm = blk
+                            }
+                            eval this.blockstate.export(blk)
+                            eval this.itemModel.export(ModelManager.getPathForModel(ModelManager.toItem(itm)))
+                        }
+                    }
+                }
+            },
+            reverse_orientable: {
+                create: function(model) {
+                    return {
+                        blockstate: ModelManager.createBlockstateObject()
+                            .forVariant("facing=north").addModel(model).back()
+                            .forVariant("facing=east").addModel({model:model, y: 90}).back()
+                            .forVariant("facing=south").addModel({model:model, y: 180}).back()
+                            .forVariant("facing=west").addModel({model:model, y: 270}).back(),
+                        itemModel: ModelManager.createModelObject().setParent(model),
+                        export: function(blk, itm) {
+                            do if(itm == null) {
+                                eval itm = blk
+                            }
+                            eval this.blockstate.export(blk)
+                            eval this.itemModel.export(ModelManager.getPathForModel(ModelManager.toItem(itm)))
+                        }
+                    }
+                }
+            },
+            torch: {
+                create: function(floorModel, wallModel, itemModel) {
+                    return {
+                        floorBlockstate: ModelManager.createBlockstateObject().forVariant("").addModel(floorModel).back(),
+                        wallBlockstate: ModelManager.createBlockstateObject()
+                            .forVariant("facing=east").addModel(wallModel).back()
+                            .forVariant("facing=south").addModel({model:wallModel, y: 90}).back()
+                            .forVariant("facing=west").addModel({model:wallModel, y: 180}).back()
+                            .forVariant("facing=north").addModel({model:wallModel, y: 270}).back(),
+                        itemModel: ModelManager.createModelObject().setParent(itemModel),
+                        export: function(floorBlock, wallBlock, mainItem) {
+                            do if(mainItem == null) {
+                                eval mainItem = floorBlock
+                            }
+                            eval this.floorBlockstate.export(floorBlock)
+                            eval this.wallBlockstate.export(wallBlock)
+                            eval this.itemModel.export(ModelManager.getPathForModel(ModelManager.toItem(mainItem)))
+                        }
+                    }
+                }
+            },
+            furnace: {
+                create: function(model, model_lit) {
+                    do if(isInstance(model, "list")) {
+                        return this.create(model[0], model[1])
+                    }
+                    return {
+                        blockstate: ModelManager.createBlockstateObject()
+                            .forVariant("facing=south,lit=false").addModel(model).back()
+                            .forVariant("facing=west,lit=false").addModel({model:model, y: 90}).back()
+                            .forVariant("facing=north,lit=false").addModel({model:model, y: 180}).back()
+                            .forVariant("facing=east,lit=false").addModel({model:model, y: 270}).back()
+                            .forVariant("facing=south,lit=true").addModel(model_lit).back()
+                            .forVariant("facing=west,lit=true").addModel({model:model_lit, y: 90}).back()
+                            .forVariant("facing=north,lit=true").addModel({model:model_lit, y: 180}).back()
+                            .forVariant("facing=east,lit=true").addModel({model:model_lit, y: 270}).back(),
+                        itemModel: ModelManager.createModelObject().setParent(model),
+                        export: function(blk, itm) {
+                            do if(itm == null) {
+                                eval itm = blk
+                            }
+                            eval this.blockstate.export(blk)
+                            eval this.itemModel.export(ModelManager.getPathForModel(ModelManager.toItem(itm)))
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

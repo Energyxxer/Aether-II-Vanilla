@@ -1,7 +1,7 @@
 {
 	"variants": {
-		"": {
-			"model": "aether:skyroot_planks"
-		}
+		"normal": [
+			{ "model": "aether:skyroot_planks/normal" }
+		]
 	}
 }

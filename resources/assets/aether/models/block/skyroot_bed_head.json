@@ -2,7 +2,7 @@
     "textures": {
         "particle": "aether:blocks/skyroot_bed/skyroot_bed_head_top",
         "top": "aether:blocks/skyroot_bed/skyroot_bed_head_top",
-        "bottom": "aether:blocks/skyroot_planks",
+        "bottom": "aether:blocks/skyroot_planks/skyroot_planks",
         "end": "aether:blocks/skyroot_bed/skyroot_bed_head_end",
         "side": "aether:blocks/skyroot_bed/skyroot_bed_head_side"
     },
